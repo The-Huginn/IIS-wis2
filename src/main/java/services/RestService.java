@@ -19,7 +19,7 @@ import entity.Person;
 @Consumes(MediaType.APPLICATION_JSON)
 public class RestService {
 
-	@PersistenceContext
+	@PersistenceContext(unitName = "postgreDB")
 	EntityManager em;
 	
 	@GET
