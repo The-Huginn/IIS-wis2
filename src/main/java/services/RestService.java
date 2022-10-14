@@ -11,7 +11,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import entity.Person;
+import entity.IPerson;
 
 @Path("/")
 @Stateless
@@ -19,7 +19,7 @@ import entity.Person;
 @Consumes(MediaType.APPLICATION_JSON)
 public class RestService {
 
-	@PersistenceContext(unitName = "postgreDB")
+	@PersistenceContext(unitName = "mysqlDB")
 	EntityManager em;
 	
 	@GET
@@ -39,14 +39,14 @@ public class RestService {
 	@Path("/person/{uid}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Person getPerson(@PathParam("uid") long uid) {
-		return em.find(Person.class, uid);
+	public IPerson getPerson(@PathParam("uid") long uid) {
+		return em.find(IPerson.class, uid);
 	}
 	
 	@Path("/person")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public void createPerson(Person person) {
+	public void createPerson(IPerson person) {
 		em.persist(person);
 	}
 }
