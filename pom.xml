@@ -19,12 +19,12 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>example.com</groupId>
-    <artifactId>test</artifactId>
+    <groupId>vutbr.cz</groupId>
+    <artifactId>wis2</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>WildFly Quickstarts: test</name>
-    <description>A starter Java EE 7 webapp project for use on JBoss WildFly / WildFly, generated from the jboss-javaee6-webapp archetype</description>
+    <name>Wis 2 project</name>
+    <description>Project to create a information system which should mitigate original wis by some extend</description>
 
     <url>http://wildfly.org</url>
     <licenses>
