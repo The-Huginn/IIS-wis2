@@ -1,5 +1,7 @@
 package services;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -17,9 +19,10 @@ import entity.Person;
 @Stateless
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@PermitAll
 public class RestService {
 
-	@PersistenceContext(unitName = "postgreDB")
+	@PersistenceContext(unitName = "postgresDB")
 	EntityManager em;
 	
 	@GET
@@ -31,6 +34,7 @@ public class RestService {
 	
 	@GET
 	@Path("/xml")
+	@RolesAllowed("admin")
 	@Produces(MediaType.APPLICATION_XML)
 	public String helloXML() {
 		return "Hello World by XML!";

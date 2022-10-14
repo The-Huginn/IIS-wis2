@@ -178,31 +178,12 @@
                         <exception-sorter class-name="org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLExceptionSorter"/>
                     </validation>
                 </datasource>
-                <datasource jndi-name="java:jboss/MySql" pool-name="MySqlDS">
-                    <connection-url>jdbc:postgresql://localhost:5432/wis2db</connection-url>
-                    <driver>mysql</driver>
-                    <pool>
-                        <min-pool-size>0</min-pool-size>
-                        <max-pool-size>20</max-pool-size>
-                    </pool>
-                    <security>
-                        <user-name>admin</user-name>
-                        <password>tester</password>
-                    </security>
-                    <validation>
-                        <valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLValidConnectionChecker"/>
-                        <exception-sorter class-name="org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLExceptionSorter"/>
-                    </validation>
-                </datasource>
                 <drivers>
                     <driver name="h2" module="com.h2database.h2">
                         <xa-datasource-class>org.h2.jdbcx.JdbcDataSource</xa-datasource-class>
                     </driver>
                     <driver name="postgresql" module="org.postgresql">
                         <xa-datasource-class>org.postgresql.xa.PGXADataSource</xa-datasource-class>
-                    </driver>
-                    <driver name="mysql" module="com.mysql">
-                        <xa-datasource-class>com.mysql.xa.PGXADataSource</xa-datasource-class>
                     </driver>
                 </drivers>
             </datasources>
@@ -306,9 +287,22 @@
                     <realm name="ManagementRealm" role-decoder="groups-to-roles"/>
                     <realm name="local" role-mapper="super-user-mapper"/>
                 </security-domain>
+                <security-domain name="secureDomain" default-realm="jdbcRealm" permission-mapper="default-permission-mapper">
+                    <realm name="jdbcRealm" role-decoder="from-roles-attribute"/>
+                </security-domain>
             </security-domains>
             <security-realms>
                 <identity-realm name="local" identity="$local"/>
+                <jdbc-realm name="jdbcRealm">
+                    <principal-query sql="select password from Person where login=?" data-source="PostgresDS">
+                        <simple-digest-mapper algorithm="simple-digest-sha-256" password-index="1"/>
+                    </principal-query>
+                    <principal-query sql="select role, 'Roles' from UserRoles where login=?" data-source="PostgresDS">
+                        <attribute-mapping>
+                            <attribute to="roles" index="1"/>
+                        </attribute-mapping>
+                    </principal-query>
+                </jdbc-realm>
                 <properties-realm name="ApplicationRealm">
                     <users-properties path="application-users.properties" relative-to="jboss.server.config.dir" digest-realm-name="ApplicationRealm"/>
                     <groups-properties path="application-roles.properties" relative-to="jboss.server.config.dir"/>
@@ -331,6 +325,7 @@
                 </simple-permission-mapper>
                 <constant-realm-mapper name="local" realm-name="local"/>
                 <simple-role-decoder name="groups-to-roles" attribute="groups"/>
+                <simple-role-decoder name="from-roles-attribute" attribute="roles"/>
                 <constant-role-mapper name="super-user-mapper">
                     <role name="SuperUser"/>
                 </constant-role-mapper>
@@ -539,6 +534,17 @@
                         <policy-module code="Delegating" flag="required"/>
                     </authorization>
                 </security-domain>
+                <security-domain name="secureDomain" cache-type="default">
+                    <authentication>
+                        <login-module code="Database" flag="required">
+                            <module-option name="dsJndiName" value="java:jboss/PostgresDS"/>
+                            <module-option name="principalsQuery" value="select password from Person where login=?"/>
+                            <module-option name="rolesQuery" value="select role, 'Roles' from UserRoles where login=?"/>
+                            <module-option name="hashAlgorithm" value="SHA-256"/>
+                            <module-option name="hashEncoding" value="base64"/>
+                        </login-module>
+                    </authentication>
+                </security-domain>
             </security-domains>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:security-manager:1.0">
@@ -615,7 +621,7 @@
     </socket-binding-group>
     <deployments>
         <deployment name="wis2.war" runtime-name="wis2.war">
-            <content sha1="4a46335908171eee650d06893cc5497f171e428c" archive="false"/>
+            <content sha1="ffb79db0d07f21949ff5651761834fe280c20cc3"/>
         </deployment>
     </deployments>
 </server>
