@@ -5,13 +5,14 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import entity.IPerson;
+import entity.Lector;
+import entity.Student;
+import entity.StudyCourse;
 
 @Path("/")
 @Stateless
@@ -22,31 +23,24 @@ public class RestService {
 	@PersistenceContext(unitName = "mysqlDB")
 	EntityManager em;
 	
-	@GET
-	@Path("/json")
-	@Produces(MediaType.APPLICATION_JSON)
-	public String helloJSON() {
-		return "Hello World by JSON!";
-	}
-	
-	@GET
-	@Path("/xml")
-	@Produces(MediaType.APPLICATION_XML)
-	public String helloXML() {
-		return "Hello World by XML!";
-	}
-	
-	@Path("/person/{uid}")
+	@Path("/student/{uid}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public IPerson getPerson(@PathParam("uid") long uid) {
-		return em.find(IPerson.class, uid);
+	public Student getStudent(@PathParam("uid") long uid) {
+		return em.find(Student.class, uid);
 	}
-	
-	@Path("/person")
-	@POST
+
+	@Path("/lector/{uid}")
+	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public void createPerson(IPerson person) {
-		em.persist(person);
+	public Lector getLector(@PathParam("uid") long uid) {
+		return em.find(Lector.class, uid);
+	}
+
+	@Path("/course/{uid}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public StudyCourse getStudyCourse(@PathParam("uid") long uid) {
+		return em.find(StudyCourse.class, uid);
 	}
 }

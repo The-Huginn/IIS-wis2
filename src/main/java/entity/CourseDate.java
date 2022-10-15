@@ -44,4 +44,12 @@ public class CourseDate implements Serializable{
 	public void setDescription(String newDescription) {
 		description = newDescription;
 	}
+
+	public void setRoom(Room room) {
+		this.room = room;
+	}
+
+	public void setCourse(StudyCourse course) {
+		this.course = course;
+	}
 }

@@ -50,4 +50,16 @@ public class StudyCourse implements Serializable{
 	public void setDescription(String newDescription) {
 		description = newDescription;
 	}
+
+	public void setGuarant(Lector guarant) {
+		this.guarant = guarant;
+	}
+
+	public void addLector(Lector lector) {
+		this.lectors.add(lector);
+	}
+
+	public void addStudent(Student student) {
+		this.students.add(student);
+	}
 }
