@@ -3,21 +3,20 @@ package services;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
 
 import javax.ejb.Stateless;
 
 @Stateless
 public class AdminService {
 	
-	/**
-	 * @param clearText
-	 * @return Base 64 encoded hashed with SHA-256 algo clearText
-	 * @throws NoSuchAlgorithmException
-	 */
-	public static String encode(final String clearText) throws NoSuchAlgorithmException {
-	    return new String(
-	            Base64.getEncoder().encode(MessageDigest.getInstance("SHA-256").digest(clearText.getBytes(StandardCharsets.UTF_8))));
+	public String encode(final String clearText) throws NoSuchAlgorithmException {
+
+		byte messageDigest[] = MessageDigest.getInstance("MD5").digest(clearText.getBytes(StandardCharsets.UTF_8));
+
+		StringBuffer hexString = new StringBuffer();
+        for (int i=0; i<messageDigest.length; i++)
+            hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+        return hexString.toString();
 	}
 
 }

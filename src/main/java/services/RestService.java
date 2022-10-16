@@ -1,8 +1,13 @@
 package services;
 
+import java.security.NoSuchAlgorithmException;
+
+import javax.annotation.Resource;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
+import javax.ejb.EJBContext;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
@@ -25,11 +30,19 @@ public class RestService {
 	@PersistenceContext(unitName = "postgresDB")
 	EntityManager em;
 	
+	@Resource
+	EJBContext ctx;
+
+	@Inject
+	AdminService service;
+
 	@GET
 	@Path("/json")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String helloJSON() {
-		return "Hello World by JSON!";
+	public String helloJSON() throws NoSuchAlgorithmException{
+		// return ctx.getCallerPrincipal().getName() + ctx.isCallerInRole("admin");
+		System.err.println(service.encode("admin:ApplicationRealm:admin"));
+		return service.encode("admin:ApplicationRealm:admin");
 	}
 	
 	@GET
