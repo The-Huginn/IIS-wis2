@@ -16,6 +16,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.ejb.Stateless;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @Stateless
 public class AdminService {
@@ -43,8 +46,9 @@ public class AdminService {
 		return allRoles;
 	}
 
-	private String addRoles(final String username, final List<String> roles) {
-
+	private String addRoles(
+		@NotNull(message = "username cannot be null [AdminService.addRoles]") final String username,
+		@NotNull(message = "roles cannot be null [AdminService.addRoles]") final List<String> roles) {
 		String previousUser = null;
 		String newFile = "";
 		String serializedRoles = roles.stream()
@@ -90,7 +94,10 @@ public class AdminService {
 		return null;
 	}
 
-	private String removeRoles(final String username, final List<String> toRemove) {
+	private String removeRoles(
+		@NotNull(message = "username cannot be null [AdminService.removeRoles]") final String username,
+		@NotNull(message = "roles cannot be null [AdminService.removeRoles]") final List<String> toRemove
+		) {
 		String previousUser = null;
 		String newFile = "";
 
@@ -135,7 +142,10 @@ public class AdminService {
 		return null;
 	}
 
-	private String removeUserFromFile(final String username, final String Path) {
+	private String removeUserFromFile(
+		final String username,
+		final String Path
+		) {
 
 		String newFile = "";
 		try (Stream<String> stream = Files.lines(Paths.get(Path))) {
@@ -161,7 +171,9 @@ public class AdminService {
 		return null;
 	}
 
-	private String removeUser(final String username) {
+	private String removeUser(
+		@NotNull(message = "username cannot be null [AdminService.removeUser]") final String username
+		) {
 
 		String reply = removeUserFromFile(username, PATH + USERS_FILE);
 
@@ -171,7 +183,16 @@ public class AdminService {
 		return removeUserFromFile(username, PATH + ROLES_FILE);
 	}
 
-	private String addUser(String username, String password) {
+	private String addUser(
+		@NotNull(message = "username cannot be null [AdminService.addUser]")
+		@Size(min = 5, max = 20, message = "username size must be between 5-20 chars [AdminService.addUser]")
+		@Pattern(regexp = "^[a-zA-Z][a-zA-Z0-9]+$", message = "username must contain only valid chars [a-zA-Z0-9] and start with char[AdminService.addUser]")
+		String username,
+		@NotNull(message = "password cannot be null [AdminService.addUser]")
+		@Size(min = 7, max = 20, message = "password size must be between 5-20 chars [AdminService.addUser]")
+		@Pattern(regexp = "^[a-zA-Z0-9@%!#^?.$]+$", message = "password must contain only valid chars [a-zA-Z0-9@%!#^?.$] [AdminService.addUser]")
+		String password
+		) {
 
 		try (Stream<String> stream = Files.lines(Paths.get(PATH + USERS_FILE))) {
 			if (stream.anyMatch(line -> line.trim().startsWith(username + "=")))
@@ -195,7 +216,14 @@ public class AdminService {
 		return null;
 	}
 
-	private String updatePassword(String username, String oldPassword, String newPassword) {
+	private String updatePassword(
+		@NotNull(message = "username cannot be null [AdminService.updatePassword]") String username,
+		@NotNull(message = "old password cannot be null [AdminService.updatePassword]") String oldPassword,
+		@NotNull(message = "new password cannot be null [AdminService.updatePassword]")
+		@Size(min = 7, max = 20, message = "new password size must be between 5-20 chars [AdminService.updatePassword]")
+		@Pattern(regexp = "^[a-zA-Z0-9@%!#^?.$]+$", message = "new password must contain only valid chars [a-zA-Z0-9@%!#^?.$] [AdminService.updatePassword]")
+		String newPassword
+		) {
 		
 		String newFile = "";
 		
