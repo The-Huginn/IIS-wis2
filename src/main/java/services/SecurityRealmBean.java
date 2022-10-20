@@ -17,11 +17,10 @@ import java.util.stream.Stream;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.faces.bean.ApplicationScoped;
 
 @Stateless
+@ApplicationScoped
 public class SecurityRealmBean implements IAdminSecurityRealm, ISecurityRealm {
 
 	private final String USERS_FILE = "/application-users.properties";
@@ -48,9 +47,7 @@ public class SecurityRealmBean implements IAdminSecurityRealm, ISecurityRealm {
 	}
 
 	@RolesAllowed("admin")
-	public String addRoles(
-		@NotNull(message = "username cannot be null [AdminService.addRoles]") final String username,
-		@NotNull(message = "roles cannot be null [AdminService.addRoles]") final List<String> roles) {
+	public String addRoles(final String username, final List<String> roles) {
 		String previousUser = null;
 		String newFile = "";
 		String serializedRoles = roles.stream()
@@ -97,10 +94,7 @@ public class SecurityRealmBean implements IAdminSecurityRealm, ISecurityRealm {
 	}
 
 	@RolesAllowed("admin")
-	public String removeRoles(
-		@NotNull(message = "username cannot be null [AdminService.removeRoles]") final String username,
-		@NotNull(message = "roles cannot be null [AdminService.removeRoles]") final List<String> toRemove
-		) {
+	public String removeRoles(final String username, final List<String> toRemove) {
 		String previousUser = null;
 		String newFile = "";
 
@@ -175,9 +169,7 @@ public class SecurityRealmBean implements IAdminSecurityRealm, ISecurityRealm {
 	}
 
 	@RolesAllowed("admin")
-	public String removeUser(
-		@NotNull(message = "username cannot be null [AdminService.removeUser]") final String username
-		) {
+	public String removeUser(final String username) {
 
 		String reply = removeUserFromFile(username, PATH + USERS_FILE);
 
@@ -188,16 +180,7 @@ public class SecurityRealmBean implements IAdminSecurityRealm, ISecurityRealm {
 	}
 
 	@RolesAllowed("admin")
-	public String addUser(
-		@NotNull(message = "username cannot be null [AdminService.addUser]")
-		@Size(min = 5, max = 20, message = "username size must be between 5-20 chars [AdminService.addUser]")
-		@Pattern(regexp = "^[a-zA-Z][a-zA-Z0-9]+$", message = "username must contain only valid chars [a-zA-Z0-9] and start with char[AdminService.addUser]")
-		String username,
-		@NotNull(message = "password cannot be null [AdminService.addUser]")
-		@Size(min = 7, max = 20, message = "password size must be between 5-20 chars [AdminService.addUser]")
-		@Pattern(regexp = "^[a-zA-Z0-9@%!#^?.$]+$", message = "password must contain only valid chars [a-zA-Z0-9@%!#^?.$] [AdminService.addUser]")
-		String password
-		) {
+	public String addUser(final String username, final String password) {
 
 		try (Stream<String> stream = Files.lines(Paths.get(PATH + USERS_FILE))) {
 			if (stream.anyMatch(line -> line.trim().startsWith(username + "=")))
@@ -221,14 +204,7 @@ public class SecurityRealmBean implements IAdminSecurityRealm, ISecurityRealm {
 		return null;
 	}
 
-	public String updatePassword(
-		@NotNull(message = "username cannot be null [AdminService.updatePassword]") String username,
-		@NotNull(message = "old password cannot be null [AdminService.updatePassword]") String oldPassword,
-		@NotNull(message = "new password cannot be null [AdminService.updatePassword]")
-		@Size(min = 7, max = 20, message = "new password size must be between 5-20 chars [AdminService.updatePassword]")
-		@Pattern(regexp = "^[a-zA-Z0-9@%!#^?.$]+$", message = "new password must contain only valid chars [a-zA-Z0-9@%!#^?.$] [AdminService.updatePassword]")
-		String newPassword
-		) {
+	public String updatePassword(final String username, final String oldPassword, final String newPassword) {
 		String newFile = "";
 		
 		try (BufferedReader reader = new BufferedReader(new FileReader(PATH + USERS_FILE))) {
