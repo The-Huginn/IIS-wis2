@@ -21,7 +21,7 @@ import entity.StudyCourse;
 @Consumes(MediaType.APPLICATION_JSON)
 public class RestAdminService {
 
-	@PersistenceContext(unitName = "mysqlDB")
+	@PersistenceContext(unitName = "primary")
 	EntityManager em;
 
 	@Path("/course/create")

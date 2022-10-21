@@ -20,7 +20,7 @@ import entity.Student;
 @Consumes(MediaType.APPLICATION_JSON)
 public class RestStudentService {
 
-	@PersistenceContext(unitName = "mysqlDB")
+	@PersistenceContext(unitName = "primary")
 	EntityManager em;
 
 	@Path("/dateEval/create")

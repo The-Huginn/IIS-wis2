@@ -25,7 +25,7 @@ import entity.StudyCourse;
 @PermitAll
 public class RestService {
 
-	@PersistenceContext(unitName = "postgresDB")
+	@PersistenceContext(unitName = "primary")
 	EntityManager em;
 	
 	@Resource

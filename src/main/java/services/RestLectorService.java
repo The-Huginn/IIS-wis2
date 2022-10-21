@@ -19,7 +19,7 @@ import entity.Lector;
 @Consumes(MediaType.APPLICATION_JSON)
 public class RestLectorService {
 
-	@PersistenceContext(unitName = "mysqlDB")
+	@PersistenceContext(unitName = "primary")
 	EntityManager em;
 	
     @Path("/dateEval/add_evaluation")
