@@ -82,7 +82,7 @@ public class AdminServiceBean implements IAdminService {
 
     @Override
     public List<StudyCourse> getCourses() {
-        TypedQuery<StudyCourse> query = em.createQuery("select * from StudyCourse", StudyCourse.class);
+        TypedQuery<StudyCourse> query = em.createQuery("select s from StudyCourse s", StudyCourse.class);
         return query.getResultList();
     }
 
@@ -93,7 +93,7 @@ public class AdminServiceBean implements IAdminService {
 
     @Override
     public List<Student> getStudents() {
-        TypedQuery<Student> query = em.createQuery("select * from Student natural left join Person", Student.class);
+        TypedQuery<Student> query = em.createQuery("select s from Student s", Student.class);
         return query.getResultList();
     }
 
@@ -104,7 +104,7 @@ public class AdminServiceBean implements IAdminService {
 
     @Override
     public List<Lector> getLectors() {
-        TypedQuery<Lector> query = em.createQuery("select * from Lector natural left join", Lector.class);
+        TypedQuery<Lector> query = em.createQuery("select l from Lector l", Lector.class);
         return query.getResultList();
     }
 
@@ -115,7 +115,7 @@ public class AdminServiceBean implements IAdminService {
 
     @Override
     public List<Room> getRooms() {
-        TypedQuery<Room> query = em.createQuery("select * from Room", Room.class);
+        TypedQuery<Room> query = em.createQuery("select r from Room r", Room.class);
         return query.getResultList();
     }
 
