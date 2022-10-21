@@ -19,6 +19,11 @@ public interface IAdminSecurityRealm {
     public String removeUser(
             @NotNull(message = "username cannot be null [AdminService.removeUser]") final String username);
 
+    /**
+     * @param username
+     * @param password Base64 encoded
+     * @return
+     */
     public String addUser(
             @NotNull(message = "username cannot be null [AdminService.addUser]")
             @Size(min = 5, max = 20, message = "username size must be between 5-20 chars [AdminService.addUser]")

@@ -5,6 +5,13 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 public interface ISecurityRealm {
+
+    /**
+     * @param username
+     * @param oldPassword Base64 encoded
+     * @param newPassword Base64 encoded
+     * @return
+     */
     public String updatePassword(
 		@NotNull(message = "username cannot be null [AdminService.updatePassword]") String username,
 		@NotNull(message = "old password cannot be null [AdminService.updatePassword]") String oldPassword,

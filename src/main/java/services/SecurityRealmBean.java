@@ -11,6 +11,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -37,6 +38,10 @@ public class SecurityRealmBean implements IAdminSecurityRealm, ISecurityRealm {
 		for (int i = 0; i < messageDigest.length; i++)
 			hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
 		return hexString.toString();
+	}
+
+	private String Base64Decode(String input) {
+		return new String(Base64.getDecoder().decode(input));
 	}
 
 	private List<String> getRoles(final String line, final String username) {
@@ -181,6 +186,7 @@ public class SecurityRealmBean implements IAdminSecurityRealm, ISecurityRealm {
 
 	@RolesAllowed("admin")
 	public String addUser(final String username, final String password) {
+		String passwordDecoded = Base64Decode(password);
 
 		try (Stream<String> stream = Files.lines(Paths.get(PATH + USERS_FILE))) {
 			if (stream.anyMatch(line -> line.trim().startsWith(username + "=")))
@@ -193,7 +199,7 @@ public class SecurityRealmBean implements IAdminSecurityRealm, ISecurityRealm {
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH + USERS_FILE, true))) {
 
 			writer.newLine();
-			writer.write(username + "=" + encode(username, password));
+			writer.write(username + "=" + encode(username, passwordDecoded));
 			writer.close();
 
 		} catch (Exception e) {
@@ -205,11 +211,13 @@ public class SecurityRealmBean implements IAdminSecurityRealm, ISecurityRealm {
 	}
 
 	public String updatePassword(final String username, final String oldPassword, final String newPassword) {
+		String oldPasswordDecoded = Base64Decode(oldPassword);
+		String newPasswordDecoded = Base64Decode(newPassword);
 		String newFile = "";
 		
 		try (BufferedReader reader = new BufferedReader(new FileReader(PATH + USERS_FILE))) {
 			
-			final String lineToRemove = username + "=" + encode(username, oldPassword);
+			final String lineToRemove = username + "=" + encode(username, oldPasswordDecoded);
 
 			String line;
 			boolean match = false;
@@ -237,6 +245,6 @@ public class SecurityRealmBean implements IAdminSecurityRealm, ISecurityRealm {
 			return e.getMessage();
 		}
 
-		return addUser(username, newPassword);
+		return addUser(username, newPasswordDecoded);
 	}
 }
