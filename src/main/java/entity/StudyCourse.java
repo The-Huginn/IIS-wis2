@@ -22,7 +22,6 @@ public class StudyCourse implements Serializable{
 	long id;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    // @JoinColumn(name="guarant_id")
     Lector guarant;
 
     @OneToMany(mappedBy = "course")

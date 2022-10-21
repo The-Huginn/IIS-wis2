@@ -7,7 +7,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-// import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -17,16 +16,13 @@ public class DateEvaluation implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	long id;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    // @JoinColumn(name="student_id")
+    @ManyToOne(fetch=FetchType.LAZY, optional = false)
     Student student;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    // @JoinColumn(name="lector_id")
     Lector lector;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    // @JoinColumn(name="room_id")
+    @ManyToOne(fetch=FetchType.LAZY, optional = false)
     CourseDate date;
 
 	double evaluation;

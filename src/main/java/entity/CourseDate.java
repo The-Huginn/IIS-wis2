@@ -9,7 +9,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-// import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -20,12 +19,10 @@ public class CourseDate implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	long id;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    // @JoinColumn(name="course_id")
+    @ManyToOne(fetch=FetchType.LAZY, optional = false)
     StudyCourse course;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    // @JoinColumn(name="room_id")
+    @ManyToOne(fetch=FetchType.LAZY, optional = false)
     Room room;
 
     @OneToMany(mappedBy = "date")

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,10 +21,21 @@ public class Room implements Serializable{
     @OneToMany(mappedBy = "room")
     List<CourseDate> dates;
 
+	@Column(nullable = false)
+	String code;
+
 	String description;
 	
 	public Room() {
 		dates = new ArrayList<CourseDate>();
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 	
 	public String getDescription() {
