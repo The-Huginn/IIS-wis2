@@ -1,5 +1,11 @@
-package services;
+package restfulAPI;
 
+import java.security.NoSuchAlgorithmException;
+
+import javax.annotation.Resource;
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
+import javax.ejb.EJBContext;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -17,20 +23,30 @@ import entity.Person;
 @Stateless
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@PermitAll
 public class RestService {
 
-	@PersistenceContext(unitName = "postgreDB")
+	@PersistenceContext(unitName = "postgresDB")
 	EntityManager em;
 	
+	@Resource
+	EJBContext ctx;
+
 	@GET
 	@Path("/json")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String helloJSON() {
-		return "Hello World by JSON!";
+	public String helloJSON() throws NoSuchAlgorithmException{
+		return ctx.getCallerPrincipal().getName() + ctx.isCallerInRole("admin");
+		// System.err.println(service.encode("admin:ApplicationRealm:admin"));
+		// System.err.println("JBoss Home: "+System.getProperty("jboss.server.config.dir"));
+		// return service.encode("admin:ApplicationRealm:admin");
+		// service.stub();
+		// return "Hello World by JSON!";
 	}
 	
 	@GET
 	@Path("/xml")
+	@RolesAllowed("admin")
 	@Produces(MediaType.APPLICATION_XML)
 	public String helloXML() {
 		return "Hello World by XML!";
