@@ -1,3 +1,5 @@
 /target/
 /vscode/
 /.metadata/
+src/main/resources/META-INF/persistence.xml
+standalone-full.xml
