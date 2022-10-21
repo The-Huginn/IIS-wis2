@@ -131,7 +131,6 @@ public class SecurityRealmBean implements IAdminSecurityRealm, ISecurityRealm {
 
 			writer.write(newFile);
 			
-			writer.newLine();
 			writer.write(username + "=" + remainingRoles);
 			writer.close();
 
