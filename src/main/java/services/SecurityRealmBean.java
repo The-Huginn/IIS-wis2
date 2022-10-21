@@ -67,7 +67,7 @@ public class SecurityRealmBean implements IAdminSecurityRealm, ISecurityRealm {
 				if (line.startsWith(username + "="))
 					previousUser = line;
 				else
-					newFile += line;
+					newFile += line + "\n";
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -86,7 +86,6 @@ public class SecurityRealmBean implements IAdminSecurityRealm, ISecurityRealm {
 
 			writer.write(newFile);
 			
-			writer.newLine();
 			writer.write(previousUser);
 			writer.close();
 
@@ -112,7 +111,7 @@ public class SecurityRealmBean implements IAdminSecurityRealm, ISecurityRealm {
 				if (line.startsWith(username + "="))
 					previousUser = line;
 				else
-					newFile += line;
+					newFile += line + "\n";
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

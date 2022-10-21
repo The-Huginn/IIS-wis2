@@ -43,7 +43,7 @@ public class AdminService {
     @ApiOperation(value = "Adds roles to existing user")
     public String addRoles(
         @ApiParam(required = true, example = "xlogin00") @FormParam("username") final String username,
-        @ApiParam(required = true, example = "[\"admin\", \"user\"]") @FormParam("roles") final List<String> roles
+        @ApiParam(required = true, example = "admin\nuser") @FormParam("roles") final List<String> roles
         ) {
         return AdminService.addRoles(username, roles);
     }
@@ -64,7 +64,7 @@ public class AdminService {
     @ApiOperation(value = "Removes selected roles from the user", notes = "User does not have to own these roles")
     public String removeRoles(
         @ApiParam(required = true, example = "xlogin00") @FormParam("username") final String username,
-        @ApiParam(required = true, example = "[\"admin\", \"user\"]") @FormParam("roles") final List<String> roles
+        @ApiParam(required = true, example = "admin\nuser") @FormParam("roles") final List<String> roles
         ) {
         return AdminService.removeRoles(username, roles);
     }
