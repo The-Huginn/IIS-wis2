@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 @Entity
 public class Student extends Person{
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.LAZY)
 	List<StudyCourse> studyCourses;
 
 	@OneToMany(mappedBy = "student")

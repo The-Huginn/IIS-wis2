@@ -10,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 @Entity
 public class Room implements Serializable{
@@ -19,11 +21,16 @@ public class Room implements Serializable{
 	long id;
 
     @OneToMany(mappedBy = "room")
+	@NotNull(message = "dates cannot be null [Room]")
     List<CourseDate> dates;
 
 	@Column(nullable = false)
+	@NotNull(message = "code cannot be null [Room]")
+	@Pattern(regexp = "^[a-zA-Z0-9-]+$", message = "code must contain only valid chars [a-zA-Z0-9-] [Room]")
 	String code;
 
+	@NotNull(message = "description cannot be null [Room]")
+	@Pattern(regexp = "^[a-zA-Z0-9-+:!?.@#$%^&*()/<>{}]+$", message = "room must contain only valid chars [a-zA-Z0-9-+:!?.@#$%^&*()/<>{}] [Room]")
 	String description;
 	
 	public Room() {

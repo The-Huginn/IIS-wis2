@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @NamedQueries({
@@ -37,7 +39,8 @@ public class StudyCourse implements Serializable{
     @ManyToMany
     List<Lector> lectors;
 
-
+	@NotNull(message = "description cannot be null [StudyCourse]")
+	@Pattern(regexp = "^[a-zA-Z0-9-+:!?.@#$%^&*()/<>{}]+$", message = "description must contain only valid chars [a-zA-Z0-9-+:!?.@#$%^&*()/<>{}] [StudyCourse]")
 	String description;
 	
 	public StudyCourse() {

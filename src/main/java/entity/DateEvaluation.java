@@ -25,7 +25,7 @@ public class DateEvaluation implements Serializable{
     @ManyToOne(fetch=FetchType.LAZY, optional = false)
     CourseDate date;
 
-	double evaluation;
+	double evaluation = 0;
 	
 	public DateEvaluation() {}
 	
