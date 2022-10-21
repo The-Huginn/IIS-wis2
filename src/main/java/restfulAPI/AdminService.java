@@ -13,12 +13,15 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import services.IAdminSecurityRealm;
 
 @Path("/admin")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@Api(value = "Users' Administration")
 public class AdminService {
     
     @Inject @Any
@@ -28,7 +31,10 @@ public class AdminService {
     @Path("/user")
     @RolesAllowed("admin")
     @ApiResponse(code = 200, message = "Successfully added user")
-    public void addUser(@FormParam("username") final String username, @FormParam("password") final String password) {
+    public void addUser(
+        @ApiParam(required = true, example = "xlogin00") @FormParam("username") final String username,
+        @ApiParam(required = true, example = "password123") @FormParam("password") final String password
+        ) {
         AdminService.addUser(username, password);
     }
 
