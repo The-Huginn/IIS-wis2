@@ -13,7 +13,11 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity
+@ApiModel
 public class Room implements Serializable{
 
 	@Id
@@ -27,10 +31,12 @@ public class Room implements Serializable{
 	@Column(nullable = false)
 	@NotNull(message = "code cannot be null [Room]")
 	@Pattern(regexp = "^[a-zA-Z0-9-]+$", message = "code must contain only valid chars [a-zA-Z0-9-] [Room]")
+	@ApiModelProperty(required = true, example = "D-105")
 	String code;
 
 	@NotNull(message = "description cannot be null [Room]")
 	@Pattern(regexp = "^[a-zA-Z0-9-+:!?.@#$%^&*()/<>{}]+$", message = "room must contain only valid chars [a-zA-Z0-9-+:!?.@#$%^&*()/<>{}] [Room]")
+	@ApiModelProperty(example = "This is description")
 	String description;
 	
 	public Room() {
