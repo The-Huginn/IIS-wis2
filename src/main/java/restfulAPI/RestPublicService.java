@@ -18,12 +18,12 @@ import javax.ws.rs.core.MediaType;
 
 import entity.StudyCourse;
 
-@Path("/")
+@Path("/public")
 @Stateless
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @PermitAll
-public class RestService {
+public class RestPublicService {
 
 	@PersistenceContext(unitName = "primary")
 	EntityManager em;

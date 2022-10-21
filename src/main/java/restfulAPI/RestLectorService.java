@@ -1,4 +1,4 @@
-package services;
+package restfulAPI;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -13,7 +13,7 @@ import javax.ws.rs.core.MediaType;
 import entity.DateEvaluation;
 import entity.Lector;
 
-@Path("/")
+@Path("/lector")
 @Stateless
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)

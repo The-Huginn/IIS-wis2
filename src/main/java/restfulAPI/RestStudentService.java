@@ -1,4 +1,4 @@
-package services;
+package restfulAPI;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -14,7 +14,7 @@ import entity.CourseDate;
 import entity.DateEvaluation;
 import entity.Student;
 
-@Path("/")
+@Path("/student")
 @Stateless
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
