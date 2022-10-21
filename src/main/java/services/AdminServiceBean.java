@@ -104,7 +104,7 @@ public class AdminServiceBean implements IAdminService {
 
     @Override
     public List<Lector> getLectors() {
-        TypedQuery<Lector> query = em.createQuery("select l from Lector l", Lector.class);
+        TypedQuery<Lector> query = em.createQuery("select distinct(l) from Lector l", Lector.class);
         return query.getResultList();
     }
 
