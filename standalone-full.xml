@@ -162,16 +162,16 @@
                         <password>sa</password>
                     </security>
                 </datasource>
-                <datasource jndi-name="java:jboss/MySql" pool-name="MySqlDS">
+                <datasource jndi-name="java:jboss/PostgresDS" pool-name="PostgresDS">
                     <connection-url>jdbc:postgresql://localhost:5432/wis2db</connection-url>
-                    <driver>mysql</driver>
+                    <driver>postgresql</driver>
                     <pool>
                         <min-pool-size>0</min-pool-size>
                         <max-pool-size>20</max-pool-size>
                     </pool>
                     <security>
-                        <user-name>admin</user-name>
-                        <password>tester</password>
+                        <user-name>wis2admin</user-name>
+                        <password>wis2Admin</password>
                     </security>
                     <validation>
                         <valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLValidConnectionChecker"/>
@@ -182,8 +182,8 @@
                     <driver name="h2" module="com.h2database.h2">
                         <xa-datasource-class>org.h2.jdbcx.JdbcDataSource</xa-datasource-class>
                     </driver>
-                    <driver name="mysql" module="com.mysql">
-                        <xa-datasource-class>com.mysql.xa.PGXADataSource</xa-datasource-class>
+                    <driver name="postgresql" module="org.postgresql">
+                        <xa-datasource-class>org.postgresql.xa.PGXADataSource</xa-datasource-class>
                     </driver>
                 </drivers>
             </datasources>
@@ -261,7 +261,9 @@
                 </thread-pool>
             </thread-pools>
             <iiop enable-by-default="false" use-qualified-name="false"/>
-            <default-security-domain value="other"/>
+            <application-security-domains>
+                <application-security-domain name="exampleApplicationDomain" security-domain="exampleDbSD"/>
+            </application-security-domains>
             <default-missing-method-permissions-deny-access value="true"/>
             <statistics enabled="${wildfly.ejb3.statistics-enabled:${wildfly.statistics-enabled:false}}"/>
             <log-system-exceptions value="true"/>
@@ -287,9 +289,20 @@
                     <realm name="ManagementRealm" role-decoder="groups-to-roles"/>
                     <realm name="local" role-mapper="super-user-mapper"/>
                 </security-domain>
+                <security-domain name="exampleDbSD" default-realm="exampleDbRealm" permission-mapper="default-permission-mapper">
+                    <realm name="exampleDbRealm" role-decoder="groups-to-roles"/>
+                </security-domain>
             </security-domains>
             <security-realms>
                 <identity-realm name="local" identity="$local"/>
+                <jdbc-realm name="exampleDbRealm">
+                    <principal-query sql="SELECT password,roles FROM tmp WHERE username=?" data-source="PostgresDS">
+                        <attribute-mapping>
+                            <attribute to="groups" index="2"/>
+                        </attribute-mapping>
+                        <clear-password-mapper password-index="1"/>
+                    </principal-query>
+                </jdbc-realm>
                 <properties-realm name="ApplicationRealm">
                     <users-properties path="application-users.properties" relative-to="jboss.server.config.dir" digest-realm-name="ApplicationRealm"/>
                     <groups-properties path="application-roles.properties" relative-to="jboss.server.config.dir"/>
@@ -331,6 +344,13 @@
                     <mechanism-configuration>
                         <mechanism mechanism-name="DIGEST">
                             <mechanism-realm realm-name="ManagementRealm"/>
+                        </mechanism>
+                    </mechanism-configuration>
+                </http-authentication-factory>
+                <http-authentication-factory name="example-db-http-auth" security-domain="exampleDbSD" http-server-mechanism-factory="global">
+                    <mechanism-configuration>
+                        <mechanism mechanism-name="BASIC">
+                            <mechanism-realm realm-name="exampleDbSD"/>
                         </mechanism>
                     </mechanism-configuration>
                 </http-authentication-factory>
@@ -556,6 +576,9 @@
             <handlers>
                 <file name="welcome-content" path="${jboss.home.dir}/welcome-content"/>
             </handlers>
+            <application-security-domains>
+                <application-security-domain name="exampleApplicationDomain" http-authentication-factory="example-db-http-auth"/>
+            </application-security-domains>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:webservices:2.0" statistics-enabled="${wildfly.webservices.statistics-enabled:${wildfly.statistics-enabled:false}}">
             <wsdl-host>${jboss.bind.address:127.0.0.1}</wsdl-host>
@@ -596,7 +619,7 @@
     </socket-binding-group>
     <deployments>
         <deployment name="wis2.war" runtime-name="wis2.war">
-            <content sha1="4a46335908171eee650d06893cc5497f171e428c" archive="false"/>
+            <content sha1="e13ce9b93c473368874e4989177838c1b3260bb4"/>
         </deployment>
     </deployments>
 </server>
