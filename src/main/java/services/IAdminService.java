@@ -1,0 +1,49 @@
+package services;
+
+import java.util.List;
+
+import entity.Lector;
+import entity.Room;
+import entity.Student;
+import entity.StudyCourse;
+
+public interface IAdminService {
+    
+    public String createCourse(StudyCourse course);
+
+    public String createLector(Lector lector);
+
+    public String createStudent(Student student);
+
+    public String createRoom(Room room);
+
+    public String addGuarant(long course_uid, long guarant_uid);
+
+    public List<StudyCourse> getCourses();
+
+    public StudyCourse getCourse(long course_uid);
+    
+    public List<Student> getStudents();
+    
+    public Student getStudent(long student_uid);
+
+    public List<Lector> getLectors();
+
+    public Lector getLector(long lector_uid);
+
+    public List<Room> getRooms();
+
+    public Room getRoom(long room_uid);
+
+    public List<Lector> getGuarants();
+
+    public Lector getGuarant(long course_uid);
+    
+    public String removeCourse(long course_uid);
+
+    public String removeLector(long lector_uid);
+
+    public String removeStudent(long student_uid);
+    
+    public String removeRoom(long room_uid);
+}
