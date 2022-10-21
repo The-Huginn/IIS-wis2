@@ -16,7 +16,7 @@ import entity.Room;
 import entity.Student;
 import entity.StudyCourse;
 
-@Path("/garant")
+@Path("/guarant")
 @Stateless
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
