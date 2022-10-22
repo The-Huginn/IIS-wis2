@@ -1,6 +1,7 @@
 package restfulAPI;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.annotation.Resource;
 import javax.annotation.security.RolesAllowed;
@@ -14,6 +15,7 @@ import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -23,8 +25,11 @@ import javax.ws.rs.core.Response;
 
 import entity.DateEvaluation;
 import entity.Lector;
+import entity.StudyCourse;
 import helper.IResponseBuilder;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import services.ILectorService;
 
 @Path("/lector")
 @Stateless
@@ -41,7 +46,25 @@ public class RestLectorService {
 
 	@Inject
 	private IResponseBuilder rb;
+
+	@Inject
+	private ILectorService lectorService;
 	
+	@Path("/course")
+    @GET
+    @ApiOperation(value = "Finds all available courses")
+    public List<StudyCourse> getCourses() {
+        return lectorService.getCourses();
+    }
+
+    @Path("/course/{course_uid}")
+    @GET
+    @ApiOperation(value = "Finds course with specified uid")
+    public StudyCourse getCourse(
+        @ApiParam(required = true, example = "10") @PathParam("course_uid") long course_uid
+        ) {
+        return lectorService.getCourse(course_uid);
+    }
     @Path("/dateEval/{dateEval_uid}")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
@@ -66,7 +89,7 @@ public class RestLectorService {
 			em.persist(dateEval);
 		} catch (Exception e) {
 			e.printStackTrace();
-			rb.createResponse(e.getMessage());
+			rb.createResponse("Adding evaluation failed bacause of: " + Optional.ofNullable(e.getMessage()).orElse("Unable to perist object"));
 		}
 
 		return rb.createResponse(null);
