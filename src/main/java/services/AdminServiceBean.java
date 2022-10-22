@@ -81,13 +81,12 @@ public class AdminServiceBean implements IAdminService {
                 return "User with this username already exists";
 
             em.persist(student);
-            throw new Exception();
         } catch (Exception e) {
             adminSecurityService.removeUser(student.getUsername());
             return "User was removed from the security realm as well, because of: " + Optional.ofNullable(e.getMessage()).orElse("Unable to perist object");
         }
 
-        // return null;
+        return null;
     }
 
     @Override
