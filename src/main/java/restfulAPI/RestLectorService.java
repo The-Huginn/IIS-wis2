@@ -1,5 +1,6 @@
 package restfulAPI;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -17,6 +18,7 @@ import entity.Lector;
 @Stateless
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@RolesAllowed("lector")
 public class RestLectorService {
 
 	@PersistenceContext(unitName = "primary")
