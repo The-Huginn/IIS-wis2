@@ -18,6 +18,7 @@ public class JaxRSActivator extends Application {
         resources.add(RestLectorService.class);
         resources.add(RestPublicService.class);
         resources.add(RestStudentService.class);
+        resources.add(RestAdminSecurityRealmService.class);
 
         resources.add(com.github.phillipkruger.apiee.ApieeService.class);
 

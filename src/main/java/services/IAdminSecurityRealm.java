@@ -32,6 +32,9 @@ public interface IAdminSecurityRealm {
             @NotNull(message = "password cannot be null [AdminService.addUser]")
             @Size(min = 7, max = 20, message = "password size must be between 5-20 chars [AdminService.addUser]")
             @Pattern(regexp = "^[a-zA-Z0-9@%!#^?.$]+$", message = "password must contain only valid chars [a-zA-Z0-9@%!#^?.$] [AdminService.addUser]")
-            String password
-            );
+            String password);
+
+    public List<String> getUsers();
+
+    public List<String> getRoles(@NotNull final String username);
 }

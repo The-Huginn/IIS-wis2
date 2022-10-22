@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -22,6 +23,7 @@ import javax.faces.bean.ApplicationScoped;
 
 @Stateless
 @ApplicationScoped
+@RolesAllowed({"admin", "security"})
 public class SecurityRealmBean implements IAdminSecurityRealm, ISecurityRealm {
 
 	private final String USERS_FILE = "/application-users.properties";
@@ -51,7 +53,6 @@ public class SecurityRealmBean implements IAdminSecurityRealm, ISecurityRealm {
 		return allRoles;
 	}
 
-	@RolesAllowed("admin")
 	public String addRoles(final String username, final List<String> roles) {
 		String previousUser = null;
 		String newFile = "";
@@ -97,7 +98,6 @@ public class SecurityRealmBean implements IAdminSecurityRealm, ISecurityRealm {
 		return null;
 	}
 
-	@RolesAllowed("admin")
 	public String removeRoles(final String username, final List<String> toRemove) {
 		String previousUser = null;
 		String newFile = "";
@@ -171,7 +171,6 @@ public class SecurityRealmBean implements IAdminSecurityRealm, ISecurityRealm {
 		return null;
 	}
 
-	@RolesAllowed("admin")
 	public String removeUser(final String username) {
 
 		String reply = removeUserFromFile(username, PATH + USERS_FILE);
@@ -182,7 +181,6 @@ public class SecurityRealmBean implements IAdminSecurityRealm, ISecurityRealm {
 		return removeUserFromFile(username, PATH + ROLES_FILE);
 	}
 
-	@RolesAllowed("admin")
 	public String addUser(final String username, final String password) {
 		String passwordDecoded = Base64Decode(password);
 
@@ -244,5 +242,28 @@ public class SecurityRealmBean implements IAdminSecurityRealm, ISecurityRealm {
 		}
 
 		return addUser(username, newPasswordDecoded);
+	}
+
+	public List<String> getUsers() {
+		try (Stream<String> stream = Files.lines(Paths.get(PATH + USERS_FILE))) {
+			return stream.map(line -> line.trim().substring(0, line.indexOf("=")))
+						.collect(Collectors.toList());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	public List<String> getRoles(final String username) {
+		try (Stream<String> stream = Files.lines(Paths.get(PATH + ROLES_FILE))) {
+			return stream.filter(line -> line.trim().startsWith(username + "="))
+						.map(line -> line.trim().substring(line.indexOf("=") + 1))
+						.flatMap(Pattern.compile(",")::splitAsStream)
+						.collect(Collectors.toList());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
