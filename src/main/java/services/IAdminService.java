@@ -11,9 +11,9 @@ public interface IAdminService {
     
     public String createCourse(StudyCourse course);
 
-    public String createLector(Lector lector);
+    public String createLector(Lector lector, String password);
 
-    public String createStudent(Student student);
+    public String createStudent(Student student, String password);
 
     public String createRoom(Room room);
 
