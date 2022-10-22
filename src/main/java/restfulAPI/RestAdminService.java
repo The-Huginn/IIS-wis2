@@ -7,7 +7,6 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -24,7 +23,6 @@ import entity.StudyCourse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import services.IAdminSecurityRealm;
 import services.IAdminService;
 import helper.IResponseBuilder;
 
@@ -37,56 +35,10 @@ import helper.IResponseBuilder;
 public class RestAdminService {
 
 	@Inject
-    private IAdminSecurityRealm adminSecurityService;
-
-	@Inject
 	private IAdminService adminService;
 
 	@Inject
 	private IResponseBuilder rb;
-
-    @POST
-    @Path("/user")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @ApiOperation(value = "Creates new user in the system, with initial credentials")
-    public Response addUser(
-        @ApiParam(required = true, example = "xlogin00") @FormParam("username") final String username,
-        @ApiParam(required = true, example = "cGFzc3dvcmQxMjM=", value = "Expecting Base64 encoded password, e.g. password123 = cGFzc3dvcmQxMjM=") @FormParam("password") final String password
-        ) {
-        return rb.createResponse(adminSecurityService.addUser(username, password));
-    }
-
-    @POST
-    @Path("/roles")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @ApiOperation(value = "Adds roles to existing user")
-    public Response addRoles(
-        @ApiParam(required = true, example = "xlogin00") @FormParam("username") final String username,
-        @ApiParam(required = true, example = "admin\nuser") @FormParam("roles") final List<String> roles
-        ) {
-        return rb.createResponse(adminSecurityService.addRoles(username, roles));
-    }
-
-    @DELETE
-    @Path("/user")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @ApiOperation("Removes user from the application")
-    public Response removeUser(
-        @ApiParam(required = true, example = "xlogin00") @FormParam("username") final String username
-        ) {
-        return rb.createResponse(adminSecurityService.removeUser(username));
-    }
-
-    @DELETE
-    @Path("/roles")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @ApiOperation(value = "Removes selected roles from the user", notes = "User does not have to own these roles")
-    public Response removeRoles(
-        @ApiParam(required = true, example = "xlogin00") @FormParam("username") final String username,
-        @ApiParam(required = true, example = "admin\nuser") @FormParam("roles") final List<String> roles
-        ) {
-        return rb.createResponse(adminSecurityService.removeRoles(username, roles));
-    }	
 
 	@Path("/course")
 	@POST
@@ -100,12 +52,7 @@ public class RestAdminService {
 	public Response createLector(
         @ApiParam(required = true) Lector lector,
         @ApiParam(required = true, example = "cGFzc3dvcmQxMjM=", value = "Expecting Base64 encoded password, e.g. password123 = cGFzc3dvcmQxMjM=") @QueryParam("password") String password) {
-        
-        String reply = adminSecurityService.addUser(lector.getUsername(), password);
-        if (reply != null)
-            return rb.createResponse(reply);
-
-        return rb.createResponse(adminService.createLector(lector));
+        return rb.createResponse(adminService.createLector(lector, password));
 	}
 	
 	@Path("/student")
@@ -114,12 +61,7 @@ public class RestAdminService {
 	public Response createStudent(
         @ApiParam(required = true) Student student,
         @ApiParam(required = true, example = "cGFzc3dvcmQxMjM=", value = "Expecting Base64 encoded password, e.g. password123 = cGFzc3dvcmQxMjM=") @QueryParam("password") String password) {
-        
-        String reply = adminSecurityService.addUser(student.getUsername(), password);
-        if (reply != null)
-            return rb.createResponse(reply);
-
-        return rb.createResponse(adminService.createStudent(student));
+        return rb.createResponse(adminService.createStudent(student, password));
 	}
 
     @Path("/room")
@@ -236,6 +178,7 @@ public class RestAdminService {
     public Response removeLector(
         @ApiParam(required = true, example = "10") @PathParam("lector_uid") long lector_uid
         ) {
+
         return rb.createResponse(adminService.removeLector(lector_uid));
     }
 
