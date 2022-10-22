@@ -49,7 +49,7 @@ public class AdminServiceBean implements IAdminService {
         }
 
         try {
-            TypedQuery<Person> query = em.createNamedQuery("checkUsername", Person.class);
+            TypedQuery<Person> query = em.createNamedQuery("Person.checkUsername", Person.class);
             if (!query.setParameter("username", lector.getUsername()).getResultList().isEmpty())
                 return "User with this username already exists";
 
@@ -76,7 +76,7 @@ public class AdminServiceBean implements IAdminService {
         }
 
         try {
-            TypedQuery<Person> query = em.createNamedQuery("checkUsername", Person.class);
+            TypedQuery<Person> query = em.createNamedQuery("Person.checkUsername", Person.class);
             if (!query.setParameter("username", student.getUsername()).getResultList().isEmpty())
                 return "User with this username already exists";
 

@@ -6,9 +6,11 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 @Entity
+@NamedQuery(name = "Student.findUid", query = "select s from Student s where s.username = :username")
 public class Student extends Person{
 
 	@ManyToMany(fetch = FetchType.LAZY)
