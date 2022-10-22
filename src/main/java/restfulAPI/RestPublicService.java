@@ -3,6 +3,7 @@ package restfulAPI;
 import java.security.NoSuchAlgorithmException;
 
 import javax.annotation.Resource;
+import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJBContext;
@@ -23,6 +24,7 @@ import entity.StudyCourse;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @PermitAll
+@DeclareRoles("lector")
 public class RestPublicService {
 
 	@PersistenceContext(unitName = "primary")
@@ -32,6 +34,7 @@ public class RestPublicService {
 	EJBContext ctx;
 
 	@GET
+	@Path("/json")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String helloJSON() throws NoSuchAlgorithmException{
 		return ctx.getCallerPrincipal().getName() + ctx.isCallerInRole("admin");
