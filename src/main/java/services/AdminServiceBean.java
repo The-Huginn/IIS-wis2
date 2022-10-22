@@ -10,6 +10,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import entity.Lector;
+import entity.Person;
 import entity.Room;
 import entity.Student;
 import entity.StudyCourse;
@@ -48,6 +49,10 @@ public class AdminServiceBean implements IAdminService {
         }
 
         try {
+            TypedQuery<Person> query = em.createNamedQuery("checkUsername", Person.class);
+            if (!query.setParameter("username", lector.getUsername()).getResultList().isEmpty())
+                return "User with this username already exists";
+
             em.persist(lector);
         } catch (Exception e) {
             adminSecurityService.removeUser(lector.getUsername());
@@ -71,13 +76,18 @@ public class AdminServiceBean implements IAdminService {
         }
 
         try {
+            TypedQuery<Person> query = em.createNamedQuery("checkUsername", Person.class);
+            if (!query.setParameter("username", student.getUsername()).getResultList().isEmpty())
+                return "User with this username already exists";
+
             em.persist(student);
+            throw new Exception();
         } catch (Exception e) {
             adminSecurityService.removeUser(student.getUsername());
             return "User was removed from the security realm as well, because of: " + Optional.ofNullable(e.getMessage()).orElse("Unable to perist object");
         }
 
-        return null;
+        // return null;
     }
 
     @Override

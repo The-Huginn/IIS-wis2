@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.NamedQuery;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -19,6 +20,7 @@ import io.swagger.annotations.ApiModelProperty;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @ApiModel
+@NamedQuery(name = "checkUsername", query = "select p from Person p where p.username = :username")
 public abstract class Person implements Serializable {
 
 	@Id
