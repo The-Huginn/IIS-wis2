@@ -5,11 +5,15 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 @Entity
-@NamedQuery(name = "Lector.findUid", query = "select l from Lector l where l.username = :username")
+@NamedQueries({
+	@NamedQuery(name = "Lector.findUid", query = "select l from Lector l where l.username = :username"),
+	@NamedQuery(name = "Lector.courses", query = "select s from StudyCourse s join s.lectors l where l.id = :id")
+})
 public class Lector extends Person{
 
     @OneToMany(mappedBy = "guarant")

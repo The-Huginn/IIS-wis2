@@ -28,7 +28,7 @@ public class LectorServiceBean implements ILectorService {
 
     @Override
     public List<StudyCourse> getLectorCourses(long lector_uid) {
-        TypedQuery<StudyCourse> query = em.createQuery("select s from StudyCourse s where s.", StudyCourse.class);
+        TypedQuery<StudyCourse> query = em.createNamedQuery("Lector.courses", StudyCourse.class).setParameter("id", lector_uid);
         return query.getResultList();
     }
 
