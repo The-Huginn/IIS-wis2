@@ -36,6 +36,9 @@ public class StudyCourse implements Serializable{
     @ManyToMany
     List<Student> students;
 
+	@ManyToMany
+    List<Student> studentsWithRegistration;
+
     @ManyToMany
     List<Lector> lectors;
 
@@ -46,6 +49,7 @@ public class StudyCourse implements Serializable{
 	public StudyCourse() {
 		dates = new ArrayList<CourseDate>();
 		students = new ArrayList<Student>();
+		studentsWithRegistration = new ArrayList<Student>();
 		lectors = new ArrayList<Lector>();
 	}
 	
@@ -67,5 +71,37 @@ public class StudyCourse implements Serializable{
 
 	public void addStudent(Student student) {
 		this.students.add(student);
+	}
+
+	public List<Student> getStudents() {
+		return this.students;
+	}
+
+	public void setStudents(List<Student> students) {
+		this.students = students;
+	}
+
+	public void setStudentsWithRegistration(List<Student> studentsWithRegistration) {
+		this.studentsWithRegistration = studentsWithRegistration;
+	}
+
+	public void addStudentWithRegistration(Student studentWithRegistration) {
+		this.studentsWithRegistration.add(studentWithRegistration);
+	}
+
+	public List<Student> getStudentsWithRegistration() {
+		return this.studentsWithRegistration;
+	}
+
+	public List<CourseDate> getDates() {
+		return this.dates;
+	}
+
+	public void setDates(List<CourseDate> dates) {
+		this.dates = dates;
+	}
+
+	public void addDate(CourseDate date) {
+		this.dates.add(date);
 	}
 }

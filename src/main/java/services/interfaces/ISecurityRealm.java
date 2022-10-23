@@ -1,4 +1,4 @@
-package services;
+package services.interfaces;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;

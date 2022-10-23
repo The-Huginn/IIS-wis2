@@ -23,7 +23,7 @@ import entity.StudyCourse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import services.IAdminService;
+import services.interfaces.IAdminService;
 import helper.IResponseBuilder;
 
 @Path("/admin")

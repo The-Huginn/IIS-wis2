@@ -58,4 +58,16 @@ public class CourseDate implements Serializable{
 	public void setCourse(StudyCourse course) {
 		this.course = course;
 	}
+
+	public List<DateEvaluation> getDateEvaluations() {
+		return this.evaluations;
+	}
+
+	public void setDateEvaluations(List<DateEvaluation> evaluations) {
+		this.evaluations = evaluations;
+	}
+
+	public void addDateEvaluation(DateEvaluation evaluation) {
+		this.evaluations.add(evaluation);
+	}
 }

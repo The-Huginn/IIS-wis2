@@ -1,19 +1,16 @@
 package services;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-import entity.Lector;
-import entity.Person;
-import entity.Room;
+import entity.CourseDate;
+import entity.DateEvaluation;
 import entity.Student;
 import entity.StudyCourse;
+import services.interfaces.ILectorService;
 
 public class LectorServiceBean implements ILectorService {
 
@@ -27,14 +24,50 @@ public class LectorServiceBean implements ILectorService {
     }
 
     @Override
-    public List<StudyCourse> getLectorCourses(long lector_uid) {
-        TypedQuery<StudyCourse> query = em.createNamedQuery("Lector.courses", StudyCourse.class).setParameter("id", lector_uid);
-        return query.getResultList();
+    public StudyCourse getCourse(long course_uid) {
+        return em.find(StudyCourse.class, course_uid);
     }
 
     @Override
-    public StudyCourse getCourse(long course_uid) {
-        return em.find(StudyCourse.class, course_uid);
+    public List<CourseDate> getDatesInCourse(long course_uid) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public CourseDate getCourseDate(long courseDate_uid) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<StudyCourse> getLectorCourses(String lectorUsername) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String addEvaluation(String lectorUsername, double evaluation, long dateEval_uid) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<Student> getStudentsInCourse(long course_uid) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<DateEvaluation> getEvaluationsInDate(long courseDate_uid) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public DateEvaluation getDateEvaluation(long dateEvaluation_uid) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 

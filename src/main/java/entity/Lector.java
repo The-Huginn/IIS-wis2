@@ -11,26 +11,26 @@ import javax.persistence.OneToMany;
 
 @Entity
 @NamedQueries({
-	@NamedQuery(name = "Lector.findUid", query = "select l from Lector l where l.username = :username"),
-	@NamedQuery(name = "Lector.courses", query = "select s from StudyCourse s join s.lectors l where l.id = :id")
+		@NamedQuery(name = "Lector.findUid", query = "select l from Lector l where l.username = :username"),
+		@NamedQuery(name = "Lector.courses", query = "select distinct(s) from StudyCourse s join s.lectors l where l.username = :username"),
+		@NamedQuery(name = "Guarant.courses", query = "select distinct(s) from StudyCourse s where s.guarant.username = :username")
 })
-public class Lector extends Person{
+public class Lector extends Person {
 
-    @OneToMany(mappedBy = "guarant")
-    List<StudyCourse> coursesGuarant;
+	@OneToMany(mappedBy = "guarant")
+	List<StudyCourse> coursesGuarant;
 
 	@OneToMany(mappedBy = "lector")
-    List<DateEvaluation> dates;
+	List<DateEvaluation> dates;
 
 	@ManyToMany
-    List<StudyCourse> coursesLector;
+	List<StudyCourse> coursesLector;
 
-	
 	public Lector() {
-        coursesGuarant = new ArrayList<StudyCourse>();
+		coursesGuarant = new ArrayList<StudyCourse>();
 		coursesLector = new ArrayList<StudyCourse>();
 		dates = new ArrayList<DateEvaluation>();
-    }
+	}
 
 	public void addCourse(StudyCourse course) {
 		this.coursesLector.add(course);

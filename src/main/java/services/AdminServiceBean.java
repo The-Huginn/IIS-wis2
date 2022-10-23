@@ -14,6 +14,8 @@ import entity.Person;
 import entity.Room;
 import entity.Student;
 import entity.StudyCourse;
+import services.interfaces.IAdminSecurityRealm;
+import services.interfaces.IAdminService;
 
 public class AdminServiceBean implements IAdminService {
 

@@ -29,7 +29,7 @@ import entity.StudyCourse;
 import helper.IResponseBuilder;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import services.ILectorService;
+import services.interfaces.ILectorService;
 
 @Path("/lector")
 @Stateless

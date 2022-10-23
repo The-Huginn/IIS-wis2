@@ -19,7 +19,7 @@ import helper.IResponseBuilder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import services.IAdminSecurityRealm;
+import services.interfaces.IAdminSecurityRealm;
 
 @Path("/security")
 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)

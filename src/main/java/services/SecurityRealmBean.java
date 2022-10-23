@@ -21,6 +21,9 @@ import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.faces.bean.ApplicationScoped;
 
+import services.interfaces.IAdminSecurityRealm;
+import services.interfaces.ISecurityRealm;
+
 @Stateless
 @ApplicationScoped
 @RolesAllowed({"admin", "security"})
