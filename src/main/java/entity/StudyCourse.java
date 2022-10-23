@@ -69,6 +69,14 @@ public class StudyCourse implements Serializable{
 		this.lectors.add(lector);
 	}
 
+	public List<Lector> getLectors() {
+		return this.lectors;
+	}
+
+	public void setLectors(List<Lector> lectors) {
+		this.lectors = lectors;
+	}
+
 	public void addStudent(Student student) {
 		this.students.add(student);
 	}

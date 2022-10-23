@@ -15,15 +15,15 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
-import entity.CourseDate;
 import entity.Lector;
 import entity.Room;
 import entity.Student;
 import entity.StudyCourse;
 import helper.IResponseBuilder;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import services.interfaces.IGuarantService;
@@ -33,6 +33,7 @@ import services.interfaces.IGuarantService;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @RolesAllowed("lector")
+@Api(value = "Guarant actions")
 public class RestGuarantService {
 
 	@PersistenceContext(unitName = "primary")
@@ -63,40 +64,50 @@ public class RestGuarantService {
 		return guarantService.getStudentsWithRegistration(course_uid);
 	}
 
-	@Path("/course/add_student")
+	@Path("/course/{course_uid}/{student_uid}")
 	@POST
+	@ApiOperation(value = "Add student to a study course.")
 	@Produces(MediaType.APPLICATION_JSON)
-	public void addStudent(@QueryParam("course_uid") long course_uid, @QueryParam("student_uid") long student_uid) {
-		StudyCourse course = em.find(StudyCourse.class, course_uid);
-		Student student = em.find(Student.class, student_uid);
-		course.addStudent(student);
-		student.addCourse(course);
-		em.persist(course);
-		em.persist(student);
+	public Response addStudent(
+		@ApiParam(required = true, example = "10") @PathParam("course_uid") long course_uid,
+		@ApiParam(required = true, example = "10") @PathParam("student_uid") long student_uid
+	) {
+		return rb.createResponse(guarantService.addStudentToCourse(course_uid, student_uid));
 	}
 
-	@Path("/course/add_lector")
+	@Path("/course/{course_uid}/{lector_uid}")
 	@POST
+	@ApiOperation(value = "Add lector to a study course.")
 	@Produces(MediaType.APPLICATION_JSON)
-	public void addLector(@QueryParam("course_uid") long course_uid, @QueryParam("lector_uid") long lector_uid) {
-		StudyCourse course = em.find(StudyCourse.class, course_uid);
-		Lector lector = em.find(Lector.class, lector_uid);
-		course.addLector(lector);
-		lector.addCourse(course);
-		em.persist(course);
-		em.persist(lector);
+	public Response addLector(
+		@ApiParam(required = true, example = "10") @PathParam("course_uid") long course_uid,
+		@ApiParam(required = true, example = "10") @PathParam("lector_uid") long lector_uid
+	) {
+		return rb.createResponse(guarantService.addLectorToCourse(course_uid, lector_uid));
 	}
 
-    @Path("/courseDate/create")
+    @Path("/courseDate/{course_uid}/{room_uid}")
     @POST
+	@ApiOperation(value = "Create new course date.")
     @Produces(MediaType.APPLICATION_JSON)
-    public void createCourseDate(@QueryParam("course_uid") long course_uid,
-                                    @QueryParam("room_uid") long room_uid, CourseDate date)
-    {
-        StudyCourse course = em.find(StudyCourse.class, course_uid);
-        Room room = em.find(Room.class, room_uid);
-        date.setCourse(course);
-        date.setRoom(room);
-        em.persist(date);
+    public Response createCourseDate(
+		@ApiParam(required = true, example = "10") @PathParam("course_uid") long course_uid,
+		@ApiParam(required = true, example = "10") @PathParam("room_uid") long room_uid
+	) {
+        return rb.createResponse(guarantService.createCourseDate(course_uid, room_uid));
+	}
+
+	@Path("/room")
+    @GET
+    @ApiOperation(value = "Returns list of all rooms.")
+    public List<Room> getRooms() {
+        return guarantService.getRooms();
+    }
+
+	@Path("/lector")
+	@GET
+	@ApiOperation(value = "Returns list of all lectors.")
+	public List<Lector> getLectors() {
+		return guarantService.getLectors();
 	}
 }

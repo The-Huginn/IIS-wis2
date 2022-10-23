@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.persistence.TypedQuery;
 
+import entity.CourseDate;
 import entity.Lector;
 import entity.Room;
 import entity.Student;
@@ -52,7 +53,7 @@ public class GuarantServiceBean extends PersonServiceBean implements IGuarantSer
             else return "Student does not have a pending registration for this study course.";
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ("Adding evaluation failed bacause of: " + Optional.ofNullable(e.getMessage()).orElse("Unable to perist object"));
+			return ("Adding student failed bacause of: " + Optional.ofNullable(e.getMessage()).orElse("Unable to perist object"));
 		}
 
         return null;
@@ -60,25 +61,49 @@ public class GuarantServiceBean extends PersonServiceBean implements IGuarantSer
 
     @Override
     public List<Lector> getLectors() {
-        // TODO Auto-generated method stub
-        return null;
+        TypedQuery<Lector> query = em.createQuery("select l from Lector l", Lector.class);
+        return query.getResultList();
     }
 
     @Override
     public String addLectorToCourse(long course_uid, long lector_uid) {
-        // TODO Auto-generated method stub
+        try {
+			Lector lector = em.find(Lector.class, lector_uid);
+            StudyCourse course = em.find(StudyCourse.class, course_uid);
+            if (!course.getLectors().contains(lector)) {
+                lector.addCourse(course);
+                course.addLector(lector);
+                em.persist(lector);
+                em.persist(course);
+            }
+            else return "Lector already teaches this course.";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ("Adding lector failed bacause of: " + Optional.ofNullable(e.getMessage()).orElse("Unable to perist object"));
+		}
+
         return null;
     }
 
     @Override
     public List<Room> getRooms() {
-        // TODO Auto-generated method stub
-        return null;
+        TypedQuery<Room> query = em.createQuery("select r from Room r", Room.class);
+        return query.getResultList();
     }
 
     @Override
     public String createCourseDate(long course_uid, long room_uid) {
-        // TODO Auto-generated method stub
+        try {
+            CourseDate date = new CourseDate();
+            StudyCourse course = em.find(StudyCourse.class, course_uid);
+            Room room = em.find(Room.class, room_uid);
+            date.setCourse(course);
+            date.setRoom(room);
+            em.persist(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ("Adding lector failed bacause of: " + Optional.ofNullable(e.getMessage()).orElse("Unable to perist object"));
+        }   
         return null;
     }
     
