@@ -1,74 +1,68 @@
 package services;
 
 import java.util.List;
+import java.util.Optional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import entity.CourseDate;
 import entity.DateEvaluation;
+import entity.Lector;
 import entity.Student;
 import entity.StudyCourse;
 import services.interfaces.ILectorService;
 
-public class LectorServiceBean implements ILectorService {
-
-    @PersistenceContext(unitName = "primary")
-    EntityManager em;
-    
-    @Override
-    public List<StudyCourse> getCourses() {
-        TypedQuery<StudyCourse> query = em.createQuery("select s from StudyCourse s", StudyCourse.class);
-        return query.getResultList();
-    }
-
-    @Override
-    public StudyCourse getCourse(long course_uid) {
-        return em.find(StudyCourse.class, course_uid);
-    }
-
-    @Override
-    public List<CourseDate> getDatesInCourse(long course_uid) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public CourseDate getCourseDate(long courseDate_uid) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+public class LectorServiceBean extends PersonServiceBean implements ILectorService {
 
     @Override
     public List<StudyCourse> getLectorCourses(String lectorUsername) {
-        // TODO Auto-generated method stub
-        return null;
+        TypedQuery<Lector> query = em.createNamedQuery("Lector.findUid", Lector.class);
+        query.setParameter("username", lectorUsername);
+        List<Lector> reply = query.getResultList();
+        if (reply.isEmpty())
+            return null;
+        Lector lector = reply.get(0);
+        TypedQuery<StudyCourse> queryCourses = em.createNamedQuery("Lector.courses", StudyCourse.class)
+                                                    .setParameter("username", lector.getUsername());
+        return queryCourses.getResultList();
     }
 
     @Override
-    public String addEvaluation(String lectorUsername, double evaluation, long dateEval_uid) {
-        // TODO Auto-generated method stub
-        return null;
+    public String addEvaluation(String lectorUsername, double evaluation, long dateEvaluation_uid) {
+        TypedQuery<Lector> query = em.createNamedQuery("Lector.findUid", Lector.class);
+		query.setParameter("username", lectorUsername);
+		List<Lector> reply = query.getResultList();
+		if (reply.isEmpty())
+			return "Unable to find Lector in this course.";
+		Lector lector = reply.get(0);
+		try {
+			DateEvaluation dateEval = em.find(DateEvaluation.class, dateEvaluation_uid);
+			dateEval.setLector(lector);
+			dateEval.setEvaluation(evaluation);
+			em.persist(dateEval);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ("Adding evaluation failed bacause of: " + Optional.ofNullable(e.getMessage()).orElse("Unable to perist object"));
+		}
+
+		return null;
     }
 
     @Override
     public List<Student> getStudentsInCourse(long course_uid) {
-        // TODO Auto-generated method stub
-        return null;
+        TypedQuery<Student> query = em.createNamedQuery("Student.inCourse", Student.class);
+        query.setParameter("id", course_uid);
+        return query.getResultList();
     }
 
     @Override
     public List<DateEvaluation> getEvaluationsInDate(long courseDate_uid) {
-        // TODO Auto-generated method stub
-        return null;
+        CourseDate course = em.find(CourseDate.class, courseDate_uid);
+        return course.getDateEvaluations();
     }
 
     @Override
     public DateEvaluation getDateEvaluation(long dateEvaluation_uid) {
-        // TODO Auto-generated method stub
-        return null;
+        return em.find(DateEvaluation.class, dateEvaluation_uid);
     }
-
-
 }
