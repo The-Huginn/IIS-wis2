@@ -10,14 +10,16 @@ FROM registry.redhat.io/jboss-eap-7/eap74-openjdk11-openshift-rhel8:7.4.7-3
 # COPY src /tmp/src
 # COPY pom.xml /tmp
 
+VOLUME ${HOME}/.m2 ${HOME}/.m2
+
 COPY src ${HOME}/tmp/wis2/src
 COPY pom.xml ${HOME}/tmp/wis2
 
 USER root
-RUN cd ${HOME}/tmp/wis2 && mvn package install
+RUN cd ${HOME}/tmp/wis2 && mvn package
 
 USER root
-RUN cp ${HOME}/tmp/target/wis2/wis2.war ${JBOSS_HOME}/standalone/deployments
+RUN cp ${HOME}/tmp/wis2/target/wis2.war ${JBOSS_HOME}/standalone/deployments
 
 # USER root
 # RUN cd /tmp/wis2 && mvn clean package
