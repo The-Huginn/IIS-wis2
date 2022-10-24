@@ -1,6 +1,6 @@
 FROM registry.redhat.io/jboss-eap-7/eap74-openjdk11-openshift-rhel8:7.4.7-3
 
-# COPY extensions/modules ${JBOSS_HOME}/modules
+COPY extensions/modules ${JBOSS_HOME}/modules
 
 # See S2I_IMAGE_SOURCE_MOUNTS
 # COPY extensions /tmp/s2i
@@ -20,6 +20,9 @@ RUN cd ${HOME}/tmp/wis2 && mvn package
 
 USER root
 RUN cp ${HOME}/tmp/wis2/target/wis2.war ${JBOSS_HOME}/standalone/deployments
+
+USER root
+RUN rm -rf ${HOME}/tmp/wis2/target
 
 # USER root
 # RUN cd /tmp/wis2 && mvn clean package
