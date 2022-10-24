@@ -1,7 +1,7 @@
 FROM registry.redhat.io/jboss-eap-7/eap74-openjdk11-openshift-rhel8:7.4.7-3
 
-COPY extensions/modules ${JBOSS_HOME}/modules
-
+# COPY extensions/modules ${JBOSS_HOME}/modules
+COPY modules ${JBOSS_HOME}/modules
 # See S2I_IMAGE_SOURCE_MOUNTS
 # COPY extensions /tmp/s2i
 # ENV S2I_IMAGE_SOURCE_MOUNTS /tmp/s2i
@@ -9,8 +9,6 @@ COPY extensions/modules ${JBOSS_HOME}/modules
 # See maven_build and S2I_SOURCE_DIR
 # COPY src /tmp/src
 # COPY pom.xml /tmp
-
-VOLUME ${HOME}/.m2 ${HOME}/.m2
 
 COPY src ${HOME}/tmp/wis2/src
 COPY pom.xml ${HOME}/tmp/wis2
