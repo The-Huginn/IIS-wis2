@@ -17,7 +17,7 @@ USER root
 RUN cd ${HOME}/tmp/wis2 && mvn package install
 
 USER root
-RUN cd ${HOME}/tmp/target/wis2.war ${JBOSS_HOME}/standalone/deployments
+RUN cp ${HOME}/tmp/target/wis2.war ${JBOSS_HOME}/standalone/deployments
 
 # USER root
 # RUN cd /tmp/wis2 && mvn clean package
