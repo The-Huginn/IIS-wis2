@@ -51,7 +51,7 @@
         <!-- other plugin versions -->
         <version.compiler.plugin>3.1</version.compiler.plugin>
         <version.surefire.plugin>2.16</version.surefire.plugin>
-        <version.war.plugin>2.5</version.war.plugin>
+        <version.war.plugin>3.3.2</version.war.plugin>
 
         <!-- maven-compiler-plugin -->
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -204,7 +204,7 @@
             <groupId>com.sun.xml.bind</groupId>
             <artifactId>jaxb-core</artifactId>
             <version>2.2.11</version>
-        </dependency> -->
+        </dependency>
         <dependency>
             <groupId>com.sun.xml.bind</groupId>
             <artifactId>jaxb-impl</artifactId>
@@ -214,7 +214,7 @@
             <groupId>javax.activation</groupId>
             <artifactId>activation</artifactId>
             <version>1.1.1</version>
-        </dependency>
+        </dependency> -->
 
         <!-- Dependency for swagger -->
         <!-- <dependency>
