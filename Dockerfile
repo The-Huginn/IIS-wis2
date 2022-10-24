@@ -12,7 +12,7 @@ FROM registry.redhat.io/jboss-eap-7/eap74-openjdk11-openshift-rhel8:7.4.7-3
 
 COPY src ${HOME}/tmp/wis2/src
 COPY pom.xml ${HOME}/tmp/wis2
-RUN mvn package install
+RUN cd ${HOME}/tmp/wis2 && mvn package install
 
 RUN cd ${HOME}/tmp/target/wis2.war ${JBOSS_HOME}/standalone/deployments
 
