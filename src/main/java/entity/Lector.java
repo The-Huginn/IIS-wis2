@@ -8,6 +8,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @NamedQueries({
@@ -15,21 +19,31 @@ import javax.persistence.OneToMany;
 		@NamedQuery(name = "Lector.courses", query = "select distinct(s) from StudyCourse s join s.lectors l where l.username = :username"),
 		@NamedQuery(name = "Guarant.courses", query = "select distinct(s) from StudyCourse s where s.guarant.username = :username")
 })
+@XmlRootElement(name = "lector")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Lector extends Person {
 
 	@OneToMany(mappedBy = "guarant")
+	@XmlElement
 	List<StudyCourse> coursesGuarant;
 
 	@OneToMany(mappedBy = "lector")
+	@XmlElement
 	List<DateEvaluation> dates;
 
 	@ManyToMany
+	@XmlElement
 	List<StudyCourse> coursesLector;
 
 	public Lector() {
+		super();
+
 		coursesGuarant = new ArrayList<StudyCourse>();
 		coursesLector = new ArrayList<StudyCourse>();
 		dates = new ArrayList<DateEvaluation>();
+		coursesGuarant.add(null);
+		coursesLector.add(null);
+		dates.add(null);
 	}
 
 	public void addCourse(StudyCourse course) {

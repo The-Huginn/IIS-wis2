@@ -10,15 +10,69 @@
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
 
-    <!-- <security-constraint>
+    <security-constraint>
         <web-resource-collection>
-            <web-resource-name>Random name</web-resource-name>
-            <url-pattern>/api/*</url-pattern>
+            <web-resource-name>Admin service</web-resource-name>
+            <url-pattern>/api/admin</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>admin</role-name>
         </auth-constraint>
-    </security-constraint> -->
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Lector service</web-resource-name>
+            <url-pattern>/api/lector</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>lector</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Guarant service</web-resource-name>
+            <url-pattern>/api/guarant</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>lector</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Student service</web-resource-name>
+            <url-pattern>/api/student</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>student</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Security service</web-resource-name>
+            <url-pattern>/api/security</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>security</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Random name</web-resource-name>
+            <url-pattern>/api/public</url-pattern>
+        </web-resource-collection>
+    </security-constraint>
+
+    <!-- <servlet>
+        <servlet-name>Resteasy</servlet-name>
+        <servlet-class>
+            org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher
+        </servlet-class>
+    </servlet> -->
 
     <security-role>
         <role-name>admin</role-name>
@@ -34,7 +88,7 @@
     </security-role>
 
     <login-config>
-        <auth-method>BASIC?silent=true</auth-method>
+        <auth-method>BASIC</auth-method>
         <realm-name>other</realm-name>
     </login-config>
 
