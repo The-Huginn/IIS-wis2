@@ -35,7 +35,7 @@ public class CourseDate implements Serializable{
     List<DateEvaluation> evaluations;
 
 	@NotNull(message = "description cannot be null [CourseData]")
-	@Pattern(regexp = "^[a-zA-Z0-9-+:!?.@#$%^&*()/<>{}]+$", message = "room must contain only valid chars [a-zA-Z0-9-+:!?.@#$%^&*()/<>{}] [CourseData]")
+	@Pattern(regexp = "^[a-zA-Z0-9-+:!?.@#$%^&*()/<>{} ]+$", message = "room must contain only valid chars [a-zA-Z0-9-+:!?.@#$%^&*()/<>{}] [CourseData]")
 	@ApiModelProperty(example = "This is description")
 	String description;
 	

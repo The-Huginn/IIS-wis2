@@ -43,7 +43,7 @@ public class StudyCourse implements Serializable{
     List<Lector> lectors;
 
 	@NotNull(message = "description cannot be null [StudyCourse]")
-	@Pattern(regexp = "^[a-zA-Z0-9-+:!?.@#$%^&*()/<>{}]+$", message = "description must contain only valid chars [a-zA-Z0-9-+:!?.@#$%^&*()/<>{}] [StudyCourse]")
+	@Pattern(regexp = "^[a-zA-Z0-9-+:!?.@#$%^&*()/<>{} ]+$", message = "description must contain only valid chars [a-zA-Z0-9-+:!?.@#$%^&*()/<>{}] [StudyCourse]")
 	String description;
 	
 	public StudyCourse() {

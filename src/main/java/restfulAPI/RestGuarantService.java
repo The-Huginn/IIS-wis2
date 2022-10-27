@@ -64,7 +64,7 @@ public class RestGuarantService {
 		return guarantService.getStudentsWithRegistration(course_uid);
 	}
 
-	@Path("/course/{course_uid}/{student_uid}")
+	@Path("/course/addStudent/{course_uid}/{student_uid}")
 	@POST
 	@ApiOperation(value = "Add student to a study course.")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -75,7 +75,7 @@ public class RestGuarantService {
 		return rb.createResponse(guarantService.addStudentToCourse(course_uid, student_uid));
 	}
 
-	@Path("/course/{course_uid}/{lector_uid}")
+	@Path("/course/addLector/{course_uid}/{lector_uid}")
 	@POST
 	@ApiOperation(value = "Add lector to a study course.")
 	@Produces(MediaType.APPLICATION_JSON)

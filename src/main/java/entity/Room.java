@@ -35,7 +35,7 @@ public class Room implements Serializable{
 	String code;
 
 	@NotNull(message = "description cannot be null [Room]")
-	@Pattern(regexp = "^[a-zA-Z0-9-+:!?.@#$%^&*()/<>{}]+$", message = "room must contain only valid chars [a-zA-Z0-9-+:!?.@#$%^&*()/<>{}] [Room]")
+	@Pattern(regexp = "^[a-zA-Z0-9-+:!?.@#$%^&*()/<>{} ]+$", message = "room must contain only valid chars [a-zA-Z0-9-+:!?.@#$%^&*()/<>{}] [Room]")
 	@ApiModelProperty(example = "This is description")
 	String description;
 	

@@ -9,7 +9,7 @@ public class ResponseBuilderBean implements IResponseBuilder {
 
     public Response createResponse(String message) {
         if (message == null)
-            rb = Response.ok();
+            rb = Response.ok().entity("Request succesful.\n");
         else
             rb = Response.status(Response.Status.BAD_REQUEST)
                         .entity(message);
