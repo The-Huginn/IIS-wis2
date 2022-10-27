@@ -2,42 +2,40 @@ package restfulAPI;
 
 import java.security.NoSuchAlgorithmException;
 
-import javax.annotation.Resource;
-import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
-import javax.ejb.EJBContext;
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.SecurityContext;
 
-import entity.StudyCourse;
+import services.interfaces.ISecurityRealm;
 
 @Path("/public")
-@Stateless
+@RequestScoped
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @PermitAll
-@DeclareRoles("lector")
 public class RestPublicService {
-
-	@PersistenceContext(unitName = "primary")
-	EntityManager em;
 	
-	@Resource
-	EJBContext ctx;
+	@Context
+	SecurityContext ctx;
+
+	@Inject
+	ISecurityRealm x;
 
 	@GET
 	@Path("/json")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String helloJSON() throws NoSuchAlgorithmException{
-		return ctx.getCallerPrincipal().getName() + ctx.isCallerInRole("admin");
+		System.err.println(ctx.getUserPrincipal().getName());
+		return ctx.getUserPrincipal().getName() + ctx.isUserInRole("admin");
+		// return x.stub();
 		// System.err.println(service.encode("admin:ApplicationRealm:admin"));
 		// System.err.println("JBoss Home: "+System.getProperty("jboss.server.config.dir"));
 		// return service.encode("admin:ApplicationRealm:admin");
@@ -53,10 +51,10 @@ public class RestPublicService {
 		return "Hello World by XML!";
 	}
 
-	@Path("/course/{uid}")
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public StudyCourse getStudyCourse(@PathParam("uid") long uid) {
-		return em.find(StudyCourse.class, uid);
-	}
+	// @Path("/course/{uid}")
+	// @GET
+	// @Produces(MediaType.APPLICATION_JSON)
+	// public StudyCourse getStudyCourse(@PathParam("uid") long uid) {
+	// 	return em.find(StudyCourse.class, uid);
+	// }
 }

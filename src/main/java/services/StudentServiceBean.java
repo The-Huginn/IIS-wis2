@@ -3,6 +3,7 @@ package services;
 import java.util.List;
 import java.util.Optional;
 
+import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 
 import entity.CourseDate;
@@ -11,6 +12,7 @@ import entity.Student;
 import entity.StudyCourse;
 import services.interfaces.IStudentService;
 
+@Stateless
 public class StudentServiceBean extends PersonServiceBean implements IStudentService {
 
     @Override

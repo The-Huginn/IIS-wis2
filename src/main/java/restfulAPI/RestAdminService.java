@@ -3,7 +3,7 @@ package restfulAPI;
 import java.util.List;
 
 import javax.annotation.security.RolesAllowed;
-import javax.ejb.Stateless;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -27,7 +27,7 @@ import services.interfaces.IAdminService;
 import helper.IResponseBuilder;
 
 @Path("/admin")
-@Stateless
+@RequestScoped
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 @Api(value = "Student, Lector, Room and Course Administration")

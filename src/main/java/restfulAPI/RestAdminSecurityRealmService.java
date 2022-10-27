@@ -3,6 +3,7 @@ package restfulAPI;
 import java.util.List;
 
 import javax.annotation.security.RolesAllowed;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -22,6 +23,7 @@ import io.swagger.annotations.ApiParam;
 import services.interfaces.IAdminSecurityRealm;
 
 @Path("/security")
+@RequestScoped
 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 @Produces(MediaType.APPLICATION_JSON)
 @Api(value = "Security Realm Administration")

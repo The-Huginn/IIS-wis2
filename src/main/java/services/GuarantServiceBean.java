@@ -3,6 +3,7 @@ package services;
 import java.util.List;
 import java.util.Optional;
 
+import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 
 import entity.CourseDate;
@@ -12,6 +13,7 @@ import entity.Student;
 import entity.StudyCourse;
 import services.interfaces.IGuarantService;
 
+@Stateless
 public class GuarantServiceBean extends PersonServiceBean implements IGuarantService {
 
     @Override

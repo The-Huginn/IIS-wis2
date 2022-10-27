@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -17,6 +18,7 @@ import entity.StudyCourse;
 import services.interfaces.IAdminSecurityRealm;
 import services.interfaces.IAdminService;
 
+@Stateless
 public class AdminServiceBean implements IAdminService {
 
     @Inject
