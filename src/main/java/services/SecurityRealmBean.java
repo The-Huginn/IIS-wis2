@@ -40,8 +40,9 @@ public class SecurityRealmBean implements IAdminSecurityRealm, ISecurityRealm {
 		byte messageDigest[] = MessageDigest.getInstance("MD5").digest(clearText.getBytes(StandardCharsets.UTF_8));
 
 		StringBuffer hexString = new StringBuffer();
-		for (int i = 0; i < messageDigest.length; i++)
-			hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+		for (byte b : messageDigest) {
+			hexString.append(String.format("%02x", b));
+		}
 		return hexString.toString();
 	}
 
