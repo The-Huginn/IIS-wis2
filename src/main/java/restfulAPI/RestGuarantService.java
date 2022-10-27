@@ -2,9 +2,7 @@ package restfulAPI;
 
 import java.util.List;
 
-import javax.annotation.Resource;
 import javax.annotation.security.RolesAllowed;
-import javax.ejb.EJBContext;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -15,8 +13,10 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 
 import entity.Lector;
 import entity.Room;
@@ -39,8 +39,8 @@ public class RestGuarantService {
 	@PersistenceContext(unitName = "primary")
 	EntityManager em;
 
-	@Resource
-	EJBContext ejb;
+	@Context
+	SecurityContext ctx;
 
 	@Inject
 	private IResponseBuilder rb;
@@ -52,7 +52,7 @@ public class RestGuarantService {
     @GET
     @ApiOperation(value = "Finds all courses that Guarant leads")
     public List<StudyCourse> getMyCourses() {
-        return guarantService.getGuarantCourses(ejb.getCallerPrincipal().getName());
+        return guarantService.getGuarantCourses(ctx.getUserPrincipal().getName());
     }
 
 	@Path("/student/{course_uid}")
