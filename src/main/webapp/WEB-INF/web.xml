@@ -10,10 +10,17 @@
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
 
+    <session-config>
+        <session-timeout>1</session-timeout>
+        <cookie-config>
+            <http-only>true</http-only>
+        </cookie-config>
+    </session-config>
+
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Admin service</web-resource-name>
-            <url-pattern>/api/admin</url-pattern>
+            <url-pattern>/api/admin/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>admin</role-name>
@@ -23,7 +30,7 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Lector service</web-resource-name>
-            <url-pattern>/api/lector</url-pattern>
+            <url-pattern>/api/lector/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>lector</role-name>
@@ -33,7 +40,7 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Guarant service</web-resource-name>
-            <url-pattern>/api/guarant</url-pattern>
+            <url-pattern>/api/guarant/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>lector</role-name>
@@ -43,7 +50,7 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Student service</web-resource-name>
-            <url-pattern>/api/student</url-pattern>
+            <url-pattern>/api/student/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>student</role-name>
@@ -53,7 +60,7 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Security service</web-resource-name>
-            <url-pattern>/api/security</url-pattern>
+            <url-pattern>/api/security/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>security</role-name>
@@ -63,7 +70,7 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Random name</web-resource-name>
-            <url-pattern>/api/public</url-pattern>
+            <url-pattern>/api/public/*</url-pattern>
         </web-resource-collection>
     </security-constraint>
 
@@ -89,7 +96,7 @@
 
     <login-config>
         <auth-method>BASIC</auth-method>
-        <realm-name>other</realm-name>
+        <realm-name>ApplicationRealm</realm-name>
     </login-config>
 
 </web-app>

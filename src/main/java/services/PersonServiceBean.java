@@ -2,6 +2,7 @@ package services;
 
 import java.util.List;
 
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -10,6 +11,7 @@ import entity.CourseDate;
 import entity.StudyCourse;
 import services.interfaces.IPersonService;
 
+@Stateless
 public class PersonServiceBean implements IPersonService {
 
     @PersistenceContext(unitName = "primary")
