@@ -2,9 +2,7 @@ package restfulAPI;
 
 import java.util.List;
 
-import javax.annotation.Resource;
 import javax.annotation.security.RolesAllowed;
-import javax.ejb.EJBContext;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -15,8 +13,10 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 
 import entity.CourseDate;
 import entity.StudyCourse;
@@ -37,8 +37,8 @@ public class RestStudentService {
 	@PersistenceContext(unitName = "primary")
 	EntityManager em;
 
-	@Resource
-	EJBContext ejb;
+	@Context
+	SecurityContext ctx;
 
 	@Inject
 	private IResponseBuilder rb;
@@ -57,7 +57,7 @@ public class RestStudentService {
     @GET
     @ApiOperation(value = "Finds all courses that Student attends")
     public List<StudyCourse> getMyCourses() {
-        return studentService.getStudentCourses(ejb.getCallerPrincipal().getName());
+        return studentService.getStudentCourses(ctx.getUserPrincipal().getName());
     }
 
     @Path("/course/{course_uid}")
@@ -76,7 +76,7 @@ public class RestStudentService {
 	public Response createStudyCourseRegistration(
 		@ApiParam(required = true, example = "10") @PathParam("course_uid") long course_uid
 	) {
-		return rb.createResponse(studentService.createStudyCourseRegistration(ejb.getCallerPrincipal().getName(), course_uid));
+		return rb.createResponse(studentService.createStudyCourseRegistration(ctx.getUserPrincipal().getName(), course_uid));
 	}
 
 	@Path("/courseDate/{course_uid}")
@@ -104,6 +104,6 @@ public class RestStudentService {
 	public Response createDateEvaluation(
 		@ApiParam(required = true, example = "10") @PathParam("courseDate_uid") long courseDate_uid
 	) {
-		return rb.createResponse(studentService.createDateEvaluation(ejb.getCallerPrincipal().getName(), courseDate_uid));
+		return rb.createResponse(studentService.createDateEvaluation(ctx.getUserPrincipal().getName(), courseDate_uid));
 	}
 }

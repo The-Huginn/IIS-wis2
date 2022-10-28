@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -90,11 +91,13 @@ public class RestGuarantService {
     @POST
 	@ApiOperation(value = "Create new course date.")
     @Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response createCourseDate(
 		@ApiParam(required = true, example = "10") @PathParam("course_uid") long course_uid,
-		@ApiParam(required = true, example = "10") @PathParam("room_uid") long room_uid
+		@ApiParam(required = true, example = "10") @PathParam("room_uid") long room_uid,
+		@ApiParam(required = true, example = "This is description.") @FormParam("description") String description
 	) {
-        return rb.createResponse(guarantService.createCourseDate(course_uid, room_uid));
+        return rb.createResponse(guarantService.createCourseDate(course_uid, room_uid, description));
 	}
 
 	@Path("/room")

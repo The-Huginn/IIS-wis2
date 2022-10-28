@@ -13,11 +13,17 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlAccessType;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 @Entity
+@XmlRootElement(name = "course date")
+@XmlAccessorType(XmlAccessType.FIELD)
 @ApiModel
 public class CourseDate implements Serializable{
 
@@ -34,6 +40,7 @@ public class CourseDate implements Serializable{
     @OneToMany(mappedBy = "date")
     List<DateEvaluation> evaluations;
 
+	@XmlElement
 	@NotNull(message = "description cannot be null [CourseData]")
 	@Pattern(regexp = "^[a-zA-Z0-9-+:!?.@#$%^&*()/<>{} ]+$", message = "room must contain only valid chars [a-zA-Z0-9-+:!?.@#$%^&*()/<>{}] [CourseData]")
 	@ApiModelProperty(example = "This is description")

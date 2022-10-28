@@ -2,9 +2,7 @@ package restfulAPI;
 
 import java.util.List;
 
-import javax.annotation.Resource;
 import javax.annotation.security.RolesAllowed;
-import javax.ejb.EJBContext;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -18,8 +16,10 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 
 import entity.CourseDate;
 import entity.DateEvaluation;
@@ -42,8 +42,8 @@ public class RestLectorService {
 	@PersistenceContext(unitName = "primary")
 	EntityManager em;
 
-	@Resource
-	EJBContext ejb;
+	@Context
+	SecurityContext ctx;
 
 	@Inject
 	private IResponseBuilder rb;
@@ -55,7 +55,7 @@ public class RestLectorService {
     @GET
     @ApiOperation(value = "Finds all courses that Lector teaches")
     public List<StudyCourse> getMyCourses() {
-        return lectorService.getLectorCourses(ejb.getCallerPrincipal().getName());
+        return lectorService.getLectorCourses(ctx.getUserPrincipal().getName());
     }
 
 	@Path("/course")
@@ -123,6 +123,7 @@ public class RestLectorService {
 	@POST
 	@ApiOperation(value = "Sets evaluation in date evaluation with specified id")
 	@Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response addEvaluation(
 		@ApiParam(required = true, example = "10") @PathParam("dateEvaluation_uid") long dateEvaluation_uid,
 		@ApiParam(required = true, example = "69", value = "Value between 0-100")
@@ -130,6 +131,6 @@ public class RestLectorService {
 			@DecimalMin(value = "0.0", message = "Must be greater than 0.0 [RestLectorService.addEvaluation]")
 			@DecimalMax(value = "100.0", message = "Must be smaller than 100.0 [RestLectorService.addEvaluation]") double evaluation
 	) {
-		return rb.createResponse(lectorService.addEvaluation(ejb.getCallerPrincipal().getName(), evaluation, dateEvaluation_uid));
+		return rb.createResponse(lectorService.addEvaluation(ctx.getUserPrincipal().getName(), evaluation, dateEvaluation_uid));
 	}
 }

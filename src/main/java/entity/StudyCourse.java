@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -16,11 +18,14 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import io.swagger.annotations.ApiModel;
+
 @Entity
 @NamedQueries({
 	@NamedQuery(name = "getGuarants", query = "select s.guarant from StudyCourse s"),
 	@NamedQuery(name = "getGuarant", query = "select s.guarant from StudyCourse s where s.id = :course_uid")
 })
+@ApiModel
 public class StudyCourse implements Serializable{
 
 	@Id
@@ -34,12 +39,18 @@ public class StudyCourse implements Serializable{
     List<CourseDate> dates;
 
     @ManyToMany
+	@JoinTable(name = "Studies", joinColumns = @JoinColumn(name = "course_id"),
+               inverseJoinColumns = @JoinColumn(name = "student_id"))
     List<Student> students;
 
 	@ManyToMany
+	@JoinTable(name = "Registrations", joinColumns = @JoinColumn(name = "course_id"),
+				inverseJoinColumns = @JoinColumn(name = "student_id"))
     List<Student> studentsWithRegistration;
 
     @ManyToMany
+	@JoinTable(name = "Teaches", joinColumns = @JoinColumn(name = "course_id"),
+				inverseJoinColumns = @JoinColumn(name = "lector_id"))
     List<Lector> lectors;
 
 	@NotNull(message = "description cannot be null [StudyCourse]")

@@ -24,11 +24,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Student extends Person{
 
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "students")
 	@XmlElement
 	List<StudyCourse> studyCourses;
 
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "studentsWithRegistration")
 	@XmlElement
 	List<StudyCourse> studyCoursesHasRegistration;
 

@@ -31,7 +31,7 @@ public class Lector extends Person {
 	@XmlElement
 	List<DateEvaluation> dates;
 
-	@ManyToMany
+	@ManyToMany(mappedBy = "lectors")
 	@XmlElement
 	List<StudyCourse> coursesLector;
 

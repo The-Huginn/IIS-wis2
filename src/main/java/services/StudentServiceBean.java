@@ -67,8 +67,8 @@ public class StudentServiceBean extends PersonServiceBean implements IStudentSer
 
             student.addStudyCourseHasRegistration(course);
             course.addStudentWithRegistration(student);
-            em.persist(course);
             em.persist(student);
+            em.persist(course);
         } catch (Exception e) {
             e.printStackTrace();
             return ("Creating date evaluation failed bacause of: "

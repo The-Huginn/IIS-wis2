@@ -94,13 +94,14 @@ public class GuarantServiceBean extends PersonServiceBean implements IGuarantSer
     }
 
     @Override
-    public String createCourseDate(long course_uid, long room_uid) {
+    public String createCourseDate(long course_uid, long room_uid, String description) {
         try {
             CourseDate date = new CourseDate();
             StudyCourse course = em.find(StudyCourse.class, course_uid);
             Room room = em.find(Room.class, room_uid);
             date.setCourse(course);
             date.setRoom(room);
+            date.setDescription(description);
             em.persist(date);
         } catch (Exception e) {
             e.printStackTrace();

@@ -21,5 +21,5 @@ public interface IGuarantService extends IPersonService{
 
     public List<Room> getRooms();
 
-    public String createCourseDate(long course_uid, long room_uid);
+    public String createCourseDate(long course_uid, long room_uid, String description);
 }
