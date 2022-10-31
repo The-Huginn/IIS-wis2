@@ -141,15 +141,15 @@
         <subsystem xmlns="urn:jboss:domain:datasources:6.0">
             <datasources>
                 <datasource jndi-name="java:jboss/PostgresDS" pool-name="PostgresDS">
-                    <connection-url>jdbc:postgresql://localhost:5432/wis2db</connection-url>
-                    <driver>postgresql</driver>
+                    <connection-url>jdbc:postgresql://${env.DB_HOST}:${env.DB_PORT}/${env.DB_DB}</connection-url>
+                    <driver>${env.DB_DRIVER}</driver>
                     <pool>
                         <min-pool-size>0</min-pool-size>
                         <max-pool-size>20</max-pool-size>
                     </pool>
                     <security>
-                        <user-name>wis2admin</user-name>
-                        <password>wis2Admin</password>
+                        <user-name>${env.DB_USER}</user-name>
+                        <password>${env.DB_PWD}</password>
                     </security>
                     <validation>
                         <valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLValidConnectionChecker"/>
@@ -409,6 +409,11 @@
                     <file-store/>
                 </distributed-cache>
             </cache-container>
+            <cache-container name="security" default-cache="auth-cache">
+                <local-cache name="auth-cache">
+                    <expiration lifespan="10" max-idle="60000"/>
+                </local-cache>
+            </cache-container>
             <cache-container name="hibernate" default-cache="local-query" modules="org.infinispan.hibernate-cache">
                 <transport lock-timeout="60000"/>
                 <local-cache name="local-query">
@@ -520,7 +525,7 @@
         <subsystem xmlns="urn:jboss:domain:sar:1.0"/>
         <subsystem xmlns="urn:jboss:domain:security:2.0">
             <security-domains>
-                <security-domain name="other" cache-type="default">
+                <security-domain name="other" cache-type="infinispan">
                     <authentication>
                         <login-module code="Remoting" flag="optional">
                             <module-option name="password-stacking" value="useFirstPass"/>
@@ -530,12 +535,12 @@
                         </login-module>
                     </authentication>
                 </security-domain>
-                <security-domain name="jboss-web-policy" cache-type="default">
+                <security-domain name="jboss-web-policy" cache-type="infinispan">
                     <authorization>
                         <policy-module code="Delegating" flag="required"/>
                     </authorization>
                 </security-domain>
-                <security-domain name="jboss-ejb-policy" cache-type="default">
+                <security-domain name="jboss-ejb-policy" cache-type="infinispan">
                     <authorization>
                         <policy-module code="Delegating" flag="required"/>
                     </authorization>
