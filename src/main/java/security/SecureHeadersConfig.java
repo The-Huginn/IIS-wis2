@@ -1,3 +1,8 @@
+/**
+ * @author Rastislav Budinsky
+ * @file SecureHeadersConfig.java
+ * @brief This file is copied and adjust from https://github.com/kiegroup/appformer/ repository. Thanks for that!
+ */
 package security;
 
 import javax.servlet.FilterConfig;

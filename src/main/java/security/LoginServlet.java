@@ -1,3 +1,9 @@
+/**
+ * @author Rastislav Budinsky
+ * @file LoginServlet.java
+ * @brief This file is copied and adjust from https://github.com/kiegroup/appformer/ repository. Thanks for that!
+ */
+
 package security;
 
 import java.io.IOException;
