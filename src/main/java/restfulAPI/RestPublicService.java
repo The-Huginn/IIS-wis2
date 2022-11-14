@@ -32,9 +32,10 @@ public class RestPublicService {
 	@GET
 	@Path("/json")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String helloJSON() throws NoSuchAlgorithmException{
-		System.err.println(ctx.getUserPrincipal().getName());
-		return ctx.getUserPrincipal().getName() + ctx.isUserInRole("admin");
+	public String helloJSON() throws NoSuchAlgorithmException {
+		String user = ctx.getUserPrincipal() == null ? "Anonymous" : ctx.getUserPrincipal().getName();
+		System.err.println(user);
+		return user + " " + (ctx.getUserPrincipal() == null ? "Definitely false" : ctx.isUserInRole("admin"));
 		// return x.stub();
 		// System.err.println(service.encode("admin:ApplicationRealm:admin"));
 		// System.err.println("JBoss Home: "+System.getProperty("jboss.server.config.dir"));
