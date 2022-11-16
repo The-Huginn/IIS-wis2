@@ -33,6 +33,7 @@ public class SecurityRealmBean implements IAdminSecurityRealm, ISecurityRealm {
 	private final String ROLES_FILE = "/application-roles.properties";
 	private final String APPLICATION_REALM = ":ApplicationRealm:";
 	private final String PATH = System.getProperty("jboss.server.config.dir");
+	private final List<String> existingRoles = Arrays.asList("admin", "security", "student", "lector");
 
 	private String encode(final String username, final String password) throws NoSuchAlgorithmException {
 
@@ -58,6 +59,11 @@ public class SecurityRealmBean implements IAdminSecurityRealm, ISecurityRealm {
 	}
 
 	public String addRoles(final String username, final List<String> roles) {
+		
+		if (roles.stream().filter(line -> !existingRoles.contains(line)).count() > 0)
+			return "Some of the roles are not allowed";
+
+
 		String previousUser = null;
 		String newFile = "";
 		String serializedRoles = roles.stream()
@@ -250,7 +256,8 @@ public class SecurityRealmBean implements IAdminSecurityRealm, ISecurityRealm {
 
 	public List<String> getUsers() {
 		try (Stream<String> stream = Files.lines(Paths.get(PATH + USERS_FILE))) {
-			return stream.map(line -> line.trim().substring(0, line.indexOf("=")))
+			return stream.filter(line -> line.contains("="))
+						.map(line -> line.trim().substring(0, line.indexOf("=")))
 						.collect(Collectors.toList());
 		} catch (Exception e) {
 			e.printStackTrace();
