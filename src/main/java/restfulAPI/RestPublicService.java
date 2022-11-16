@@ -30,7 +30,7 @@ public class RestPublicService {
 	ISecurityRealm x;
 
 	@GET
-	@Path("/json")
+	@Path("/login")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String helloJSON() throws NoSuchAlgorithmException {
 		String user = ctx.getUserPrincipal() == null ? "Anonymous" : ctx.getUserPrincipal().getName();
