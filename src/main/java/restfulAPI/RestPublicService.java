@@ -3,18 +3,24 @@ package restfulAPI;
 import java.security.NoSuchAlgorithmException;
 
 import javax.annotation.security.PermitAll;
-import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-import services.interfaces.ISecurityRealm;
+import entity.StudyCourse;
+import helper.IResponseBuilder;
+import services.interfaces.IPublicService;
+import services.interfaces.IPublicService.UserInfo;
 
 @Path("/public")
 @RequestScoped
@@ -27,35 +33,27 @@ public class RestPublicService {
 	SecurityContext ctx;
 
 	@Inject
-	ISecurityRealm x;
+	IPublicService service;
+
+	@Inject
+	IResponseBuilder rb;
 
 	@GET
-	@Path("/login")
+	@Path("/userinfo")
+	public UserInfo helloJSON() throws NoSuchAlgorithmException {
+		return service.getUserInfo(ctx);
+	}
+
+	@POST
+	@Path("/pwd_update")
+	public Response updatePassword(@FormParam("oldPassword") String oldPassword, @FormParam("newPassword") String newPassword) {
+		return rb.createResponse(service.updatePassword(ctx, oldPassword, newPassword));
+	}
+
+	@Path("/course/{uid}")
+	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public String helloJSON() throws NoSuchAlgorithmException {
-		String user = ctx.getUserPrincipal() == null ? "Anonymous" : ctx.getUserPrincipal().getName();
-		System.err.println(user);
-		return user + " " + (ctx.getUserPrincipal() == null ? "Definitely false" : ctx.isUserInRole("admin"));
-		// return x.stub();
-		// System.err.println(service.encode("admin:ApplicationRealm:admin"));
-		// System.err.println("JBoss Home: "+System.getProperty("jboss.server.config.dir"));
-		// return service.encode("admin:ApplicationRealm:admin");
-		// service.stub();
-		// return "Hello World by JSON!";
+	public StudyCourse getStudyCourse(@PathParam("uid") long uid) {
+		return service.getStudyCourse(uid);
 	}
-
-	@GET
-	@Path("/xml")
-	@RolesAllowed("admin")
-	@Produces(MediaType.APPLICATION_XML)
-	public String helloXML() {
-		return "Hello World by XML!";
-	}
-
-	// @Path("/course/{uid}")
-	// @GET
-	// @Produces(MediaType.APPLICATION_JSON)
-	// public StudyCourse getStudyCourse(@PathParam("uid") long uid) {
-	// 	return em.find(StudyCourse.class, uid);
-	// }
 }
