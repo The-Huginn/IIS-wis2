@@ -220,7 +220,6 @@ public class SecurityRealmBean implements IAdminSecurityRealm, ISecurityRealm {
 	@PermitAll
 	public String updatePassword(final String username, final String oldPassword, final String newPassword) {
 		String oldPasswordDecoded = Base64Decode(oldPassword);
-		String newPasswordDecoded = Base64Decode(newPassword);
 		String newFile = "";
 		
 		try (BufferedReader reader = new BufferedReader(new FileReader(PATH + USERS_FILE))) {
@@ -253,7 +252,7 @@ public class SecurityRealmBean implements IAdminSecurityRealm, ISecurityRealm {
 			return e.getMessage();
 		}
 
-		return addUser(username, newPasswordDecoded);
+		return addUser(username, newPassword);
 	}
 
 	public List<String> getUsers() {

@@ -46,6 +46,7 @@ public class RestPublicService {
 
 	@POST
 	@Path("/pwd_update")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response updatePassword(@FormParam("oldPassword") String oldPassword, @FormParam("newPassword") String newPassword) {
 		return rb.createResponse(service.updatePassword(ctx, oldPassword, newPassword));
 	}
