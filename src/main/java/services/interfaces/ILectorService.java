@@ -3,6 +3,7 @@ package services.interfaces;
 import java.util.List;
 
 import entity.DateEvaluation;
+import entity.Lector;
 import entity.Student;
 import entity.StudyCourse;
 
@@ -17,4 +18,6 @@ public interface ILectorService extends IPersonService{
     public List<DateEvaluation> getEvaluationsInDate(long courseDate_uid);
 
     public DateEvaluation getDateEvaluation(long dateEvaluation_uid);
+
+    public String updatePersonalInfo(String lectorUsername, Lector lectorUpdate);
 }

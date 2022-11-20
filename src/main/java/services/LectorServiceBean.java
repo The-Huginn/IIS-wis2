@@ -67,4 +67,25 @@ public class LectorServiceBean extends PersonServiceBean implements ILectorServi
     public DateEvaluation getDateEvaluation(long dateEvaluation_uid) {
         return em.find(DateEvaluation.class, dateEvaluation_uid);
     }
+
+    @Override
+    public String updatePersonalInfo(String lectorUsername, Lector lectorUpdate) {
+        TypedQuery<Lector> query = em.createNamedQuery("Lector.findUid", Lector.class);
+        query.setParameter("username", lectorUsername);
+        List<Lector> reply = query.getResultList();
+        if (reply.isEmpty())
+            return "Unable to find Lector.";
+            Lector lector = reply.get(0);
+        try {
+            lector.setName(lectorUpdate.getName());
+            lector.setSurname(lectorUpdate.getSurname());
+            em.persist(lector);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ("Update personal info failed bacause of: "
+                    + Optional.ofNullable(e.getMessage()).orElse("Unable to perist object"));
+        }
+
+        return null;
+    }
 }

@@ -77,4 +77,25 @@ public class StudentServiceBean extends PersonServiceBean implements IStudentSer
 
         return null;
     }
+
+    @Override
+    public String updatePersonalInfo(String studentUsername, Student studentUpdate) {
+        TypedQuery<Student> query = em.createNamedQuery("Student.findUid", Student.class);
+        query.setParameter("username", studentUsername);
+        List<Student> reply = query.getResultList();
+        if (reply.isEmpty())
+            return "Unable to find Student.";
+        Student student = reply.get(0);
+        try {
+            student.setName(studentUpdate.getName());
+            student.setSurname(studentUpdate.getSurname());
+            em.persist(student);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ("Update personal info failed bacause of: "
+                    + Optional.ofNullable(e.getMessage()).orElse("Unable to perist object"));
+        }
+
+        return null;
+    }
 }

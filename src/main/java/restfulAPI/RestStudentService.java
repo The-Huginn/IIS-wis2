@@ -10,6 +10,7 @@ import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -19,6 +20,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 import entity.CourseDate;
+import entity.Student;
 import entity.StudyCourse;
 import helper.IResponseBuilder;
 import io.swagger.annotations.Api;
@@ -105,5 +107,15 @@ public class RestStudentService {
 		@ApiParam(required = true, example = "10") @PathParam("courseDate_uid") long courseDate_uid
 	) {
 		return rb.createResponse(studentService.createDateEvaluation(ctx.getUserPrincipal().getName(), courseDate_uid));
+	}
+
+    @Path("/update")
+	@PUT
+	@ApiOperation(value = "Updates students personal info")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response updateStudentsPersonalInfo(
+		@ApiParam(required = true) Student student
+	) {
+		return rb.createResponse(studentService.updatePersonalInfo(ctx.getUserPrincipal().getName(), student));
 	}
 }

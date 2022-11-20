@@ -13,6 +13,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -23,6 +24,7 @@ import javax.ws.rs.core.SecurityContext;
 
 import entity.CourseDate;
 import entity.DateEvaluation;
+import entity.Lector;
 import entity.Student;
 import entity.StudyCourse;
 import helper.IResponseBuilder;
@@ -132,5 +134,15 @@ public class RestLectorService {
 			@DecimalMax(value = "100.0", message = "Must be smaller than 100.0 [RestLectorService.addEvaluation]") double evaluation
 	) {
 		return rb.createResponse(lectorService.addEvaluation(ctx.getUserPrincipal().getName(), evaluation, dateEvaluation_uid));
+	}
+
+    @Path("/update")
+	@PUT
+	@ApiOperation(value = "Updates lectors personal info")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response updateLectorsPersonalInfo(
+		@ApiParam(required = true) Lector lector
+	) {
+		return rb.createResponse(lectorService.updatePersonalInfo(ctx.getUserPrincipal().getName(), lector));
 	}
 }
