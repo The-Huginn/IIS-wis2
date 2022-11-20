@@ -17,6 +17,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.faces.bean.ApplicationScoped;
@@ -216,6 +217,7 @@ public class SecurityRealmBean implements IAdminSecurityRealm, ISecurityRealm {
 		return null;
 	}
 
+	@PermitAll
 	public String updatePassword(final String username, final String oldPassword, final String newPassword) {
 		String oldPasswordDecoded = Base64Decode(oldPassword);
 		String newPasswordDecoded = Base64Decode(newPassword);
@@ -266,6 +268,7 @@ public class SecurityRealmBean implements IAdminSecurityRealm, ISecurityRealm {
 		return null;
 	}
 
+	@PermitAll
 	public List<String> getRoles(final String username) {
 		try (Stream<String> stream = Files.lines(Paths.get(PATH + ROLES_FILE))) {
 			return stream.filter(line -> line.trim().startsWith(username + "="))

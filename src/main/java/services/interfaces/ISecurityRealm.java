@@ -1,5 +1,7 @@
 package services.interfaces;
 
+import java.util.List;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -20,4 +22,7 @@ public interface ISecurityRealm {
 		@Pattern(regexp = "^[a-zA-Z0-9@%!#^?.$]+$", message = "new password must contain only valid chars [a-zA-Z0-9@%!#^?.$] [AdminService.updatePassword]")
 		String newPassword
 		);
+
+    public List<String> getRoles(
+      @NotNull(message = "username cannot be null [AdminService.getRoles]") String username);
 }
