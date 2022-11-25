@@ -62,7 +62,7 @@ public class RestGuarantService {
 	public List<Student> getStudentsWithRegistration(
         @ApiParam(required = true, example = "10") @PathParam("course_uid") long course_uid
         ) {
-		return guarantService.getStudentsWithRegistration(course_uid);
+		return guarantService.getStudentsWithRegistration(ctx.getUserPrincipal().getName(), course_uid);
 	}
 
 	@Path("/course/addStudent/{course_uid}/{student_uid}")
@@ -73,7 +73,7 @@ public class RestGuarantService {
 		@ApiParam(required = true, example = "10") @PathParam("course_uid") long course_uid,
 		@ApiParam(required = true, example = "10") @PathParam("student_uid") long student_uid
 	) {
-		return rb.createResponse(guarantService.addStudentToCourse(course_uid, student_uid));
+		return rb.createResponse(guarantService.addStudentToCourse(ctx.getUserPrincipal().getName(), course_uid, student_uid));
 	}
 
 	@Path("/course/addLector/{course_uid}/{lector_uid}")
@@ -84,7 +84,7 @@ public class RestGuarantService {
 		@ApiParam(required = true, example = "10") @PathParam("course_uid") long course_uid,
 		@ApiParam(required = true, example = "10") @PathParam("lector_uid") long lector_uid
 	) {
-		return rb.createResponse(guarantService.addLectorToCourse(course_uid, lector_uid));
+		return rb.createResponse(guarantService.addLectorToCourse(ctx.getUserPrincipal().getName(), course_uid, lector_uid));
 	}
 
     @Path("/courseDate/{course_uid}/{room_uid}")
@@ -97,20 +97,20 @@ public class RestGuarantService {
 		@ApiParam(required = true, example = "10") @PathParam("room_uid") long room_uid,
 		@ApiParam(required = true, example = "This is description.") @FormParam("description") String description
 	) {
-        return rb.createResponse(guarantService.createCourseDate(course_uid, room_uid, description));
+        return rb.createResponse(guarantService.createCourseDate(ctx.getUserPrincipal().getName(), course_uid, room_uid, description));
 	}
 
 	@Path("/room")
     @GET
     @ApiOperation(value = "Returns list of all rooms.")
     public List<Room> getRooms() {
-        return guarantService.getRooms();
+        return guarantService.getRooms(ctx.getUserPrincipal().getName());
     }
 
 	@Path("/lector")
 	@GET
 	@ApiOperation(value = "Returns list of all lectors.")
 	public List<Lector> getLectors() {
-		return guarantService.getLectors();
+		return guarantService.getLectors(ctx.getUserPrincipal().getName());
 	}
 }

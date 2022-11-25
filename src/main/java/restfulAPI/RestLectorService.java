@@ -82,7 +82,7 @@ public class RestLectorService {
     public List<Student> getStudentsInCourse(
 		@ApiParam(required = true, example = "10") @PathParam("course_uid") long course_uid
 		) {
-        return lectorService.getStudentsInCourse(course_uid);
+        return lectorService.getStudentsInCourse(ctx.getUserPrincipal().getName(), course_uid);
     }
 
 	@Path("/courseDate/{course_uid}")
@@ -109,7 +109,7 @@ public class RestLectorService {
     public List<DateEvaluation> getEvaluationsInDate(
 		@ApiParam(required = true, example = "10") @PathParam("courseDate_uid") long courseDate_uid
 		) {
-        return lectorService.getEvaluationsInDate(courseDate_uid);
+        return lectorService.getEvaluationsInDate(ctx.getUserPrincipal().getName(), courseDate_uid);
     }
 
 	@Path("/dateEvaluation/{dateEvaluation_uid}")
@@ -118,7 +118,7 @@ public class RestLectorService {
     public DateEvaluation getDateEvaluation(
         @ApiParam(required = true, example = "10") @PathParam("dateEvaluation_uid") long dateEvaluation_uid
         ) {
-        return lectorService.getDateEvaluation(dateEvaluation_uid);
+        return lectorService.getDateEvaluation(ctx.getUserPrincipal().getName(), dateEvaluation_uid);
     }
 
     @Path("/dateEvaluation/{dateEvaluation_uid}")

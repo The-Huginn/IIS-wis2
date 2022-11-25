@@ -22,58 +22,83 @@ import io.swagger.annotations.ApiModel;
 
 @Entity
 @NamedQueries({
-	@NamedQuery(name = "getGuarants", query = "select s.guarant from StudyCourse s"),
-	@NamedQuery(name = "getGuarant", query = "select s.guarant from StudyCourse s where s.id = :course_uid")
+		@NamedQuery(name = "getGuarants", query = "select s.guarant from StudyCourse s"),
+		@NamedQuery(name = "getGuarant", query = "select s.guarant from StudyCourse s where s.id = :course_uid")
 })
 @ApiModel
-public class StudyCourse implements Serializable{
+public class StudyCourse implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	long id;
 
-    @ManyToOne
-    Lector guarant;
+	@ManyToOne
+	Lector guarant;
 
-    @OneToMany(mappedBy = "course")
-    List<CourseDate> dates;
-
-    @ManyToMany
-	@JoinTable(name = "Studies", joinColumns = @JoinColumn(name = "course_id"),
-               inverseJoinColumns = @JoinColumn(name = "student_id"))
-    List<Student> students;
+	@OneToMany(mappedBy = "course")
+	List<CourseDate> dates;
 
 	@ManyToMany
-	@JoinTable(name = "Registrations", joinColumns = @JoinColumn(name = "course_id"),
-				inverseJoinColumns = @JoinColumn(name = "student_id"))
-    List<Student> studentsWithRegistration;
+	@JoinTable(name = "Studies", joinColumns = @JoinColumn(name = "course_id"), inverseJoinColumns = @JoinColumn(name = "student_id"))
+	List<Student> students;
 
-    @ManyToMany
-	@JoinTable(name = "Teaches", joinColumns = @JoinColumn(name = "course_id"),
-				inverseJoinColumns = @JoinColumn(name = "lector_id"))
-    List<Lector> lectors;
+	@ManyToMany
+	@JoinTable(name = "Registrations", joinColumns = @JoinColumn(name = "course_id"), inverseJoinColumns = @JoinColumn(name = "student_id"))
+	List<Student> studentsWithRegistration;
+
+	@ManyToMany
+	@JoinTable(name = "Teaches", joinColumns = @JoinColumn(name = "course_id"), inverseJoinColumns = @JoinColumn(name = "lector_id"))
+	List<Lector> lectors;
+
+	@NotNull(message = "code cannot be null [StudyCourse]")
+	@Pattern(regexp = "^[a-zA-Z0-9-+:!?.@#$%^&*()/<>{} ]+$", message = "code must contain only valid chars [a-zA-Z0-9-+:!?.@#$%^&*()/<>{}] [StudyCourse]")
+	String code;
+
+	@NotNull(message = "name cannot be null [StudyCourse]")
+	@Pattern(regexp = "^[a-zA-Z0-9-+:!?.@#$%^&*()/<>{} ]+$", message = "name must contain only valid chars [a-zA-Z0-9-+:!?.@#$%^&*()/<>{}] [StudyCourse]")
+	String name;
 
 	@NotNull(message = "description cannot be null [StudyCourse]")
 	@Pattern(regexp = "^[a-zA-Z0-9-+:!?.@#$%^&*()/<>{} ]+$", message = "description must contain only valid chars [a-zA-Z0-9-+:!?.@#$%^&*()/<>{}] [StudyCourse]")
 	String description;
-	
+
 	public StudyCourse() {
 		dates = new ArrayList<CourseDate>();
 		students = new ArrayList<Student>();
 		studentsWithRegistration = new ArrayList<Student>();
 		lectors = new ArrayList<Lector>();
 	}
-	
+
 	public String getDescription() {
 		return description;
 	}
-	
+
 	public void setDescription(String newDescription) {
 		description = newDescription;
 	}
 
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String newCode) {
+		code = newCode;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String newName) {
+		code = newName;
+	}
+
 	public void setGuarant(Lector guarant) {
 		this.guarant = guarant;
+	}
+
+	public Lector getGuarant() {
+		return this.guarant;
 	}
 
 	public void addLector(Lector lector) {

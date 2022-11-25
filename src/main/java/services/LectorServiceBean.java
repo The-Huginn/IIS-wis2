@@ -17,65 +17,77 @@ import services.interfaces.ILectorService;
 public class LectorServiceBean extends PersonServiceBean implements ILectorService {
 
     @Override
-    public List<StudyCourse> getLectorCourses(String lectorUsername) {
+    public Lector isValidLector(String lectorUsername) {
         TypedQuery<Lector> query = em.createNamedQuery("Lector.findUid", Lector.class);
         query.setParameter("username", lectorUsername);
         List<Lector> reply = query.getResultList();
         if (reply.isEmpty())
             return null;
-        Lector lector = reply.get(0);
+        else
+            return reply.get(0);
+    }
+
+    @Override
+    public List<StudyCourse> getLectorCourses(String lectorUsername) {
+        Lector lector = isValidLector(lectorUsername);
+        if (lector == null)
+            return null;
         TypedQuery<StudyCourse> queryCourses = em.createNamedQuery("Lector.courses", StudyCourse.class)
-                                                    .setParameter("username", lector.getUsername());
+                .setParameter("username", lector.getUsername());
         return queryCourses.getResultList();
     }
 
     @Override
     public String addEvaluation(String lectorUsername, double evaluation, long dateEvaluation_uid) {
-        TypedQuery<Lector> query = em.createNamedQuery("Lector.findUid", Lector.class);
-		query.setParameter("username", lectorUsername);
-		List<Lector> reply = query.getResultList();
-		if (reply.isEmpty())
-			return "Unable to find Lector in this course.";
-		Lector lector = reply.get(0);
-		try {
-			DateEvaluation dateEval = em.find(DateEvaluation.class, dateEvaluation_uid);
-			dateEval.setLector(lector);
-			dateEval.setEvaluation(evaluation);
-			em.persist(dateEval);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return ("Adding evaluation failed bacause of: " + Optional.ofNullable(e.getMessage()).orElse("Unable to perist object"));
-		}
+        Lector lector = isValidLector(lectorUsername);
+        if (lector == null)
+            return "Unauthorized.";
+        try {
+            DateEvaluation dateEval = em.find(DateEvaluation.class, dateEvaluation_uid);
+            dateEval.setLector(lector);
+            dateEval.setEvaluation(evaluation);
+            em.persist(dateEval);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ("Adding evaluation failed bacause of: "
+                    + Optional.ofNullable(e.getMessage()).orElse("Unable to perist object"));
+        }
 
-		return null;
+        return null;
     }
 
     @Override
-    public List<Student> getStudentsInCourse(long course_uid) {
+    public List<Student> getStudentsInCourse(String lectorUsername, long course_uid) {
+        Lector lector = isValidLector(lectorUsername);
+        if (lector == null)
+            return null;
         TypedQuery<Student> query = em.createNamedQuery("Student.inCourse", Student.class);
         query.setParameter("id", course_uid);
         return query.getResultList();
     }
 
     @Override
-    public List<DateEvaluation> getEvaluationsInDate(long courseDate_uid) {
+    public List<DateEvaluation> getEvaluationsInDate(String lectorUsername, long courseDate_uid) {
+        Lector lector = isValidLector(lectorUsername);
+        if (lector == null)
+            return null;
         CourseDate course = em.find(CourseDate.class, courseDate_uid);
         return course.getDateEvaluations();
     }
 
     @Override
-    public DateEvaluation getDateEvaluation(long dateEvaluation_uid) {
+    public DateEvaluation getDateEvaluation(String lectorUsername, long dateEvaluation_uid) {
+        Lector lector = isValidLector(lectorUsername);
+        if (lector == null)
+            return null;
         return em.find(DateEvaluation.class, dateEvaluation_uid);
     }
 
     @Override
     public String updatePersonalInfo(String lectorUsername, Lector lectorUpdate) {
-        TypedQuery<Lector> query = em.createNamedQuery("Lector.findUid", Lector.class);
-        query.setParameter("username", lectorUsername);
-        List<Lector> reply = query.getResultList();
-        if (reply.isEmpty())
-            return "Unable to find Lector.";
-            Lector lector = reply.get(0);
+        Lector lector = isValidLector(lectorUsername);
+        if (lector == null)
+            return "Unauthorized.";
         try {
             lector.setName(lectorUpdate.getName());
             lector.setSurname(lectorUpdate.getSurname());
