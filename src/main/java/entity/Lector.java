@@ -49,4 +49,28 @@ public class Lector extends Person {
 	public void addCourse(StudyCourse course) {
 		this.coursesLector.add(course);
 	}
+
+	public List<StudyCourse> getCoursesGuarant() {
+		return this.coursesGuarant;
+	}
+
+	public void setCoursesGuarant(List<StudyCourse> courses) {
+		this.coursesGuarant = courses;
+	}
+
+	public List<DateEvaluation> getDates() {
+		return this.dates;
+	}
+
+	public void setDates(List<DateEvaluation> dates) {
+		this.dates = dates;
+	}
+
+	public List<StudyCourse> getCoursesLector() {
+		return this.coursesLector;
+	}
+
+	public void setCoursesLector(List<StudyCourse> courses) {
+		this.coursesLector = courses;
+	}
 }

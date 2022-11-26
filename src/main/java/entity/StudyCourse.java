@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,21 +33,21 @@ public class StudyCourse implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	long id;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	Lector guarant;
 
-	@OneToMany(mappedBy = "course")
+	@OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
 	List<CourseDate> dates;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "Studies", joinColumns = @JoinColumn(name = "course_id"), inverseJoinColumns = @JoinColumn(name = "student_id"))
 	List<Student> students;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "Registrations", joinColumns = @JoinColumn(name = "course_id"), inverseJoinColumns = @JoinColumn(name = "student_id"))
 	List<Student> studentsWithRegistration;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "Teaches", joinColumns = @JoinColumn(name = "course_id"), inverseJoinColumns = @JoinColumn(name = "lector_id"))
 	List<Lector> lectors;
 
@@ -90,7 +91,7 @@ public class StudyCourse implements Serializable {
 	}
 
 	public void setName(String newName) {
-		code = newName;
+		name = newName;
 	}
 
 	public void setGuarant(Lector guarant) {

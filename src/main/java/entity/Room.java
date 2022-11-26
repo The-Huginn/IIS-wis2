@@ -58,4 +58,12 @@ public class Room implements Serializable{
 	public void setDescription(String newDescription) {
 		description = newDescription;
 	}
+
+	public List<CourseDate> getDates() {
+		return this.dates;
+	}
+
+	public void setDates(List<CourseDate> dates) {
+		this.dates = dates;
+	}
 }

@@ -37,12 +37,24 @@ public class DateEvaluation implements Serializable{
 		evaluation = newEvaluation;
 	}
 
+	public Student getStudent() {
+		return this.student;
+	}
+
 	public void setStudent(Student student) {
 		this.student = student;
 	}
 
-	public void setCourseDate(CourseDate date) {
+	public CourseDate getDate() {
+		return this.date;
+	}
+
+	public void setDate(CourseDate date) {
 		this.date = date;
+	}
+
+	public Lector getLector() {
+		return this.lector;
 	}
 
 	public void setLector(Lector lector) {

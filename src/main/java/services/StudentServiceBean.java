@@ -45,7 +45,7 @@ public class StudentServiceBean extends PersonServiceBean implements IStudentSer
         try {
             DateEvaluation dateEval = new DateEvaluation();
             dateEval.setStudent(student);
-            dateEval.setCourseDate(courseDate);
+            dateEval.setDate(courseDate);
             em.persist(dateEval);
         } catch (Exception e) {
             e.printStackTrace();
