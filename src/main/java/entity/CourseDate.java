@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.NamedQuery;
+import javax.persistence.NamedQueries;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -25,6 +27,9 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 @Entity
+@NamedQueries({
+	@NamedQuery(name = "CourseDate.inCourse", query = "select new entity.CourseDate(l.id, l.description) from CourseDate l join l.course d where d.id = :id")
+})
 @XmlRootElement(name = "course date")
 @XmlAccessorType(XmlAccessType.FIELD)
 @ApiModel
@@ -54,6 +59,11 @@ public class CourseDate implements Serializable{
 	public CourseDate() {
         evaluations = new ArrayList<DateEvaluation>();
     }
+
+	public CourseDate(long id, String description) {
+		this.id = id;
+		this.description = description;
+	}
 	
 	public String getDescription() {
 		return description;

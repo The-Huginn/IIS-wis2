@@ -6,7 +6,6 @@ import java.util.Optional;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 
-import entity.CourseDate;
 import entity.DateEvaluation;
 import entity.Lector;
 import entity.Student;
@@ -71,8 +70,9 @@ public class LectorServiceBean extends PersonServiceBean implements ILectorServi
         Lector lector = isValidLector(lectorUsername);
         if (lector == null)
             return null;
-        CourseDate course = em.find(CourseDate.class, courseDate_uid);
-        return course.getDateEvaluations();
+        TypedQuery<DateEvaluation> query = em.createNamedQuery("DateEvaluation.inCourseDate", DateEvaluation.class);
+        query.setParameter("id", courseDate_uid);
+        return query.getResultList();
     }
 
     @Override

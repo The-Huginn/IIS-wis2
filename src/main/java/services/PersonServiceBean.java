@@ -19,7 +19,7 @@ public class PersonServiceBean implements IPersonService {
 
     @Override
     public List<StudyCourse> getCourses() {
-        TypedQuery<StudyCourse> query = em.createQuery("select s from StudyCourse s", StudyCourse.class);
+        TypedQuery<StudyCourse> query = em.createNamedQuery("StudyCourse.getAll", StudyCourse.class);
         return query.getResultList();
     }
 
@@ -30,8 +30,9 @@ public class PersonServiceBean implements IPersonService {
 
     @Override
     public List<CourseDate> getDatesInCourse(long course_uid) {
-        StudyCourse course = em.find(StudyCourse.class, course_uid);
-        return course.getDates();
+        TypedQuery<CourseDate> query = em.createNamedQuery("CourseDate.inCourse", CourseDate.class);
+        query.setParameter("id", course_uid);
+        return query.getResultList();
     }
 
     @Override
