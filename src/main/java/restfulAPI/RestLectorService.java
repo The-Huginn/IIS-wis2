@@ -22,7 +22,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-import entity.CourseDate;
+import dtos.Common.CourseDateDTO;
 import entity.Lector;
 import entity.StudyCourse;
 import helper.IResponseBuilder;
@@ -95,7 +95,7 @@ public class RestLectorService {
 	@Path("/courseDate/{courseDate_uid}")
     @GET
     @ApiOperation(value = "Finds course date with specified id")
-    public CourseDate getCourseDate(
+    public CourseDateDTO getCourseDate(
         @ApiParam(required = true, example = "10") @PathParam("courseDate_uid") long courseDate_uid
         ) {
         return lectorService.getCourseDate(courseDate_uid);
