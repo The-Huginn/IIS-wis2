@@ -18,6 +18,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -27,6 +29,7 @@ import io.swagger.annotations.ApiModelProperty;
 @NamedQuery(name = "Person.checkUsername", query = "select p from Person p where p.username = :username")
 @XmlRootElement(name = "person")
 @XmlAccessorType(XmlAccessType.FIELD)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public abstract class Person implements Serializable {
 
 	@Id
