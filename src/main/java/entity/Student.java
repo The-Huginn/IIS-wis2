@@ -76,4 +76,8 @@ public class Student extends Person {
 	public void setStudyCoursesHasRegistration(List<StudyCourse> studyCoursesHasRegistration) {
 		this.studyCoursesHasRegistration = studyCoursesHasRegistration;
 	}
+
+	public List<DateEvaluation> getDates() {
+		return dates;
+	}
 }
