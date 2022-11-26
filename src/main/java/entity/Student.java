@@ -19,9 +19,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @Entity
 @NamedQueries({
 	@NamedQuery(name = "Student.getAll", query = "select new entity.Student(s.id, s.name, s.surname, s.username) from Student s"),
-	@NamedQuery(name = "Student.findUid", query = "select s from Student s where s.username = :username"),
-	@NamedQuery(name = "Student.inCourse", query = "select distinct(s) from Student s join s.studyCourses l where l.id = :id"),
-	@NamedQuery(name = "Student.courses", query = "select distinct(s) from StudyCourse s join s.students l where l.username = :username")
+	@NamedQuery(name = "Student.findUid", query = "select new entity.Student(s.id, s.name, s.surname, s.username) from Student s where s.username = :username"),
+	@NamedQuery(name = "Student.inCourse", query = "select new entity.Student(s.id, s.name, s.surname, s.username) from Student s join s.studyCourses l where l.id = :id"),
+	@NamedQuery(name = "Student.courses", query = "select new entity.Student(s.id, s.name, s.surname, s.username) from StudyCourse s join s.students l where l.username = :username")
 })
 @XmlRootElement(name = "student")
 @XmlAccessorType(XmlAccessType.FIELD)
