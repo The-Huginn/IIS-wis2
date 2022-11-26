@@ -45,6 +45,7 @@ public interface Common {
         }
     }
 
+    @XmlRootElement
     public class CourseDateDTO {
 
         @XmlElement
