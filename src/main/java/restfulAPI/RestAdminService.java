@@ -16,6 +16,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import dtos.Common.StudyCourseDTO;
 import entity.Lector;
 import entity.Room;
 import entity.Student;
@@ -93,7 +94,7 @@ public class RestAdminService {
     @Path("/course/{course_uid}")
     @GET
     @ApiOperation(value = "Finds course with specified uid")
-    public StudyCourse getCourse(
+    public StudyCourseDTO getCourse(
         @ApiParam(required = true, example = "10") @PathParam("course_uid") long course_uid
         ) {
         return adminService.getCourse(course_uid);

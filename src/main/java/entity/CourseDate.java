@@ -43,9 +43,10 @@ public class CourseDate implements Serializable{
 	long id;
 
     @ManyToOne(fetch=FetchType.LAZY, optional = false)
+	@JsonIgnore
     StudyCourse course;
 
-    @ManyToOne(fetch=FetchType.LAZY, optional = false)
+    @ManyToOne(fetch=FetchType.EAGER, optional = false)
     Room room;
 
     @OneToMany(mappedBy = "date")

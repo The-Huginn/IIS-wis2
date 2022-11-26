@@ -8,17 +8,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQuery;
-import javax.persistence.NamedQueries;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @Entity
-@NamedQueries({
-	@NamedQuery(name = "DateEvaluation.inCourseDate", query = "select new entity.DateEvaluation(l.id, l.evaluation) from DateEvaluation l join l.date d where d.id = :id")
-})
+// @NamedQueries({
+// 	@NamedQuery(name = "DateEvaluation.inCourseDate", query = "select new entity.DateEvaluation(l.id, l.evaluation) from DateEvaluation l join l.date d where d.id = :id")
+// })
 @XmlRootElement
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DateEvaluation implements Serializable{
@@ -28,15 +27,16 @@ public class DateEvaluation implements Serializable{
 	@XmlElement
 	long id;
 
-    @ManyToOne(fetch=FetchType.LAZY, optional = false)
+    @ManyToOne(fetch=FetchType.EAGER, optional = false)
 	@XmlElement
     Student student;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
 	@XmlElement
     Lector lector;
 
     @ManyToOne(fetch=FetchType.LAZY, optional = false)
+	@JsonIgnore
     CourseDate date;
 
 	@XmlElement

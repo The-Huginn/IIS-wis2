@@ -30,7 +30,10 @@ import io.swagger.annotations.ApiModel;
 @NamedQueries({
 	@NamedQuery(name = "StudyCourse.getAll", query = "select s from StudyCourse s join fetch s.guarant"),
 	@NamedQuery(name = "StudyCourse.getGuarants", query = "select new entity.Lector(g.id, g.name, g.surname, g.username) from StudyCourse s join s.guarant g"),
-	@NamedQuery(name = "StudyCourse.getGuarant", query = "select new entity.Lector(g.id, g.name, g.surname, g.username) from StudyCourse s join s.guarant g where s.id = :course_uid")
+	@NamedQuery(name = "StudyCourse.getGuarant", query = "select new entity.Lector(g.id, g.name, g.surname, g.username) from StudyCourse s join s.guarant g where s.id = :course_uid"),
+	@NamedQuery(name = "StudyCourse.students", query = "select students from StudyCourse s join s.students students where s.id = :id"),
+	@NamedQuery(name = "StudyCourse.studentsWithRegistration", query = "select students from StudyCourse s join s.studentsWithRegistration students where s.id = :id"),
+	@NamedQuery(name = "StudyCourse.lectors", query = "select lectors from StudyCourse s join s.lectors lectors where s.id = :id")
 })
 @ApiModel
 @XmlRootElement

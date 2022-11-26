@@ -2,6 +2,7 @@ package services.interfaces;
 
 import java.util.List;
 
+import dtos.Common.StudyCourseDTO;
 import entity.Lector;
 import entity.Room;
 import entity.Student;
@@ -21,7 +22,7 @@ public interface IAdminService {
 
     public List<StudyCourse> getCourses();
 
-    public StudyCourse getCourse(long course_uid);
+    public StudyCourseDTO getCourse(long course_uid);
     
     public List<Student> getStudents();
     

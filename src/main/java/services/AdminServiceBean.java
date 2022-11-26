@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import dtos.Common.StudyCourseDTO;
 import entity.Lector;
 import entity.Person;
 import entity.Room;
@@ -127,11 +128,12 @@ public class AdminServiceBean implements IAdminService {
     }
 
     @Override
-    public StudyCourse getCourse(long course_uid) {
+    public StudyCourseDTO getCourse(long course_uid) {
         // TypedQuery<Student> query1 = em.createQuery("select new entity.Student(s.id, s.name, s.surname, s.username) from Student s join s.studyCourses sc where sc.id = :id", Student.class);
         // TypedQuery<StudyCourse> query2 = em.createQuery("select new entity.StudyCourse(s.id, s.code, s.name, s.description) from StudyCourse s where s.id = :id", StudyCourse.class);
         // return query.getSingleResult();
-        return null;
+        StudyCourse course = em.find(StudyCourse.class, course_uid);
+        return new StudyCourseDTO(course, course.getStudents(), course.getStudentsWithRegistration(), course.getLectors());
     }
 
     @Override
