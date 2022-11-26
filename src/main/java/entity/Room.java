@@ -17,6 +17,7 @@ import javax.validation.constraints.Pattern;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import io.swagger.annotations.ApiModel;
@@ -38,7 +39,7 @@ public class Room implements Serializable{
 
     @OneToMany(mappedBy = "room")
 	@NotNull(message = "dates cannot be null [Room]")
-	@XmlElement
+	@JsonIgnore
     List<CourseDate> dates;
 
 	@Column(nullable = false)

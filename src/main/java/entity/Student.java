@@ -11,9 +11,9 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @Entity
@@ -30,15 +30,15 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 public class Student extends Person {
 
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "students")
-	@XmlElement
+	@JsonIgnore
 	List<StudyCourse> studyCourses;
 
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "studentsWithRegistration")
-	@XmlElement
+	@JsonIgnore
 	List<StudyCourse> studyCoursesHasRegistration;
 
 	@OneToMany(mappedBy = "student")
-	@XmlElement
+	@JsonIgnore
     List<DateEvaluation> dates;
 
 	public Student() {

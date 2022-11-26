@@ -10,9 +10,9 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @Entity
@@ -28,15 +28,15 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 public class Lector extends Person {
 
 	@OneToMany(mappedBy = "guarant")
-	@XmlElement
+	@JsonIgnore
 	List<StudyCourse> coursesGuarant;
 
 	@OneToMany(mappedBy = "lector")
-	@XmlElement
+	@JsonIgnore
 	List<DateEvaluation> dates;
 
 	@ManyToMany(mappedBy = "lectors")
-	@XmlElement
+	@JsonIgnore
 	List<StudyCourse> coursesLector;
 
 	public Lector() {

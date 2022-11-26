@@ -21,13 +21,14 @@ import javax.validation.constraints.Pattern;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import io.swagger.annotations.ApiModel;
 
 @Entity
 @NamedQueries({
-	@NamedQuery(name = "StudyCourse.getAll", query = "select new entity.StudyCourse(s.id, s.code, s.name, s.description) from StudyCourse s"),
+	@NamedQuery(name = "StudyCourse.getAll", query = "select new entity.StudyCourse(s.id, s.code, s.name, s.description, s.guarant) from StudyCourse s"),
 	@NamedQuery(name = "StudyCourse.getGuarants", query = "select new entity.Lector(g.id, g.name, g.surname, g.username) from StudyCourse s join s.guarant g"),
 	@NamedQuery(name = "StudyCourse.getGuarant", query = "select new entity.Lector(g.id, g.name, g.surname, g.username) from StudyCourse s join s.guarant g where s.id = :course_uid")
 })
@@ -46,18 +47,22 @@ public class StudyCourse implements Serializable {
 	Lector guarant;
 
 	@OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
+	@JsonIgnore
 	List<CourseDate> dates;
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "Studies", joinColumns = @JoinColumn(name = "course_id"), inverseJoinColumns = @JoinColumn(name = "student_id"))
+	@JsonIgnore
 	List<Student> students;
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "Registrations", joinColumns = @JoinColumn(name = "course_id"), inverseJoinColumns = @JoinColumn(name = "student_id"))
+	@JsonIgnore
 	List<Student> studentsWithRegistration;
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "Teaches", joinColumns = @JoinColumn(name = "course_id"), inverseJoinColumns = @JoinColumn(name = "lector_id"))
+	@JsonIgnore
 	List<Lector> lectors;
 
 	@NotNull(message = "code cannot be null [StudyCourse]")
@@ -90,12 +95,12 @@ public class StudyCourse implements Serializable {
 		this.description = description;
 	}
 
-	public StudyCourse(long id, String code, String name, String description, List<Student> students) {
+	public StudyCourse(long id, String code, String name, String description, Lector guarant) {
 		this.id = id;
-		this.students = students;
 		this.code = code;
 		this.name = name;
 		this.description = description;
+		this.guarant = guarant;
 	}
 
 	public String getDescription() {

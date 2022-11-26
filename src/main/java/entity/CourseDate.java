@@ -19,6 +19,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -48,6 +49,7 @@ public class CourseDate implements Serializable{
     Room room;
 
     @OneToMany(mappedBy = "date")
+	@JsonIgnore
     List<DateEvaluation> evaluations;
 
 	@NotNull(message = "description cannot be null [CourseData]")
