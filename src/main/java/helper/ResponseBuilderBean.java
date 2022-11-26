@@ -1,21 +1,23 @@
 package helper;
 
-import javax.ws.rs.core.MediaType;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.ResponseBuilder;
 
 public class ResponseBuilderBean implements IResponseBuilder {
-    
-    private ResponseBuilder rb;
+
 
     public Response createResponse(String message) {
 
-        if (message == null)
-            rb = Response.ok().entity("Request succesful.\n");
-        else
-            rb = Response.status(Response.Status.BAD_REQUEST)
-                        .entity(message);
+        Map<String, String> jsonValues = new HashMap<>();
 
-        return rb.type(MediaType.APPLICATION_JSON).build();
+        if (message == null) {
+            jsonValues.put("reply", "Request succesful.");
+            return Response.status(200).entity(jsonValues).build();
+        } else {
+            jsonValues.put("reply", message);
+            return Response.status(Response.Status.BAD_REQUEST).entity(jsonValues).build();
+        }
     }
 }
