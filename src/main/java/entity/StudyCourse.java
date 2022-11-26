@@ -45,7 +45,7 @@ public class StudyCourse implements Serializable {
 	@XmlElement
 	long id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@XmlElement
 	Lector guarant;
 
