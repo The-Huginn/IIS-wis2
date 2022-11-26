@@ -47,6 +47,7 @@ public class CourseDate implements Serializable{
     StudyCourse course;
 
     @ManyToOne(fetch=FetchType.EAGER, optional = false)
+	@XmlElement
     Room room;
 
     @OneToMany(mappedBy = "date")
