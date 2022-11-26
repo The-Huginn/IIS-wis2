@@ -1,6 +1,7 @@
 package dtos;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -8,6 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import entity.CourseDate;
+import entity.DateEvaluation;
 import entity.Lector;
 import entity.Student;
 import entity.StudyCourse;
@@ -34,28 +36,25 @@ public interface Common {
         @XmlElement
         List<Lector> lectors;
 
-        // general
-        public StudyCourseDTO(StudyCourse course, List<CourseDate> dates, List<Student> students, List<Student> studentsWithRegistration, List<Lector> lectors) {
+        public StudyCourseDTO(StudyCourse course) {
             this.course = course;
-            this.dates = dates;
-            this.students = students;
-            this.studentsWithRegistration = studentsWithRegistration;
-            this.lectors = lectors;
+            this.dates = course.getDates().stream().collect(Collectors.toList());
+            this.students = course.getStudents().stream().collect(Collectors.toList());
+            this.studentsWithRegistration = course.getStudentsWithRegistration().stream().collect(Collectors.toList());
+            this.lectors = course.getLectors().stream().collect(Collectors.toList());
         }
-        
-        // admin
-        public StudyCourseDTO(StudyCourse course, List<Student> students, List<Student> studentsWithRegistration, List<Lector> lectors) {
-            this.course = course;
-            this.students = students;
-            this.studentsWithRegistration = studentsWithRegistration;
-            this.lectors = lectors;
-        }
+    }
 
-        // student
-        public StudyCourseDTO(StudyCourse course, List<CourseDate> dates, List<Lector> lectors) {
-            this.course = course;
-            this.dates = dates;
-            this.lectors = lectors;
+    public class CourseDateDTO {
+
+        @XmlElement
+        CourseDate course;
+
+        @XmlElement
+        List<DateEvaluation> evaluations;
+
+        public CourseDateDTO(CourseDate course) {
+            evaluations = course.getDateEvaluations().stream().collect(Collectors.toList());
         }
     }
 }

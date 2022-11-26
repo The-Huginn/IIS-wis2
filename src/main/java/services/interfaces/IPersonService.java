@@ -2,6 +2,7 @@ package services.interfaces;
 
 import java.util.List;
 
+import dtos.Common.CourseDateDTO;
 import entity.CourseDate;
 import entity.StudyCourse;
 
@@ -13,5 +14,5 @@ public interface IPersonService {
     
     public List<CourseDate> getDatesInCourse(long course_uid);
 
-    public CourseDate getCourseDate(long courseDate_uid);
+    public CourseDateDTO getCourseDate(long courseDate_uid);
 }

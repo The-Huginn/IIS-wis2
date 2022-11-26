@@ -3,7 +3,6 @@ package services;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -130,11 +129,7 @@ public class AdminServiceBean implements IAdminService {
 
     @Override
     public StudyCourseDTO getCourse(long course_uid) {
-        // TypedQuery<Student> query1 = em.createQuery("select new entity.Student(s.id, s.name, s.surname, s.username) from Student s join s.studyCourses sc where sc.id = :id", Student.class);
-        // TypedQuery<StudyCourse> query2 = em.createQuery("select new entity.StudyCourse(s.id, s.code, s.name, s.description) from StudyCourse s where s.id = :id", StudyCourse.class);
-        // return query.getSingleResult();
-        StudyCourse course = em.find(StudyCourse.class, course_uid);
-        return new StudyCourseDTO(course, course.getStudents().stream().collect(Collectors.toList()), course.getStudentsWithRegistration().stream().collect(Collectors.toList()), course.getLectors().stream().collect(Collectors.toList()));
+        return new StudyCourseDTO(em.find(StudyCourse.class, course_uid));
     }
 
     @Override
