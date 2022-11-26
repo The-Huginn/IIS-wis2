@@ -60,8 +60,9 @@ public class GuarantServiceBean extends PersonServiceBean implements IGuarantSer
         Lector lector = isValidGuarant(lectorUsername, course_uid);
         if (lector == null)
             return null;
-        StudyCourse course = em.find(StudyCourse.class, course_uid);
-        return course.getStudentsWithRegistration();
+        TypedQuery<Student> queryRegistration = em.createNamedQuery("Student.coursesWithRegistration", Student.class)
+                .setParameter("id", course_uid);
+        return queryRegistration.getResultList();
     }
 
     @Override
@@ -99,7 +100,7 @@ public class GuarantServiceBean extends PersonServiceBean implements IGuarantSer
         Lector lector = isValidLector(lectorUsername);
         if (lector == null)
             return null;
-        TypedQuery<Lector> query = em.createQuery("select l from Lector l", Lector.class);
+        TypedQuery<Lector> query = em.createNamedQuery("Lector.getAll", Lector.class);
         return query.getResultList();
     }
 
@@ -132,7 +133,7 @@ public class GuarantServiceBean extends PersonServiceBean implements IGuarantSer
         Lector lector = isValidLector(lectorUsername);
         if (lector == null)
             return null;
-        TypedQuery<Room> query = em.createQuery("select r from Room r", Room.class);
+        TypedQuery<Room> query = em.createNamedQuery("Room.getAll", Room.class);
         return query.getResultList();
     }
 

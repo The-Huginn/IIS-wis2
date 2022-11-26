@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @Entity
 @NamedQueries({
 		@NamedQuery(name = "Lector.getAll", query = "select new entity.Lector(l.id, l.name, l.surname, l.username) from Lector l"),
-		@NamedQuery(name = "Lector.findUid", query = "select new entity.Lector(l.id, l.name, l.surname, l.username) from Lector l where l.username = :username"),
+		@NamedQuery(name = "Lector.findUid", query = "select l from Lector l where l.username = :username"),
 		@NamedQuery(name = "Lector.courses", query = "select new entity.StudyCourse(s.id, s.code, s.name, s.description) from StudyCourse s join s.lectors l where l.username = :username"),
 		@NamedQuery(name = "Guarant.courses", query = "select new entity.StudyCourse(s.id, s.code, s.name, s.description) from StudyCourse s join s.guarant g where g.username = :username")
 })

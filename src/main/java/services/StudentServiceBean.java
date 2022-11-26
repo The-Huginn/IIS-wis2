@@ -17,7 +17,7 @@ public class StudentServiceBean extends PersonServiceBean implements IStudentSer
 
     @Override
     public Student isValidStudent(String studentUsername) {
-        TypedQuery<Student> query = em.createNamedQuery("Lector.findUid", Student.class);
+        TypedQuery<Student> query = em.createNamedQuery("Student.findUid", Student.class);
         query.setParameter("username", studentUsername);
         List<Student> reply = query.getResultList();
         if (reply.isEmpty())

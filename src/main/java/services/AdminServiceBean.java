@@ -122,7 +122,7 @@ public class AdminServiceBean implements IAdminService {
 
     @Override
     public List<StudyCourse> getCourses() {
-        TypedQuery<StudyCourse> query = em.createQuery("StudyCourse.getAll", StudyCourse.class);
+        TypedQuery<StudyCourse> query = em.createNamedQuery("StudyCourse.getAll", StudyCourse.class);
         return query.getResultList();
     }
 
@@ -169,7 +169,7 @@ public class AdminServiceBean implements IAdminService {
 
     @Override
     public List<Lector> getGuarants() {
-        TypedQuery<Lector> query = em.createNamedQuery("getGuarants", Lector.class);
+        TypedQuery<Lector> query = em.createNamedQuery("StudyCourse.getGuarants", Lector.class);
         return query.getResultList();
     }
 
