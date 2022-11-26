@@ -42,15 +42,15 @@ public class CourseDate implements Serializable{
 	@XmlElement
 	long id;
 
-    @ManyToOne(fetch=FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JsonIgnore
     StudyCourse course;
 
-    @ManyToOne(fetch=FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@XmlElement
     Room room;
 
-    @OneToMany(mappedBy = "date")
+    @OneToMany(mappedBy = "date", fetch = FetchType.EAGER)
 	@JsonIgnore
     List<DateEvaluation> evaluations;
 
