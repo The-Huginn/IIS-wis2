@@ -16,6 +16,9 @@ import javax.validation.constraints.Pattern;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import javax.xml.bind.annotation.XmlAccessType;
 
 import io.swagger.annotations.ApiModel;
@@ -25,6 +28,7 @@ import io.swagger.annotations.ApiModelProperty;
 @XmlRootElement(name = "course date")
 @XmlAccessorType(XmlAccessType.FIELD)
 @ApiModel
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CourseDate implements Serializable{
 
 	@Id

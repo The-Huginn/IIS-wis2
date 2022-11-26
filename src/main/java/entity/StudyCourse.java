@@ -21,15 +21,19 @@ import javax.validation.constraints.Pattern;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import io.swagger.annotations.ApiModel;
 
 @Entity
 @NamedQueries({
-		@NamedQuery(name = "getGuarants", query = "select s.guarant from StudyCourse s"),
-		@NamedQuery(name = "getGuarant", query = "select s.guarant from StudyCourse s where s.id = :course_uid")
+	@NamedQuery(name = "StudyCourse.getAll", query = "select new entity.StudyCourse(s.id, s.code, s.name, s.description) from StudyCourse s"),
+	@NamedQuery(name = "getGuarants", query = "select s.guarant from StudyCourse s"),
+	@NamedQuery(name = "getGuarant", query = "select s.guarant from StudyCourse s where s.id = :course_uid")
 })
 @ApiModel
 @XmlRootElement
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class StudyCourse implements Serializable {
 
 	@Id
@@ -81,6 +85,14 @@ public class StudyCourse implements Serializable {
 	public StudyCourse(long id, String code, String name, String description) {
 		this.id = id;
 		// this.guarant = guarant;
+		this.code = code;
+		this.name = name;
+		this.description = description;
+	}
+
+	public StudyCourse(long id, String code, String name, String description, List<Student> students) {
+		this.id = id;
+		this.students = students;
 		this.code = code;
 		this.name = name;
 		this.description = description;

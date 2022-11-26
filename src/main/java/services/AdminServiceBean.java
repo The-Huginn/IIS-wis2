@@ -122,18 +122,21 @@ public class AdminServiceBean implements IAdminService {
 
     @Override
     public List<StudyCourse> getCourses() {
-        TypedQuery<StudyCourse> query = em.createQuery("select new entity.StudyCourse(s.id, s.code, s.name, s.description) from StudyCourse s", StudyCourse.class);
+        TypedQuery<StudyCourse> query = em.createQuery("StudyCourse.getAll", StudyCourse.class);
         return query.getResultList();
     }
 
     @Override
     public StudyCourse getCourse(long course_uid) {
-        return em.find(StudyCourse.class, course_uid);
+        // TypedQuery<Student> query1 = em.createQuery("select new entity.Student(s.id, s.name, s.surname, s.username) from Student s join s.studyCourses sc where sc.id = :id", Student.class);
+        // TypedQuery<StudyCourse> query2 = em.createQuery("select new entity.StudyCourse(s.id, s.code, s.name, s.description) from StudyCourse s where s.id = :id", StudyCourse.class);
+        // return query.getSingleResult();
+        return null;
     }
 
     @Override
     public List<Student> getStudents() {
-        TypedQuery<Student> query = em.createQuery("select s from Student s", Student.class);
+        TypedQuery<Student> query = em.createNamedQuery("Student.getAll", Student.class);
         return query.getResultList();
     }
 
@@ -144,7 +147,7 @@ public class AdminServiceBean implements IAdminService {
 
     @Override
     public List<Lector> getLectors() {
-        TypedQuery<Lector> query = em.createQuery("select distinct(l) from Lector l", Lector.class);
+        TypedQuery<Lector> query = em.createNamedQuery("Lector.getAll", Lector.class);
         return query.getResultList();
     }
 
@@ -155,7 +158,7 @@ public class AdminServiceBean implements IAdminService {
 
     @Override
     public List<Room> getRooms() {
-        TypedQuery<Room> query = em.createQuery("select new entity.Room(r.id, r.code, r.description) from Room r", Room.class);
+        TypedQuery<Room> query = em.createNamedQuery("Room.getAll", Room.class);
         return query.getResultList();
     }
 

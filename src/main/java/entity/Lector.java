@@ -13,14 +13,18 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 @Entity
 @NamedQueries({
+		@NamedQuery(name = "Lector.getAll", query = "select new entity.Lector(l.id, l.name, l.surname, l.username) from Lector l"),
 		@NamedQuery(name = "Lector.findUid", query = "select l from Lector l where l.username = :username"),
 		@NamedQuery(name = "Lector.courses", query = "select distinct(s) from StudyCourse s join s.lectors l where l.username = :username"),
 		@NamedQuery(name = "Guarant.courses", query = "select distinct(s) from StudyCourse s where s.guarant.username = :username")
 })
 @XmlRootElement(name = "lector")
 @XmlAccessorType(XmlAccessType.FIELD)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Lector extends Person {
 
 	@OneToMany(mappedBy = "guarant")
@@ -44,6 +48,10 @@ public class Lector extends Person {
 		coursesGuarant.add(null);
 		coursesLector.add(null);
 		dates.add(null);
+	}
+
+	public Lector(long id, String name, String surname, String username) {
+		super(id, name, surname, username);
 	}
 
 	public void addCourse(StudyCourse course) {

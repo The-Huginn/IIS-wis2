@@ -59,6 +59,13 @@ public abstract class Person implements Serializable {
 	// Default constructor, needed
 	public Person() {};
 
+	public Person(long id, String name, String surname, String username) {
+		this.id = id;
+		this.name = name;
+		this.surname = surname;
+		this.username = username;
+	}
+
 	public String getName() {
 		return name;
 	}

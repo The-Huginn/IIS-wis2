@@ -14,15 +14,19 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 @Entity
 @NamedQueries({
+	@NamedQuery(name = "Student.getAll", query = "select new entity.Student(s.id, s.name, s.surname, s.username) from Student s"),
 	@NamedQuery(name = "Student.findUid", query = "select s from Student s where s.username = :username"),
 	@NamedQuery(name = "Student.inCourse", query = "select distinct(s) from Student s join s.studyCourses l where l.id = :id"),
 	@NamedQuery(name = "Student.courses", query = "select distinct(s) from StudyCourse s join s.students l where l.username = :username")
 })
 @XmlRootElement(name = "student")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Student extends Person{
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class Student extends Person {
 
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "students")
 	@XmlElement
@@ -42,6 +46,10 @@ public class Student extends Person{
 		studyCourses = new ArrayList<StudyCourse>();
 		studyCoursesHasRegistration = new ArrayList<StudyCourse>();
 		dates = new ArrayList<DateEvaluation>();
+	}
+
+	public Student(long id, String name, String surname, String username) {
+		super(id, name, surname, username);
 	}
 
 	public void addCourse(StudyCourse studyCourse) {

@@ -11,8 +11,11 @@ import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 @Entity
 @XmlRootElement
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class DateEvaluation implements Serializable{
 
 	@Id
