@@ -10,6 +10,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import dtos.Common.LectorDTO;
+import dtos.Common.RoomDTO;
+import dtos.Common.StudentDTO;
 import dtos.Common.StudyCourseDTO;
 import entity.Lector;
 import entity.Person;
@@ -139,8 +142,8 @@ public class AdminServiceBean implements IAdminService {
     }
 
     @Override
-    public Student getStudent(long student_uid) {
-        return em.find(Student.class, student_uid);
+    public StudentDTO getStudent(long student_uid) {
+        return new StudentDTO(em.find(Student.class, student_uid));
     }
 
     @Override
@@ -150,8 +153,8 @@ public class AdminServiceBean implements IAdminService {
     }
 
     @Override
-    public Lector getLector(long lector_uid) {
-        return em.find(Lector.class, lector_uid);
+    public LectorDTO getLector(long lector_uid) {
+        return new LectorDTO(em.find(Lector.class, lector_uid));
     }
 
     @Override
@@ -161,8 +164,8 @@ public class AdminServiceBean implements IAdminService {
     }
 
     @Override
-    public Room getRoom(long room_uid) {
-        return em.find(Room.class, room_uid);
+    public RoomDTO getRoom(long room_uid) {
+        return new RoomDTO(em.find(Room.class, room_uid));
     }
 
     @Override

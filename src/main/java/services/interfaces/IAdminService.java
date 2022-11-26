@@ -2,6 +2,9 @@ package services.interfaces;
 
 import java.util.List;
 
+import dtos.Common.LectorDTO;
+import dtos.Common.RoomDTO;
+import dtos.Common.StudentDTO;
 import dtos.Common.StudyCourseDTO;
 import entity.Lector;
 import entity.Room;
@@ -26,15 +29,15 @@ public interface IAdminService {
     
     public List<Student> getStudents();
     
-    public Student getStudent(long student_uid);
+    public StudentDTO getStudent(long student_uid);
 
     public List<Lector> getLectors();
 
-    public Lector getLector(long lector_uid);
+    public LectorDTO getLector(long lector_uid);
 
     public List<Room> getRooms();
 
-    public Room getRoom(long room_uid);
+    public RoomDTO getRoom(long room_uid);
 
     public List<Lector> getGuarants();
 
