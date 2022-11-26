@@ -29,6 +29,7 @@ public class CourseDate implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@XmlElement
 	long id;
 
     @ManyToOne(fetch=FetchType.LAZY, optional = false)
@@ -40,10 +41,10 @@ public class CourseDate implements Serializable{
     @OneToMany(mappedBy = "date")
     List<DateEvaluation> evaluations;
 
-	@XmlElement
 	@NotNull(message = "description cannot be null [CourseData]")
 	@Pattern(regexp = "^[a-zA-Z0-9-+:!?.@#$%^&*()/<>{} ]+$", message = "room must contain only valid chars [a-zA-Z0-9-+:!?.@#$%^&*()/<>{}] [CourseData]")
 	@ApiModelProperty(example = "This is description")
+	@XmlElement
 	String description;
 	
 	public CourseDate() {

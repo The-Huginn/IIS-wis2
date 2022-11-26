@@ -43,6 +43,12 @@ public class Room implements Serializable{
 		dates = new ArrayList<CourseDate>();
 	}
 
+	public Room(long id, String code, String description) {
+		this.id = id;
+		this.code = code;
+		this.description = description;
+	}
+
 	public String getCode() {
 		return code;
 	}

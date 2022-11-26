@@ -18,6 +18,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import io.swagger.annotations.ApiModel;
 
@@ -27,13 +29,16 @@ import io.swagger.annotations.ApiModel;
 		@NamedQuery(name = "getGuarant", query = "select s.guarant from StudyCourse s where s.id = :course_uid")
 })
 @ApiModel
+@XmlRootElement
 public class StudyCourse implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@XmlElement
 	long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
+	@XmlElement
 	Lector guarant;
 
 	@OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
@@ -53,14 +58,17 @@ public class StudyCourse implements Serializable {
 
 	@NotNull(message = "code cannot be null [StudyCourse]")
 	@Pattern(regexp = "^[a-zA-Z0-9-+:!?.@#$%^&*()/<>{} ]+$", message = "code must contain only valid chars [a-zA-Z0-9-+:!?.@#$%^&*()/<>{}] [StudyCourse]")
+	@XmlElement
 	String code;
 
 	@NotNull(message = "name cannot be null [StudyCourse]")
 	@Pattern(regexp = "^[a-zA-Z0-9-+:!?.@#$%^&*()/<>{} ]+$", message = "name must contain only valid chars [a-zA-Z0-9-+:!?.@#$%^&*()/<>{}] [StudyCourse]")
+	@XmlElement
 	String name;
 
 	@NotNull(message = "description cannot be null [StudyCourse]")
 	@Pattern(regexp = "^[a-zA-Z0-9-+:!?.@#$%^&*()/<>{} ]+$", message = "description must contain only valid chars [a-zA-Z0-9-+:!?.@#$%^&*()/<>{}] [StudyCourse]")
+	@XmlElement
 	String description;
 
 	public StudyCourse() {
@@ -68,6 +76,14 @@ public class StudyCourse implements Serializable {
 		students = new ArrayList<Student>();
 		studentsWithRegistration = new ArrayList<Student>();
 		lectors = new ArrayList<Lector>();
+	}
+
+	public StudyCourse(long id, String code, String name, String description) {
+		this.id = id;
+		// this.guarant = guarant;
+		this.code = code;
+		this.name = name;
+		this.description = description;
 	}
 
 	public String getDescription() {

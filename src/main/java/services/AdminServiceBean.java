@@ -122,7 +122,7 @@ public class AdminServiceBean implements IAdminService {
 
     @Override
     public List<StudyCourse> getCourses() {
-        TypedQuery<StudyCourse> query = em.createQuery("select s from StudyCourse s", StudyCourse.class);
+        TypedQuery<StudyCourse> query = em.createQuery("select new entity.StudyCourse(s.id, s.code, s.name, s.description) from StudyCourse s", StudyCourse.class);
         return query.getResultList();
     }
 
@@ -155,7 +155,7 @@ public class AdminServiceBean implements IAdminService {
 
     @Override
     public List<Room> getRooms() {
-        TypedQuery<Room> query = em.createQuery("select r from Room r", Room.class);
+        TypedQuery<Room> query = em.createQuery("select new entity.Room(r.id, r.code, r.description) from Room r", Room.class);
         return query.getResultList();
     }
 
