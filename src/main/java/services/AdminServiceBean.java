@@ -131,7 +131,6 @@ public class AdminServiceBean implements IAdminService {
         // TypedQuery<Student> query1 = em.createQuery("select new entity.Student(s.id, s.name, s.surname, s.username) from Student s join s.studyCourses sc where sc.id = :id", Student.class);
         // TypedQuery<StudyCourse> query2 = em.createQuery("select new entity.StudyCourse(s.id, s.code, s.name, s.description) from StudyCourse s where s.id = :id", StudyCourse.class);
         // return query.getSingleResult();
-        TypedQuery<StudyCourse> query = em.createQuery("select new entity.StudyCourse(s.id, s.code, s.name, s.description, s.guarant) from StudyCourse s", StudyCourse.class);
         return null;
     }
 

@@ -41,9 +41,9 @@ public class StudyCourse implements Serializable {
 	@XmlElement
 	long id;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@XmlElement
-	Person guarant;
+	Lector guarant;
 
 	@OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
 	List<CourseDate> dates;
@@ -90,12 +90,12 @@ public class StudyCourse implements Serializable {
 		this.description = description;
 	}
 
-	public StudyCourse(long id, String code, String name, String description, Person guarant) {
+	public StudyCourse(long id, String code, String name, String description, List<Student> students) {
 		this.id = id;
+		this.students = students;
 		this.code = code;
 		this.name = name;
 		this.description = description;
-		this.guarant = guarant;
 	}
 
 	public String getDescription() {
@@ -126,7 +126,7 @@ public class StudyCourse implements Serializable {
 		this.guarant = guarant;
 	}
 
-	public Person getGuarant() {
+	public Lector getGuarant() {
 		return this.guarant;
 	}
 
