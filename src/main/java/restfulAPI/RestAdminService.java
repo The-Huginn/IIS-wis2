@@ -47,7 +47,7 @@ public class RestAdminService {
 	@Path("/course")
 	@POST
 	public Response createCourse(StudyCourse course) {
-		return rb.createResponse(adminService.createCourse(course));
+        return rb.createStudyCourseResponse(adminService.createCourse(course));
 	}
 	
 	@Path("/lector")

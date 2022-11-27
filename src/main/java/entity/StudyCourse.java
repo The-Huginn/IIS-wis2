@@ -106,6 +106,10 @@ public class StudyCourse implements Serializable {
 		this.guarant = guarant;
 	}
 
+	public long getId() {
+		return this.id;
+	}
+
 	public String getDescription() {
 		return description;
 	}

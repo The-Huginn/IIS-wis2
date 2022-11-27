@@ -20,4 +20,18 @@ public class ResponseBuilderBean implements IResponseBuilder {
             return Response.status(Response.Status.BAD_REQUEST).entity(jsonValues).build();
         }
     }
+
+    @Override
+    public Response createStudyCourseResponse(String message) {
+        Map<String, String> jsonValues = new HashMap<>();
+        
+        if (message.substring(0, 3).equals("Id:")) {
+            jsonValues.put("id", message.substring(3));
+            jsonValues.put("reply", "Request succesful.");
+            return Response.status(200).entity(jsonValues).build();
+        } else {
+            jsonValues.put("reply", message);
+            return Response.status(Response.Status.BAD_REQUEST).entity(jsonValues).build();
+        }
+    }
 }

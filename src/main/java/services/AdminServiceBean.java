@@ -36,11 +36,11 @@ public class AdminServiceBean implements IAdminService {
 
         try {
             em.persist(course);
+            em.flush();
+            return "Id:" + course.getId();
         } catch (Exception e) {
             return Optional.ofNullable(e.getMessage()).orElse("Unable to perist object");
         }
-
-        return null;
     }
 
     @Override

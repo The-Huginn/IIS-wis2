@@ -10,4 +10,6 @@ public interface IResponseBuilder {
      * @return Success if message set to null, otherwise error
      */
     public Response createResponse(String message);
+
+    public Response createStudyCourseResponse(String message);
 }
