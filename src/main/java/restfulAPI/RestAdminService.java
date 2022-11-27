@@ -16,6 +16,9 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import dtos.Common.LectorDTO;
+import dtos.Common.RoomDTO;
+import dtos.Common.StudentDTO;
 import dtos.Common.StudyCourseDTO;
 import entity.Lector;
 import entity.Room;
@@ -110,7 +113,7 @@ public class RestAdminService {
     @Path("/student/{student_uid}")
     @GET
     @ApiOperation(value = "Finds student with specified uid")
-    public Student getStudent(
+    public StudentDTO getStudent(
         @ApiParam(required = true, example = "10") @PathParam("student_uid") long student_uid
         ) {
         return adminService.getStudent(student_uid);
@@ -126,7 +129,7 @@ public class RestAdminService {
     @Path("/lector/{lector_uid}")
     @GET
     @ApiOperation(value = "Finds lector with specified uid")
-    public Lector getLector(
+    public LectorDTO getLector(
         @ApiParam(required = true, example = "10") @PathParam("lector_uid") long lector_uid
         ) {
         return adminService.getLector(lector_uid);
@@ -142,7 +145,7 @@ public class RestAdminService {
     @Path("/room/{room_uid}")
     @GET
     @ApiOperation("Finds room with specified uid")
-    public Room getRoom(
+    public RoomDTO getRoom(
         @ApiParam(required = true, example = "10") @PathParam("room_uid") long room_uid
         ) {
         return adminService.getRoom(room_uid);
