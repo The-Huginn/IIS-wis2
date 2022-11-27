@@ -8,6 +8,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import dtos.Common.CourseDateDTO;
+import dtos.Common.StudyCourseDTO;
 import entity.CourseDate;
 import entity.StudyCourse;
 import services.interfaces.IPersonService;
@@ -25,8 +26,8 @@ public class PersonServiceBean implements IPersonService {
     }
 
     @Override
-    public StudyCourse getCourse(long course_uid) {
-        return em.find(StudyCourse.class, course_uid);
+    public StudyCourseDTO getCourse(long course_uid) {
+        return new StudyCourseDTO(em.find(StudyCourse.class, course_uid));
     }
 
     @Override

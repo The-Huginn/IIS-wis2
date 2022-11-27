@@ -20,6 +20,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 import dtos.Common.CourseDateDTO;
+import dtos.Common.StudyCourseDTO;
 import entity.Student;
 import entity.StudyCourse;
 import helper.IResponseBuilder;
@@ -65,7 +66,7 @@ public class RestStudentService {
     @Path("/course/{course_uid}")
     @GET
     @ApiOperation(value = "Finds course with specified uid")
-    public StudyCourse getCourse(
+    public StudyCourseDTO getCourse(
         @ApiParam(required = true, example = "10") @PathParam("course_uid") long course_uid
         ) {
         return studentService.getCourse(course_uid);

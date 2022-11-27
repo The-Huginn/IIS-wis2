@@ -132,7 +132,7 @@ public class AdminServiceBean implements IAdminService {
 
     @Override
     public StudyCourseDTO getCourse(long course_uid) {
-        return new StudyCourseDTO(em.find(StudyCourse.class, course_uid)                                                                                                                                    );
+        return new StudyCourseDTO(em.find(StudyCourse.class, course_uid));
     }
 
     @Override
