@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0067)https://www.fit.vutbr.cz/study/courses/IIS/private/projekt/doc.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-2">
+    
+    <title>Projekt IIS</title>
+    <style type="text/css">
+    	table { border-collapse: collapse; }
+    	td, th { border: 1px solid black; padding: 0.3em 0.5em; text-align: left; }
+    	dt { font-weight: bold; margin-top: 0.5em; }
+    </style>
+</head>
+<body>
+
+<!-- Zkontrolujte pros�m nastaven� k�dov�n� v hlavi�ce dokumentu 
+     podle pou�it�ho editoru -->
+
+<h1>N�zev zad�n� (editujte)</h1> <!-- Nahradte n�zvem sv�ho zad�n� -->
+
+<dl>
+	<dt>Auto�i</dt>
+	<dd>Prvn� jm�no <!-- Nahra�te skute�n�m jm�nem a e-mailem autora a popisem �innosti -->
+	    <a href="mailto:xautor01@stud.fit.vutbr.cz">xautor01@stud.fit.vutbr.cz</a> -
+		popis �innosti v t�mu
+	</dd>
+	<dd>Druh� jm�no <!-- Nahra�te skute�n�m jm�nem a e-mailem autora a popisem �innosti -->
+	    <a href="mailto:xbudin05@stud.fit.vutbr.cz">xbudin05@stud.fit.vutbr.cz</a> - 
+		webserver configuration, authentication & authorization, docker images for backend & DB, implemented backend logic
+	</dd>
+  <dd>T�et� jm�no <!-- Nahra�te skute�n�m jm�nem a e-mailem autora a popisem �innosti -->
+	    <a href="mailto:xautor03@stud.fit.vutbr.cz">xautor03@stud.fit.vutbr.cz</a> - 
+		popis �innosti v t�mu
+	</dd>
+	<dt>URL aplikace</dt>
+	<dd><a href="http://www.stud.fit.vutbr.cz/~xautor01/IIS">http://www.stud.fit.vutbr.cz/~xautor01/IIS</a></dd>
+	<dd>(pokud m� aplikace v�ce vstupn�ch str�nek, napi�te obdobn� dal�� URL)</dd>
+</dl>
+
+<h2>U�ivatel� syst�mu pro testov�n�</h2>
+<p>Uve�te pros�m existuj�c� z�stupce <strong>v�ech rol� u�ivatel�</strong>.</p>
+<table>
+<tbody><tr><th>Login</th><th>Heslo</th><th>Role</th></tr>
+<tr><td>admin</td><td>admin</td><td>Administr�tor</td></tr>
+<tr><td>prodavac</td><td>prodavac</td><td>Prodava�</td></tr>
+<tr><td>franta</td><td>franta</td><td>Z�kazn�k</td></tr>
+</tbody></table>
+
+<p>(Diagram p��pad� u�it� nen� nutn� vkl�dat, pokud IS implementuje role a p��pady u�it� definovan� zad�n�m.)</p> 
+
+<h3>Video</h3>
+
+<p>P�ilo�te odkaz na komentovan� video demostruj�c� pou�it� informa�n�ho syst�mu. Zam��te se na p��pady u�it� definovan� zad�n�m (nap�. registrace u�ivatele, spr�va u�ivatel� a �innosti jednotliv�ch rol�). Video nahrajte nap��klad na VUT Google Drive, kde ho bude mo�n� p��mo spustit z odkazu.</p> 
+
+<h2>Implementace</h2>
+<p>Used Java webserver - Wildfly 23.0.2</p>
+<p>For versions of other used technologies, i.e. resteasy, hibernate etc. please refer to pom.xml file</p>
+<p>import.sql script for populating DB on deployment of artifact can be found under src/main/resources</p>
+<p>Configuration file used for webserver is standalone.xml</p>
+<p>Currently we are using PostgreSQL DB and corresponding JDBC driver</p>
+<p><b>Important packages</b></p>
+<p>entity - contains all persistable entities</p>
+<p>restfulAPI - contains all REST endpoints of the backend. Most of them require role based authorization</p>
+<p>security - contains logic for managing users and their roles. However creating users should be done primarily from admin/* endpoint and not security/*</p>
+<p>services - contains abstraction layer for servicing entities</p>
+
+<p>Stru�n� dokumentace k implementaci, kter� popisuje, kter� ��sti projektu (nap�. PHP skripty) implementuj� jednotliv� p��pady pou�it�.</p>
+
+<h3>Datab�ze</h3>
+
+Database tables are generated automatically by hibernate. Please note after shutdown of PostgreSQL DB image the data is not persist.
+Zde vlo�te grafick� sch�ma rela�n� datab�ze (tabulek v datab�zi).
+
+<h2>Instalace</h2>
+
+Prerequisities:
+<ul>
+	<li><b>podman</b> installed on the system</li>
+	<li>optionally <b>docker</b> can be used but root priviliges needed for running and update <b>run.sh</b> to use docker with sudo</li>
+</ul>
+
+Stru�n� popi�te (Linux): 
+<ul>
+<li>Use attached <b>run.sh</b> script</li>
+<li>Open <b>run.sh</b> script and update ENV variable <i>DB_HOST</i> to corresponding local IP address of the system (not loopback)</li>
+<li><i>Optionally you can change other ENV variables or update Dockerfile to your needs e.g. to run webserver image in detached mode, same as DB, add <b>-d</b> flag</i></li>
+<li>Run <b>run.sh</b> script</li>
+<li>To kill the running container please open new terminal and execute following: <i>podman rm -f wis2</i></li>
+</ul>
+
+<h2>Zn�m� probl�my</h2>
+<p>Zde popi�te, kter� body zad�n� nejsou implementov�ny a z jak�ho d�vodu. Nap�. &#8222;Z �asov�ch d�vod� nebyla implementov�na spr�va u�ivatel�.&#8221; Pom��ete t�m zrychlit hodnocen�, kdy� neimplementovan� funkce nebudeme muset dlouze hledat.</p>
+
+
+
+</body></html>
