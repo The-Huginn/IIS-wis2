@@ -14,19 +14,18 @@ podman run -d \
 registry.access.redhat.com/rhscl/postgresql-10-rhel7:latest
 
 # Builds our own image for project
-mvn clean package
 podman build -t wis2 .
 
-# Runs our application in podman in attached mode
 podman rm -f wis2
 
+# Runs our application in podman in attached mode
 podman run \
 --name wis2 \
 -p 8080:8080 \
 --env DB_USER=wis2admin \
 --env DB_PWD=wis2Admin \
 --env DB_DRIVER=postgresql \
---env DB_HOST=192.168.122.1 \
+--env DB_HOST=192.168.137.237 \
 --env DB_PORT=5432 \
 --env DB_DB=wis2db \
 wis2:latest
