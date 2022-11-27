@@ -32,7 +32,6 @@ ENV MAVEN_CONFIG "$USER_HOME_DIR/.m2"
 
 
 COPY customRun.sh /home/wis2
-# USER root
 RUN chown jboss /home/wis2
 USER jboss
 CMD ["/home/wis2/customRun.sh"]
