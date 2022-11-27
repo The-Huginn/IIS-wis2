@@ -28,7 +28,7 @@ import io.swagger.annotations.ApiModel;
 
 @Entity
 @NamedQueries({
-	@NamedQuery(name = "StudyCourse.getAll", query = "select s from StudyCourse s join fetch s.guarant"),
+	@NamedQuery(name = "StudyCourse.getAll", query = "select s from StudyCourse s left join fetch s.guarant"),
 	@NamedQuery(name = "StudyCourse.getGuarants", query = "select new entity.Lector(g.id, g.name, g.surname, g.username) from StudyCourse s join s.guarant g"),
 	@NamedQuery(name = "StudyCourse.getGuarant", query = "select new entity.Lector(g.id, g.name, g.surname, g.username) from StudyCourse s join s.guarant g where s.id = :course_uid"),
 	@NamedQuery(name = "StudyCourse.students", query = "select students from StudyCourse s join s.students students where s.id = :id"),
