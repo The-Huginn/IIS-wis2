@@ -2,7 +2,7 @@
 <!-- saved from url=(0067)https://www.fit.vutbr.cz/study/courses/IIS/private/projekt/doc.html -->
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-2">
     
-    <title>Projekt IIS</title>
+    <title>IIS Project</title>
     <style type="text/css">
     	table { border-collapse: collapse; }
     	td, th { border: 1px solid black; padding: 0.3em 0.5em; text-align: left; }
@@ -14,43 +14,43 @@
 <!-- Zkontrolujte pros�m nastaven� k�dov�n� v hlavi�ce dokumentu 
      podle pou�it�ho editoru -->
 
-<h1>N�zev zad�n� (editujte)</h1> <!-- Nahradte n�zvem sv�ho zad�n� -->
+<h1>WIS 2</h1> <!-- Nahradte n�zvem sv�ho zad�n� -->
 
 <dl>
-	<dt>Auto�i</dt>
-	<dd>Prvn� jm�no <!-- Nahra�te skute�n�m jm�nem a e-mailem autora a popisem �innosti -->
-	    <a href="mailto:xautor01@stud.fit.vutbr.cz">xautor01@stud.fit.vutbr.cz</a> -
-		popis �innosti v t�mu
+	<dt>Authors</dt>
+	<dd>Samuel Hríbik <!-- Nahra�te skute�n�m jm�nem a e-mailem autora a popisem �innosti -->
+	    <a href="mailto:xhribi00@stud.fit.vutbr.cz">xhribi00@stud.fit.vutbr.cz</a> -
+		data access layer, db schema, endpoints
 	</dd>
-	<dd>Druh� jm�no <!-- Nahra�te skute�n�m jm�nem a e-mailem autora a popisem �innosti -->
+	<dd>Rastislav Budinský <!-- Nahra�te skute�n�m jm�nem a e-mailem autora a popisem �innosti -->
 	    <a href="mailto:xbudin05@stud.fit.vutbr.cz">xbudin05@stud.fit.vutbr.cz</a> - 
 		webserver configuration, authentication & authorization, docker images for backend & DB, implemented backend logic
 	</dd>
-  <dd>T�et� jm�no <!-- Nahra�te skute�n�m jm�nem a e-mailem autora a popisem �innosti -->
-	    <a href="mailto:xautor03@stud.fit.vutbr.cz">xautor03@stud.fit.vutbr.cz</a> - 
+  <dd>Michal Slovák <!-- Nahra�te skute�n�m jm�nem a e-mailem autora a popisem �innosti -->
+	    <a href="mailto:xslova22@stud.fit.vutbr.cz">xslova22@stud.fit.vutbr.cz</a> - 
 		popis �innosti v t�mu
 	</dd>
-	<dt>URL aplikace</dt>
+	<dt>Application URL</dt>
 	<dd><a href="http://www.stud.fit.vutbr.cz/~xautor01/IIS">http://www.stud.fit.vutbr.cz/~xautor01/IIS</a></dd>
 	<dd>(pokud m� aplikace v�ce vstupn�ch str�nek, napi�te obdobn� dal�� URL)</dd>
 </dl>
 
-<h2>U�ivatel� syst�mu pro testov�n�</h2>
-<p>Uve�te pros�m existuj�c� z�stupce <strong>v�ech rol� u�ivatel�</strong>.</p>
+<h2>System users for testing</h2>
 <table>
-<tbody><tr><th>Login</th><th>Heslo</th><th>Role</th></tr>
-<tr><td>admin</td><td>admin</td><td>Administr�tor</td></tr>
-<tr><td>prodavac</td><td>prodavac</td><td>Prodava�</td></tr>
-<tr><td>franta</td><td>franta</td><td>Z�kazn�k</td></tr>
+<tbody><tr><th>Login</th><th>Password</th><th>Role</th></tr>
+<tr><td>admin</td><td>admin</td><td>Administrator</td></tr>
+<tr><td>xdrevo00</td><td>xdrevo00</td><td>Guarant, Lector</td></tr>
+<tr><td>xmrkva00</td><td>xmrvka00</td><td>Guarant, Lector</td></tr>
+<tr><td>xbucht00</td><td>xbucht00</td><td>Student</td></tr>
+<tr><td>xrybar00</td><td>xrybar00</td><td>Student</td></tr>
 </tbody></table>
 
-<p>(Diagram p��pad� u�it� nen� nutn� vkl�dat, pokud IS implementuje role a p��pady u�it� definovan� zad�n�m.)</p> 
 
 <h3>Video</h3>
 
 <p>P�ilo�te odkaz na komentovan� video demostruj�c� pou�it� informa�n�ho syst�mu. Zam��te se na p��pady u�it� definovan� zad�n�m (nap�. registrace u�ivatele, spr�va u�ivatel� a �innosti jednotliv�ch rol�). Video nahrajte nap��klad na VUT Google Drive, kde ho bude mo�n� p��mo spustit z odkazu.</p> 
 
-<h2>Implementace</h2>
+<h2>Implementation</h2>
 <p>Used Java webserver - Wildfly 23.0.2</p>
 <p>For versions of other used technologies, i.e. resteasy, hibernate etc. please refer to pom.xml file</p>
 <p>import.sql script for populating DB on deployment of artifact can be found under src/main/resources</p>
@@ -62,14 +62,15 @@
 <p>security - contains logic for managing users and their roles. However creating users should be done primarily from admin/* endpoint and not security/*</p>
 <p>services - contains abstraction layer for servicing entities</p>
 
-<p>Stru�n� dokumentace k implementaci, kter� popisuje, kter� ��sti projektu (nap�. PHP skripty) implementuj� jednotliv� p��pady pou�it�.</p>
 
-<h3>Datab�ze</h3>
+<h3>Database</h3>
 
-Database tables are generated automatically by hibernate. Please note after shutdown of PostgreSQL DB image the data is not persist.
-Zde vlo�te grafick� sch�ma rela�n� datab�ze (tabulek v datab�zi).
+<p>Database tables are generated automatically by hibernate. Please note after shutdown of PostgreSQL DB image the data is not persist.</p>
 
-<h2>Instalace</h2>
+<p><b>Database schema</b></p>
+<img src="db_schema.png">
+
+<h2>Installation</h2>
 
 Prerequisities:
 <ul>
@@ -77,7 +78,7 @@ Prerequisities:
 	<li>optionally <b>docker</b> can be used but root priviliges needed for running and update <b>run.sh</b> to use docker with sudo</li>
 </ul>
 
-Stru�n� popi�te (Linux): 
+Short description (Linux): 
 <ul>
 <li>Use attached <b>run.sh</b> script</li>
 <li>Open <b>run.sh</b> script and update ENV variable <i>DB_HOST</i> to corresponding local IP address of the system (not loopback)</li>
@@ -86,7 +87,7 @@ Stru�n� popi�te (Linux):
 <li>To kill the running container please open new terminal and execute following: <i>podman rm -f wis2</i></li>
 </ul>
 
-<h2>Zn�m� probl�my</h2>
+<h2>Known Issues</h2>
 <p>Zde popi�te, kter� body zad�n� nejsou implementov�ny a z jak�ho d�vodu. Nap�. &#8222;Z �asov�ch d�vod� nebyla implementov�na spr�va u�ivatel�.&#8221; Pom��ete t�m zrychlit hodnocen�, kdy� neimplementovan� funkce nebudeme muset dlouze hledat.</p>
 
 
