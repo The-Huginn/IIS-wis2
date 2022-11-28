@@ -10,7 +10,8 @@ import javax.persistence.TypedQuery;
 import javax.ws.rs.core.SecurityContext;
 
 import dtos.Common.UserInfoDTO;
-import entity.Person;
+import entity.Lector;
+import entity.Student;
 import entity.StudyCourse;
 import services.interfaces.IPublicService;
 import services.interfaces.ISecurityRealm;
@@ -47,16 +48,28 @@ public class PublicServiceBean implements IPublicService {
 
     @Override
     public UserInfoDTO getNames(SecurityContext ctx) {
-        if (ctx.getUserPrincipal() == null) {
-            UserInfoDTO dto = new UserInfoDTO("Anonymous", "Anonymous");
+
+        if (ctx.getUserPrincipal().getName().equals("admin")) {
+            UserInfoDTO dto = new UserInfoDTO("admin", "admin");
             return dto;
         }
-        else {
-            TypedQuery<Person> query = em.createNamedQuery("Person.getByUsername", Person.class)
-            .setParameter("username", ctx.getUserPrincipal().getName());
-            Person person = query.getSingleResult();
-            UserInfoDTO dto = new UserInfoDTO(person.getName(), person.getSurname());
+
+        TypedQuery<Lector> query = em.createNamedQuery("Lector.findUid", Lector.class);
+        query.setParameter("username", ctx.getUserPrincipal().getName());
+        List<Lector> reply = query.getResultList();
+        if (!reply.isEmpty()){
+            UserInfoDTO dto = new UserInfoDTO(reply.get(0).getName(), reply.get(0).getSurname());
             return dto;
         }
+
+        TypedQuery<Student> query2 = em.createNamedQuery("Student.findUid", Student.class);
+        query2.setParameter("username", ctx.getUserPrincipal().getName());
+        List<Student> reply2 = query2.getResultList();
+        if (!reply2.isEmpty()){
+            UserInfoDTO dto = new UserInfoDTO(reply2.get(0).getName(), reply2.get(0).getSurname());
+            return dto;
+        } 
+
+        return null;
     }
 }
