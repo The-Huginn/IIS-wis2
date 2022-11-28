@@ -77,6 +77,21 @@ public interface Common {
     }
 
     @XmlRootElement
+    public class UserInfoDTO {
+
+        @XmlElement
+        String name;
+
+        @XmlElement
+        String surname;
+
+        public UserInfoDTO(String name, String surname) {
+            this.name = name;
+            this.surname = surname;
+        }
+    }
+
+    @XmlRootElement
     public class StudentDTO {
 
         @XmlElement

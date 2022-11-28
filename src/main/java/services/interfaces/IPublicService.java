@@ -7,6 +7,7 @@ import javax.ws.rs.core.SecurityContext;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import dtos.Common.UserInfoDTO;
 import entity.StudyCourse;
 
 public interface IPublicService {
@@ -25,6 +26,8 @@ public interface IPublicService {
     }
 
     public UserInfo getUserInfo(SecurityContext ctx);
+
+    public UserInfoDTO getNames(SecurityContext ctx);
 
     public List<StudyCourse> getStudyCourses();
 

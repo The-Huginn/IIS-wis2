@@ -9,6 +9,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.ws.rs.core.SecurityContext;
 
+import dtos.Common.UserInfoDTO;
+import entity.Person;
 import entity.StudyCourse;
 import services.interfaces.IPublicService;
 import services.interfaces.ISecurityRealm;
@@ -41,5 +43,20 @@ public class PublicServiceBean implements IPublicService {
     public List<StudyCourse> getStudyCourses() {
         TypedQuery<StudyCourse> query = em.createNamedQuery("StudyCourse.getAll", StudyCourse.class);
         return query.getResultList();
+    }
+
+    @Override
+    public UserInfoDTO getNames(SecurityContext ctx) {
+        if (ctx.getUserPrincipal() == null) {
+            UserInfoDTO dto = new UserInfoDTO("Anonymous", "Anonymous");
+            return dto;
+        }
+        else {
+            TypedQuery<Person> query = em.createNamedQuery("Person.getByUsername", Person.class)
+            .setParameter("username", ctx.getUserPrincipal().getName());
+            Person person = query.getSingleResult();
+            UserInfoDTO dto = new UserInfoDTO(person.getName(), person.getSurname());
+            return dto;
+        }
     }
 }

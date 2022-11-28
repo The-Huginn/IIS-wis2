@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -24,6 +25,9 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 @Entity(name = "Person")
+@NamedQueries({
+	@NamedQuery(name = "Person.getByUsername", query = "select new entity.Person(c.id, c.name, c.surname, c.username) from Person c where c.username = :username")
+})
 @Inheritance(strategy = InheritanceType.JOINED)
 @ApiModel
 @NamedQuery(name = "Person.checkUsername", query = "select p from Person p where p.username = :username")

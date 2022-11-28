@@ -18,6 +18,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
+import dtos.Common.UserInfoDTO;
 import entity.StudyCourse;
 import helper.IResponseBuilder;
 import services.interfaces.IPublicService;
@@ -43,6 +44,12 @@ public class RestPublicService {
 	@Path("/userinfo")
 	public UserInfo helloJSON() throws NoSuchAlgorithmException {
 		return service.getUserInfo(ctx);
+	}
+
+	@GET
+	@Path("/userinfo/names")
+	public UserInfoDTO getNames() throws NoSuchAlgorithmException {
+		return service.getNames(ctx);
 	}
 
 	@POST
