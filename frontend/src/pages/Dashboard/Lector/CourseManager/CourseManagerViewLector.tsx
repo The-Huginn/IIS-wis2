@@ -2,7 +2,7 @@ import API from "@root/classes/Api"
 import ContentLayout from "@root/components/ContentLayout"
 import Loading from "@root/components/Loading"
 import { RouteHandles } from "@root/enums"
-import { AuthContext, getValidation, SchemaType } from "@root/exports"
+import { AuthContext, ErrorContext, getValidation, SchemaType } from "@root/exports"
 import { Course, CourseFull, Lector, Room, Student } from "@root/interfaces"
 import { SyntheticEvent, useContext, useEffect, useState } from "react"
 import { Button, Col, Form, Row, Spinner, Table } from "react-bootstrap"
@@ -11,6 +11,7 @@ import { useLocation, useNavigate } from "react-router"
 import { Link } from "react-router-dom"
 
 const CourseManagerViewLector = () => {
+    const errorContext = useContext(ErrorContext)
     const { value } = useContext(AuthContext)
 
     const navigate = useNavigate()
@@ -18,7 +19,6 @@ const CourseManagerViewLector = () => {
     const { state } = useLocation()
 
     const [loading, setLoading] = useState<boolean>(true)
-    const [error, setError] = useState<boolean>(false)
     const [course, setCourse] = useState<CourseFull | null>(null)
     const [lectors, setLectors] = useState<Array<Lector>>([])
     const [selectedLectors, setSelectedLectors] = useState<Array<number>>([])
@@ -37,7 +37,7 @@ const CourseManagerViewLector = () => {
 
         value.getCourseLector(state.courseId).then(course => setCourse(course))
         .catch(e => {
-            setError(true)
+            errorContext.setValue(true)
             console.error(e)
         }).finally(() => {
             setLoading(false)
@@ -67,7 +67,7 @@ const CourseManagerViewLector = () => {
         .then(() => value.getCourseLector(state.courseId)
         .then(course => setCourse(course)))
         .catch(e => {
-            setError(true)
+            errorContext.setValue(true)
             console.error(e)
         }).finally(() => {
             setLoading(false)

@@ -1,6 +1,6 @@
 import ContentLayout from "@root/components/ContentLayout"
 import Loading from "@root/components/Loading"
-import { AuthContext, Message } from "@root/exports"
+import { AuthContext, ErrorContext, Message } from "@root/exports"
 import { Room } from "@root/interfaces"
 import { useContext, useEffect, useState } from "react"
 import { Button, Card, Spinner, Table } from "react-bootstrap"
@@ -10,15 +10,15 @@ const RoomManager = () => {
     const [rooms, setRooms] = useState<Array<Room>>([])
     const [loaded, setLoaded] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(false)
-    const [error, setError] = useState<boolean>(false)
 
+    const errorContext = useContext(ErrorContext)
     const { value } = useContext(AuthContext)
     const location = useLocation()
 
     useEffect(() => {
         if (value)
         {
-            value.getAllRooms().then(rooms => setRooms(rooms)).finally(() => setLoading(false)).finally(() => setLoaded(true))
+            value.getAllRooms().then(rooms => setRooms(rooms)).catch(() => errorContext.setValue(true)).finally(() => setLoading(false)).finally(() => setLoaded(true))
         }
     }, [])
 
@@ -40,7 +40,7 @@ const RoomManager = () => {
         value.deleteRoom(roomId).then(() => {
             return value.getAllRooms().then(rooms => setRooms(rooms))
         }).catch(e => {
-            setError(true)
+            errorContext.setValue(true)
             console.error(e)
         }).finally(() => {
             setLoading(false)

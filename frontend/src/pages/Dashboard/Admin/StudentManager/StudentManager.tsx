@@ -1,6 +1,6 @@
 import ContentLayout from "@root/components/ContentLayout"
 import Loading from "@root/components/Loading"
-import { AuthContext, Message } from "@root/exports"
+import { AuthContext, ErrorContext, Message } from "@root/exports"
 import { Lector, Student } from "@root/interfaces"
 import { useContext, useEffect, useState } from "react"
 import { Button, Card, Spinner, Table } from "react-bootstrap"
@@ -10,15 +10,15 @@ const StudentManager = () => {
     const [students, setStudents] = useState<Array<Student>>([])
     const [loaded, setLoaded] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(true)
-    const [error, setError] = useState<boolean>(false)
 
+    const errorContext = useContext(ErrorContext)
     const { value } = useContext(AuthContext)
     const location = useLocation()
 
     useEffect(() => {
         if (value)
         {
-            value.getAllStudents().then(students => setStudents(students)).finally(() => setLoaded(true))
+            value.getAllStudents().then(students => setStudents(students)).catch(() => errorContext.setValue(true)).finally(() => setLoaded(true))
         }
     }, [])
 
@@ -40,7 +40,7 @@ const StudentManager = () => {
         value.deleteStudent(studentId).then(() => {
             return value.getAllStudents().then(lectors => setStudents(lectors))
         }).catch(e => {
-            setError(true)
+            errorContext.setValue(true)
             console.error(e)
         })
     }

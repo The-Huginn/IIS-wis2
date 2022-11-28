@@ -143,9 +143,11 @@ export default class API
         guarant: string, code: string, name: string, description: string
     })
     {
+        const { guarant, ...newData } = data
+
         return this.sendRequest<{
             id: number
-        }>("/admin/course", "POST", data).then((response) => this.sendRequest("/admin/guarant/" + response.id + "/" + data.guarant, "POST"))
+        }>("/admin/course", "POST", newData as unknown as  Record<string, string>).then((response) => this.sendRequest("/admin/guarant/" + response.id + "/" + guarant, "POST"))
     }
 
     public deleteCourse(id: number)

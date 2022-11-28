@@ -1,6 +1,6 @@
 import ContentLayout from "@root/components/ContentLayout"
 import Loading from "@root/components/Loading"
-import { AuthContext, Message } from "@root/exports"
+import { AuthContext, ErrorContext, Message } from "@root/exports"
 import { Lector } from "@root/interfaces"
 import { ReactNode, useCallback, useContext, useEffect, useState } from "react"
 import { Button, Card, Spinner, Table } from "react-bootstrap"
@@ -10,15 +10,15 @@ const LectorManager = () => {
     const [lectors, setLectors] = useState<Array<Lector>>([])
     const [loaded, setLoaded] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(true)
-    const [error, setError] = useState<boolean>(false)
 
+    const errorContext = useContext(ErrorContext)
     const { value } = useContext(AuthContext)
     const location = useLocation()
 
     useEffect(() => {
         if (value)
         {
-            value.getAllLectors().then(lectors => setLectors(lectors)).finally(() => setLoaded(true))
+            value.getAllLectors().then(lectors => setLectors(lectors)).catch(() => errorContext.setValue(true)).finally(() => setLoaded(true))
         }
     }, [])
 
@@ -40,7 +40,7 @@ const LectorManager = () => {
         value.deleteLector(lectorId).then(() => {
             return value.getAllLectors().then(lectors => setLectors(lectors))
         }).catch(e => {
-            setError(true)
+            errorContext.setValue(true)
             console.error(e)
         })
     }

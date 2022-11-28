@@ -1,20 +1,21 @@
 import API from "@root/classes/Api"
 import ContentLayout from "@root/components/ContentLayout"
 import Loading from "@root/components/Loading"
-import { AuthContext, Message } from "@root/exports"
+import { AuthContext, ErrorContext, Message } from "@root/exports"
 import { Course, Room } from "@root/interfaces"
 import { useContext, useEffect, useState } from "react"
 import { Button, Card, Spinner, Table } from "react-bootstrap"
 import { Link, useLocation } from "react-router-dom"
 
 const CourseManagerPublic = () => {
+    const errorContext = useContext(ErrorContext)
+
     const [courses, setCourses] = useState<Array<Course>>([])
     const [loaded, setLoaded] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(false)
-    const [error, setError] = useState<boolean>(false)
 
     useEffect(() => {
-        fetch(API.apiUrl + "/public/course").then(res => res.json()).then(data => setCourses(data)).finally(() => setLoading(false)).finally(() => setLoaded(true))
+        fetch(API.apiUrl + "/public/course").then(res => res.json()).then(data => setCourses(data)).catch(() => errorContext.setValue(true)).finally(() => setLoading(false)).finally(() => setLoaded(true))
     }, [])
 
     useEffect(() => {
