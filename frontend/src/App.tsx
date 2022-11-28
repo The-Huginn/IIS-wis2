@@ -38,6 +38,8 @@ import CourseManagerEditDate from "./pages/Dashboard/Lector/CourseManager/Course
 import CourseManagerViewDateLector from "./pages/Dashboard/Lector/CourseManager/CourseManagerViewDateLector"
 import CourseManagerEvaluateLector from "./pages/Dashboard/Lector/CourseManager/CourseManagerEvaluateLector"
 
+import Dashboard from "./pages/Dashboard/Dashboard"
+
 const App = () => {
     const [auth, setAuth] = useState<AuthContextValueType>(null)
 
@@ -57,9 +59,6 @@ const App = () => {
                 </Col>
                 <Col xs={6} sm={2} className="d-flex align-items-center justify-content-end">
                     {auth && <>
-                        <Button className="d-block d-md-none">
-                            <i className="bi bi-list"></i>
-                        </Button>
                         <Link to="/logout">
                             <Button className="d-flex align-items-center ms-2">
                                 <ExpiryTimer/>
@@ -72,7 +71,7 @@ const App = () => {
         </header>
         <main className="container-fluid bg-light">
             <Row className="h-100">
-                <Col className={classNames("p-0 text-center d-none", { "d-md-block": auth })} md={4} lg={3} xl={2}>
+                <Col className={classNames("p-0 text-center", { "d-none": !auth })} xs={12} md={4} lg={3} xl={2}>
                     <Menu/>
                 </Col>
                 <Col className="p-0" md={auth ? 8 : 12} lg={auth ? 9 : 12} xl={auth ? 10 : 12}>
@@ -83,7 +82,7 @@ const App = () => {
                             <Route path={RouteHandles.LOGOUT} element={<Logout/>}/>
                             <Route path={RouteHandles.DASHBOARD} element={
                                 <ProtectedRoute>
-                                    
+                                    <Dashboard/>
                                 </ProtectedRoute>
                             }/>
                             <Route path={RouteHandles.STUDENT_MANAGER} element={
