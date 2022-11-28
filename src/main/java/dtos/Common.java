@@ -50,14 +50,14 @@ public interface Common {
     public class CourseDateDTO {
 
         @XmlElement
-        CourseDate course;
+        CourseDate courseDate;
 
         @XmlElement
         List<DateEvaluation> evaluations;
 
-        public CourseDateDTO(CourseDate course) {
-            this.course = course;
-            evaluations = course.getDateEvaluations().stream().collect(Collectors.toList());
+        public CourseDateDTO(CourseDate courseDate) {
+            this.courseDate = courseDate;
+            evaluations = courseDate.getDateEvaluations().stream().collect(Collectors.toList());
         }
     }
 
