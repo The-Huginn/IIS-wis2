@@ -1,6 +1,6 @@
 import ContentLayout from "@root/components/ContentLayout"
 import Loading from "@root/components/Loading"
-import { AuthContext, Message } from "@root/exports"
+import { AuthContext, ErrorContext, Message } from "@root/exports"
 import { Course, Room } from "@root/interfaces"
 import { useContext, useEffect, useState } from "react"
 import { Button, Card, Form, Spinner, Table } from "react-bootstrap"
@@ -12,8 +12,8 @@ const CourseManagerStudent = () => {
     const [showMyCourses, setShowMyCourses] = useState<boolean>(true)
     const [loaded, setLoaded] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(false)
-    const [error, setError] = useState<boolean>(false)
 
+    const errorContext = useContext(ErrorContext)
     const { value } = useContext(AuthContext)
     const location = useLocation()
 
@@ -23,7 +23,7 @@ const CourseManagerStudent = () => {
             Promise.all([
                 value.getAllCoursesStudent().then(courses => setCourses(courses)),
                 value.getMyCoursesStudent().then(courses => setMyCourses(courses)),
-            ]).catch(() => setError(true)).finally(() => (setLoading(false), setLoaded(true)))
+            ]).catch(() => errorContext.setValue(true)).finally(() => (setLoading(false), setLoaded(true)))
         }
     }, [])
 

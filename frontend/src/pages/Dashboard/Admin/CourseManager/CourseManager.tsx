@@ -1,6 +1,6 @@
 import ContentLayout from "@root/components/ContentLayout"
 import Loading from "@root/components/Loading"
-import { AuthContext, Message } from "@root/exports"
+import { AuthContext, ErrorContext, Message } from "@root/exports"
 import { Course, Room } from "@root/interfaces"
 import { useContext, useEffect, useState } from "react"
 import { Button, Card, Spinner, Table } from "react-bootstrap"
@@ -10,15 +10,15 @@ const CourseManager = () => {
     const [courses, setCourses] = useState<Array<Course>>([])
     const [loaded, setLoaded] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(false)
-    const [error, setError] = useState<boolean>(false)
 
+    const authContext = useContext(ErrorContext)
     const { value } = useContext(AuthContext)
     const location = useLocation()
 
     useEffect(() => {
         if (value)
         {
-            value.getAllCourses().then(courses => setCourses(courses)).finally(() => setLoading(false)).finally(() => setLoaded(true))
+            value.getAllCourses().then(courses => setCourses(courses)).catch(() => authContext.setValue(true)).finally(() => setLoading(false)).finally(() => setLoaded(true))
         }
     }, [])
 
@@ -39,7 +39,7 @@ const CourseManager = () => {
         setLoading(true)
 
         value.deleteCourse(courseId).then(() => value.getAllCourses().then(courses => setCourses(courses))).catch(e => {
-            setError(true)
+            authContext.setValue(true)
             console.error(e)
         }).finally(() => setLoaded(true))
     }

@@ -5,6 +5,13 @@ import { RegisterOptions, UseFormRegister } from "react-hook-form"
 export type SchemaType = { [key: string]: RegisterOptions }
 export type AuthContextValueType = Api | null
 
+const ErrorContext = React.createContext<{
+    value: boolean,
+    setValue: (value: boolean) => void
+}>({
+    value: false, setValue: () => {}
+})
+
 const AuthContext = React.createContext<{
     value: AuthContextValueType,
     setValue: (value: AuthContextValueType) => void
@@ -20,4 +27,4 @@ enum Message {
     LOADING = "Načítání dat..."
 }
 
-export { AuthContext, getValidation, Message } 
+export { AuthContext, ErrorContext, getValidation, Message } 

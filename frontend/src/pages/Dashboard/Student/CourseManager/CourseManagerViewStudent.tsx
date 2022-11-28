@@ -2,7 +2,7 @@ import API from "@root/classes/Api"
 import ContentLayout from "@root/components/ContentLayout"
 import Loading from "@root/components/Loading"
 import { RouteHandles } from "@root/enums"
-import { AuthContext, getValidation, SchemaType } from "@root/exports"
+import { AuthContext, ErrorContext, getValidation, SchemaType } from "@root/exports"
 import { Course, CourseDate, CourseFull, Lector, MyCourseDate, Room, Student } from "@root/interfaces"
 import { SyntheticEvent, useContext, useEffect, useState } from "react"
 import { Button, Col, Form, Row, Spinner, Table } from "react-bootstrap"
@@ -26,6 +26,7 @@ enum RegistrationState
 }
 
 const CourseManagerViewStudent = () => {
+    const errorContext = useContext(ErrorContext)
     const { value } = useContext(AuthContext)
 
     const navigate = useNavigate()
@@ -36,7 +37,6 @@ const CourseManagerViewStudent = () => {
     const [loading, setLoading] = useState<boolean>(true)
     const [registeredCourseDates, setRegisteredCourseDates] = useState<Array<MyCourseDate>>([])
     const [course, setCourse] = useState<CourseFull | null>(null)
-    const [error, setError] = useState<boolean>(false)
 
     useEffect(() => {
         if (!state)
@@ -66,7 +66,7 @@ const CourseManagerViewStudent = () => {
             return value.getAllRegisteredCourseDatesStudent(state.courseId).then(courseDates => setRegisteredCourseDates(courseDates))
         })
         .catch(e => {
-            setError(true)
+            errorContext.setValue(true)
             console.error(e)
         }).finally(() => {
             setLoading(false)
@@ -84,7 +84,7 @@ const CourseManagerViewStudent = () => {
         value.signUpCourseStudent(courseId)
         .then(() => setIsRegistered(RegistrationState.REGISTERED))
         .catch(e => {
-            setError(true)
+            errorContext.setValue(true)
             console.error(e)
         }).finally(() => {
             setLoading(false)
@@ -103,7 +103,7 @@ const CourseManagerViewStudent = () => {
             .then(courseDates => setRegisteredCourseDates(courseDates))
         })
         .catch(e => {
-            setError(true)
+            errorContext.setValue(true)
             console.error(e)
         }).finally(() => {
             setLoading(false)

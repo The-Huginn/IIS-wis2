@@ -2,7 +2,7 @@ import API from "@root/classes/Api"
 import ContentLayout from "@root/components/ContentLayout"
 import Loading from "@root/components/Loading"
 import { RouteHandles } from "@root/enums"
-import { AuthContext, getValidation, SchemaType } from "@root/exports"
+import { AuthContext, ErrorContext, getValidation, SchemaType } from "@root/exports"
 import { Course, CourseDate, Lector, Room } from "@root/interfaces"
 import { useContext, useEffect, useState } from "react"
 import { Button, Col, Form, Row, Spinner, Table } from "react-bootstrap"
@@ -11,9 +11,9 @@ import { useLocation, useNavigate } from "react-router"
 import { Link } from "react-router-dom"
 
 const CourseManagerViewDateLector = () => {
+    const errorContext = useContext(ErrorContext)
     const { value } = useContext(AuthContext)
 
-    const [error, setError] = useState<boolean>(false)
     const [courseDate, setCourseDate] = useState<CourseDate | null>(null)
     const [loading, setLoading] = useState<boolean>(true)
 
@@ -35,7 +35,7 @@ const CourseManagerViewDateLector = () => {
         value.getCourseDateLector(state.courseDateId)
         .then(courseDate => setCourseDate(courseDate))
         .catch(e => {
-            setError(true)
+            errorContext.setValue(true)
             console.error(e)
         }).finally(() => {
             setLoading(false)
