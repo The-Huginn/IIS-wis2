@@ -1,10 +1,12 @@
 package services;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.ws.rs.core.SecurityContext;
 
 import entity.StudyCourse;
@@ -33,5 +35,11 @@ public class PublicServiceBean implements IPublicService {
             return "Unathenticated user";
 
         return security.updatePassword(ctx.getUserPrincipal().getName(), oldPassword, newPassword);
+    }
+
+    @Override
+    public List<StudyCourse> getStudyCourses() {
+        TypedQuery<StudyCourse> query = em.createNamedQuery("StudyCourse.getAll", StudyCourse.class);
+        return query.getResultList();
     }
 }

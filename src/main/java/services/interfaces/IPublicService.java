@@ -26,6 +26,8 @@ public interface IPublicService {
 
     public UserInfo getUserInfo(SecurityContext ctx);
 
+    public List<StudyCourse> getStudyCourses();
+
     public StudyCourse getStudyCourse(long uid);
 
     public String updatePassword(SecurityContext ctx, String oldPassword, String newPassword);

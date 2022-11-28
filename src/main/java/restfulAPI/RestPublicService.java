@@ -1,6 +1,7 @@
 package restfulAPI;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 import javax.annotation.security.PermitAll;
 import javax.enterprise.context.RequestScoped;
@@ -49,6 +50,13 @@ public class RestPublicService {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response updatePassword(@FormParam("oldPassword") String oldPassword, @FormParam("newPassword") String newPassword) {
 		return rb.createResponse(service.updatePassword(ctx, oldPassword, newPassword));
+	}
+
+	@Path("/course")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<StudyCourse> getStudyCourses() {
+		return service.getStudyCourses();
 	}
 
 	@Path("/course/{uid}")
