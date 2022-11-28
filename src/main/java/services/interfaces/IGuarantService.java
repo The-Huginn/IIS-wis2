@@ -2,6 +2,7 @@ package services.interfaces;
 
 import java.util.List;
 
+import entity.CourseDate;
 import entity.Lector;
 import entity.Room;
 import entity.Student;
@@ -27,7 +28,7 @@ public interface IGuarantService extends IPersonService{
 
     public List<Room> getRooms(String lectorUsername);
 
-    public String createCourseDate(String lectorUsername, long course_uid, long room_uid, String description, String date, String time);
+    public String createCourseDate(String lectorUsername, CourseDate courseDate, long course_uid, long room_uid);
 
-    public String updateCourseDate(String lectorUsername, long courseDate_uid, String description, String date, String time);
+    public String updateCourseDate(String lectorUsername, CourseDate courseDate, long courseDate_uid);
 }

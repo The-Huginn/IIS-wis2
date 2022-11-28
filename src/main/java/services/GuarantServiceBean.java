@@ -139,8 +139,7 @@ public class GuarantServiceBean extends PersonServiceBean implements IGuarantSer
     }
 
     @Override
-    public String createCourseDate(String lectorUsername, long course_uid, long room_uid, String description,
-            String date, String time) {
+    public String createCourseDate(String lectorUsername, CourseDate courseDate, long course_uid, long room_uid) {
         Lector lector = isValidGuarant(lectorUsername, course_uid);
         if (lector == null)
             return null;
@@ -150,9 +149,9 @@ public class GuarantServiceBean extends PersonServiceBean implements IGuarantSer
             Room room = em.find(Room.class, room_uid);
             newDate.setCourse(course);
             newDate.setRoom(room);
-            newDate.setDescription(description);
-            newDate.setDate(date);
-            newDate.setTime(time);
+            newDate.setDescription(courseDate.getDescription());
+            newDate.setDate(courseDate.getDate());
+            newDate.setTime(courseDate.getTime());
             em.persist(newDate);
         } catch (Exception e) {
             e.printStackTrace();
@@ -163,16 +162,15 @@ public class GuarantServiceBean extends PersonServiceBean implements IGuarantSer
     }
 
     @Override
-    public String updateCourseDate(String lectorUsername, long courseDate_uid, String description, String date,
-            String time) {
+    public String updateCourseDate(String lectorUsername, CourseDate courseDateUpdate, long courseDate_uid) {
         Lector lector = isValidLector(lectorUsername);
         if (lector == null)
             return null;
         try {
             CourseDate courseDate = em.find(CourseDate.class, courseDate_uid);
-            courseDate.setDescription(description);
-            courseDate.setDate(date);
-            courseDate.setTime(time);
+            courseDate.setDescription(courseDateUpdate.getDescription());
+            courseDate.setDate(courseDateUpdate.getDate());
+            courseDate.setTime(courseDateUpdate.getTime());
             em.persist(courseDate);
         } catch (Exception e) {
             e.printStackTrace();

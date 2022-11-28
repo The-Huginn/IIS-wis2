@@ -9,7 +9,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -21,6 +20,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
+import entity.CourseDate;
 import entity.Lector;
 import entity.Room;
 import entity.Student;
@@ -104,29 +104,23 @@ public class RestGuarantService {
     @POST
 	@ApiOperation(value = "Create new course date.")
     @Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response createCourseDate(
+		@ApiParam(required = true) CourseDate courseDate,
 		@ApiParam(required = true, example = "10") @PathParam("course_uid") long course_uid,
-		@ApiParam(required = true, example = "10") @PathParam("room_uid") long room_uid,
-		@ApiParam(required = true, example = "This is description.") @FormParam("description") String description,
-		@ApiParam(required = true, example = "1.1.2023") @FormParam("date") String date,
-		@ApiParam(required = true, example = "09:00") @FormParam("time") String time
+		@ApiParam(required = true, example = "10") @PathParam("room_uid") long room_uid
 	) {
-        return rb.createResponse(guarantService.createCourseDate(ctx.getUserPrincipal().getName(), course_uid, room_uid, description, date, time));
+        return rb.createResponse(guarantService.createCourseDate(ctx.getUserPrincipal().getName(), courseDate, course_uid, room_uid));
 	}
 
 	@Path("/courseDate/update/{courseDate_uid}")
 	@PUT
 	@ApiOperation(value = "Update existing course date.")
     @Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response updateCourseDate(
-		@ApiParam(required = true, example = "10") @PathParam("courseDate_uid") long courseDate_uid,
-		@ApiParam(required = true, example = "This is description.") @FormParam("description") String description,
-		@ApiParam(required = true, example = "1.1.2023") @FormParam("date") String date,
-		@ApiParam(required = true, example = "09:00") @FormParam("time") String time
+		@ApiParam(required = true) CourseDate courseDate,
+		@ApiParam(required = true, example = "10") @PathParam("courseDate_uid") long courseDate_uid
 	) {
-		return rb.createResponse(guarantService.updateCourseDate(ctx.getUserPrincipal().getName(), courseDate_uid, description, date, time));
+		return rb.createResponse(guarantService.updateCourseDate(ctx.getUserPrincipal().getName(), courseDate, courseDate_uid));
 	}
 
 	@Path("/room")
