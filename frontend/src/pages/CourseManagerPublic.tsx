@@ -14,7 +14,7 @@ const CourseManagerPublic = () => {
     const [error, setError] = useState<boolean>(false)
 
     useEffect(() => {
-        fetch(API.apiUrl + "/public/course").then(res => res.json()).then(data => setCourses(courses)).finally(() => setLoading(false)).finally(() => setLoaded(true))
+        fetch(API.apiUrl + "/public/course").then(res => res.json()).then(data => setCourses(data)).finally(() => setLoading(false)).finally(() => setLoaded(true))
     }, [])
 
     useEffect(() => {
