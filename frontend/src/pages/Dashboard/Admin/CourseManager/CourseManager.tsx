@@ -60,6 +60,7 @@ const CourseManager = () => {
                 <tr>
                     <th>Kód kurzu</th>
                     <th>Jméno kurzu</th>
+                    <th>Jméno garanta</th>
                     <th>Akce</th>
                 </tr>
             </thead>
@@ -67,6 +68,7 @@ const CourseManager = () => {
                 {courses.map(course => <tr key={course.id}>
                     <td>{course.code}</td>
                     <td>{course.name}</td>
+                    <td>{course.guarant.name} {course.guarant.surname}</td>
                     <td className="d-flex justify-content-center">
                         <Button onClick={() => deleteCourse(course.id)} variant="danger" className="d-flex align-items-center">
                             <i className="bi bi-x-lg me-1"></i>

@@ -40,12 +40,14 @@ const CourseManagerPublic = () => {
                 <tr>
                     <th>Kód kurzu</th>
                     <th>Jméno kurzu</th>
+                    <th>Jméno garanta</th>
                 </tr>
             </thead>
             <tbody className="align-middle">
                 {courses.map(course => <tr key={course.id}>
                     <td>{course.code}</td>
                     <td>{course.name}</td>
+                    <td>{course.guarant.name} {course.guarant.surname}</td>
                 </tr>)}
             </tbody>
         </Table>
