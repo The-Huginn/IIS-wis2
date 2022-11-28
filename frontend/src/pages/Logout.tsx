@@ -25,7 +25,7 @@ const Logout = () => {
         {
             navigate("/")
         }
-    }, [value, setValue, navigate])
+    }, [setValue, navigate])
 
     if (!isLoggedIn)
     {
