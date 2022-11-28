@@ -4,8 +4,10 @@
 podman rm -f postgresql
 
 # Install all node.js dependencies and build the frontend
+# cd frontend
 # npm install
 # npm run build
+# cd ../
 
 podman run -d \
 -p 5432:5432 \
@@ -29,7 +31,7 @@ podman run \
 --env DB_USER=wis2admin \
 --env DB_PWD=wis2Admin \
 --env DB_DRIVER=postgresql \
---env DB_HOST=192.168.137.237 \
+--env DB_HOST=145.239.85.0 \
 --env DB_PORT=5432 \
 --env DB_DB=wis2db \
 wis2:latest
