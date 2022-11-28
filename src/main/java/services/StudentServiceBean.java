@@ -53,6 +53,11 @@ public class StudentServiceBean extends PersonServiceBean implements IStudentSer
             return "Unauthorized.";
         CourseDate courseDate = em.find(CourseDate.class, courseDate_uid);
         try {
+            List<DateEvaluation> evals = courseDate.getDateEvaluations();
+            for (DateEvaluation date : evals) {
+                if (date.getStudent() == student)
+                    return "Student is already signed to this course date.";
+            }
             DateEvaluation dateEval = new DateEvaluation();
             dateEval.setStudent(student);
             dateEval.setDate(courseDate);
