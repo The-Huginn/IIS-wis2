@@ -37,14 +37,16 @@ public class LectorServiceBean extends PersonServiceBean implements ILectorServi
     }
 
     @Override
-    public String addEvaluation(String lectorUsername, double evaluation, long dateEvaluation_uid) {
+    public String addEvaluation(String lectorUsername, DateEvaluation dateEvaluation, long dateEvaluation_uid) {
         Lector lector = isValidLector(lectorUsername);
         if (lector == null)
             return "Unauthorized.";
         try {
+            if (dateEvaluation.getEvaluation() < 0.0 || dateEvaluation.getEvaluation() > 100.0)
+                return "Evaluation needs to be between 0.0 and 100.0";
             DateEvaluation dateEval = em.find(DateEvaluation.class, dateEvaluation_uid);
             dateEval.setLector(lector);
-            dateEval.setEvaluation(evaluation);
+            dateEval.setEvaluation(dateEvaluation.getEvaluation());
             em.persist(dateEval);
         } catch (Exception e) {
             e.printStackTrace();

@@ -13,7 +13,7 @@ public interface ILectorService extends IPersonService{
 
     public List<StudyCourse> getLectorCourses(String lectorUsername);
 
-    public String addEvaluation(String lectorUsername, double evaluation, long dateEval_uid);
+    public String addEvaluation(String lectorUsername, DateEvaluation dateEvaluation, long dateEval_uid);
 
     public List<Student> getStudentsInCourse(String lectorUsername, long course_uid);
 

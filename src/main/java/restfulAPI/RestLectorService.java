@@ -7,10 +7,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -24,6 +21,7 @@ import javax.ws.rs.core.SecurityContext;
 
 import dtos.Common.CourseDateDTO;
 import dtos.Common.StudyCourseDTO;
+import entity.DateEvaluation;
 import entity.Lector;
 import entity.StudyCourse;
 import helper.IResponseBuilder;
@@ -88,15 +86,11 @@ public class RestLectorService {
 	@POST
 	@ApiOperation(value = "Sets evaluation in date evaluation with specified id")
 	@Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response addEvaluation(
 		@ApiParam(required = true, example = "10") @PathParam("dateEvaluation_uid") long dateEvaluation_uid,
-		@ApiParam(required = true, example = "69", value = "Value between 0-100")
-			@FormParam("evaluation")
-			@DecimalMin(value = "0.0", message = "Must be greater than 0.0 [RestLectorService.addEvaluation]")
-			@DecimalMax(value = "100.0", message = "Must be smaller than 100.0 [RestLectorService.addEvaluation]") double evaluation
+        @ApiParam(required = true) DateEvaluation dateEvaluation
 	) {
-		return rb.createResponse(lectorService.addEvaluation(ctx.getUserPrincipal().getName(), evaluation, dateEvaluation_uid));
+		return rb.createResponse(lectorService.addEvaluation(ctx.getUserPrincipal().getName(), dateEvaluation, dateEvaluation_uid));
 	}
 
     @Path("/update")
