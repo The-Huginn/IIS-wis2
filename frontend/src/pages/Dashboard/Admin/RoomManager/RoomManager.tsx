@@ -61,14 +61,14 @@ const RoomManager = () => {
         return <Table className="text-center">
             <thead>
                 <tr>
-                    <th className="w-100">Kód místnosti</th>
+                    <th>Kód místnosti</th>
                     <th>Akce</th>
                 </tr>
             </thead>
             <tbody className="align-middle">
                 {rooms.map(room => <tr key={room.id}>
-                    <td className="w-100">{room.code}</td>
-                    <td className="d-flex">
+                    <td>{room.code}</td>
+                    <td className="d-flex justify-content-center">
                         <Button onClick={() => deleteRoom(room.id)} variant="danger" className="d-flex align-items-center">
                             <i className="bi bi-x-lg me-1"></i>
                             <span>Smazat</span>
