@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -86,6 +87,17 @@ public class RestGuarantService {
 		@ApiParam(required = true, example = "10") @PathParam("lector_uid") long lector_uid
 	) {
 		return rb.createResponse(guarantService.addLectorToCourse(ctx.getUserPrincipal().getName(), course_uid, lector_uid));
+	}
+
+	@Path("/course/removeLector/{course_uid}/{lector_uid}")
+	@DELETE
+	@ApiOperation(value = "Remove lector from study course.")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response removeLector(
+		@ApiParam(required = true, example = "10") @PathParam("course_uid") long course_uid,
+		@ApiParam(required = true, example = "10") @PathParam("lector_uid") long lector_uid
+	) {
+		return rb.createResponse(guarantService.removeLectorFromCourse(ctx.getUserPrincipal().getName(), course_uid, lector_uid));
 	}
 
     @Path("/courseDate/{course_uid}/{room_uid}")

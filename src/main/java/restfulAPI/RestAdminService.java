@@ -158,15 +158,6 @@ public class RestAdminService {
         return adminService.getGuarants();
     }
 
-    // @Path("/guarant/{course_uid}")
-    // @GET
-    // @ApiOperation(value = "Finds guarant for course specified with uid")
-    // public Lector getGuarant(
-    //     @ApiParam(required = true, example = "10") @PathParam("course_uid") long course_uid
-    //     ) {
-    //     return adminService.getGuarant(course_uid);
-    // }
-
     @Path("course/{course_uid}")
     @DELETE
     @ApiOperation(value = "Removes course specified by uid")

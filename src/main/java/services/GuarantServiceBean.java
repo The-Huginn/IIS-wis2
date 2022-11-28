@@ -18,6 +18,7 @@ public class GuarantServiceBean extends PersonServiceBean implements IGuarantSer
 
     @Override
     public Lector isValidGuarant(String lectorUsername, long course_uid) {
+        System.err.println(course_uid);
         TypedQuery<Lector> query = em.createNamedQuery("Lector.findUid", Lector.class);
         query.setParameter("username", lectorUsername);
         List<Lector> reply = query.getResultList();
@@ -108,7 +109,7 @@ public class GuarantServiceBean extends PersonServiceBean implements IGuarantSer
     public String addLectorToCourse(String lectorUsername, long course_uid, long lector_uid) {
         Lector lectorGuarant = isValidGuarant(lectorUsername, course_uid);
         if (lectorGuarant == null)
-            return null;
+            return "Unauthorized.";
         try {
             Lector lector = em.find(Lector.class, lector_uid);
             StudyCourse course = em.find(StudyCourse.class, course_uid);
@@ -178,6 +179,31 @@ public class GuarantServiceBean extends PersonServiceBean implements IGuarantSer
             return ("Updating CourseDate failed bacause of: "
                     + Optional.ofNullable(e.getMessage()).orElse("Unable to perist object"));
         }
+        return null;
+    }
+
+    @Override
+    public String removeLectorFromCourse(String lectorUsername, long course_uid, long lector_uid) {
+        Lector lectorGuarant = isValidGuarant(lectorUsername, course_uid);
+        if (lectorGuarant == null)
+            return "Unauthorized.";
+        try {
+            Lector lector = em.find(Lector.class, lector_uid);
+            StudyCourse course = em.find(StudyCourse.class, course_uid);
+            if (course.getLectors().contains(lector)) {
+                lector.removeCourse(course);
+                course.removeLector(lector);
+                em.persist(lector);
+                em.persist(course);
+                em.flush();
+            } else
+                return "Lector does not teach this course.";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ("Removing lector failed bacause of: "
+                    + Optional.ofNullable(e.getMessage()).orElse("Unable to perist object"));
+        }
+
         return null;
     }
 }

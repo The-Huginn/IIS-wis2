@@ -23,6 +23,8 @@ public interface IGuarantService extends IPersonService{
 
     public String addLectorToCourse(String lectorUsername, long course_uid, long lector_uid);
 
+    public String removeLectorFromCourse(String lectorUsername, long course_uid, long lector_uid);
+
     public List<Room> getRooms(String lectorUsername);
 
     public String createCourseDate(String lectorUsername, long course_uid, long room_uid, String description, String date, String time);

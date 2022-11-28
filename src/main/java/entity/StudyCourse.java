@@ -146,6 +146,12 @@ public class StudyCourse implements Serializable {
 		this.lectors.add(lector);
 	}
 
+	public void removeLector(Lector lector) {
+		if (this.lectors.contains(lector)) {
+			this.lectors.remove(lector);
+		}
+	}
+
 	public List<Lector> getLectors() {
 		return this.lectors;
 	}

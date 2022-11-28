@@ -75,24 +75,6 @@ public class RestLectorService {
         return lectorService.getCourse(course_uid);
     }
 
-	// @Path("/student/{course_uid}")
-    // @GET
-    // @ApiOperation(value = "Finds all students in selected course")
-    // public List<Student> getStudentsInCourse(
-	// 	@ApiParam(required = true, example = "10") @PathParam("course_uid") long course_uid
-	// 	) {
-    //     return lectorService.getStudentsInCourse(ctx.getUserPrincipal().getName(), course_uid);
-    // }
-
-	// @Path("/courseDate/{course_uid}")
-    // @GET
-    // @ApiOperation(value = "Finds all course dates in selected course")
-    // public List<CourseDate> getDatesInCourse(
-	// 	@ApiParam(required = true, example = "10") @PathParam("course_uid") long course_uid
-	// 	) {
-    //     return lectorService.getDatesInCourse(course_uid);
-    // }
-
 	@Path("/courseDate/{courseDate_uid}")
     @GET
     @ApiOperation(value = "Finds course date with specified id")
@@ -101,24 +83,6 @@ public class RestLectorService {
         ) {
         return lectorService.getCourseDate(courseDate_uid);
     }
-
-	// @Path("/dateEvaluation/{courseDate_uid}")
-    // @GET
-    // @ApiOperation(value = "Finds all date evaluations in selected course date")
-    // public List<DateEvaluation> getEvaluationsInDate(
-	// 	@ApiParam(required = true, example = "10") @PathParam("courseDate_uid") long courseDate_uid
-	// 	) {
-    //     return lectorService.getEvaluationsInDate(ctx.getUserPrincipal().getName(), courseDate_uid);
-    // }
-
-	// @Path("/dateEvaluation/{dateEvaluation_uid}")
-    // @GET
-    // @ApiOperation(value = "Finds date evaluation with specified id")
-    // public DateEvaluation getDateEvaluation(
-    //     @ApiParam(required = true, example = "10") @PathParam("dateEvaluation_uid") long dateEvaluation_uid
-    //     ) {
-    //     return lectorService.getDateEvaluation(ctx.getUserPrincipal().getName(), dateEvaluation_uid);
-    // }
 
     @Path("/dateEvaluation/{dateEvaluation_uid}")
 	@POST

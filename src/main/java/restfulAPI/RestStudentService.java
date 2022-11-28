@@ -89,15 +89,6 @@ public class RestStudentService {
 		return rb.createResponse(studentService.createStudyCourseRegistration(ctx.getUserPrincipal().getName(), course_uid));
 	}
 
-	// @Path("/courseDate/{course_uid}")
-    // @GET
-    // @ApiOperation(value = "Finds all course dates in selected course")
-    // public List<CourseDate> getDatesInCourse(
-	// 	@ApiParam(required = true, example = "10") @PathParam("course_uid") long course_uid
-	// 	) {
-    //     return studentService.getDatesInCourse(course_uid);
-    // }
-
 	@Path("/courseDate/{courseDate_uid}")
     @GET
     @ApiOperation(value = "Finds course date with specified id")

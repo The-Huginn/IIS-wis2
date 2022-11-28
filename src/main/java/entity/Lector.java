@@ -58,6 +58,12 @@ public class Lector extends Person {
 		this.coursesLector.add(course);
 	}
 
+	public void removeCourse(StudyCourse course) {
+		if (this.coursesLector.contains(course)) {
+			this.coursesLector.remove(course);
+		}
+	}
+
 	public List<StudyCourse> getCoursesGuarant() {
 		return this.coursesGuarant;
 	}
