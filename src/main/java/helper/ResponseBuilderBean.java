@@ -7,7 +7,6 @@ import javax.ws.rs.core.Response;
 
 public class ResponseBuilderBean implements IResponseBuilder {
 
-
     public Response createResponse(String message) {
 
         Map<String, String> jsonValues = new HashMap<>();
@@ -24,7 +23,7 @@ public class ResponseBuilderBean implements IResponseBuilder {
     @Override
     public Response createStudyCourseResponse(String message) {
         Map<String, String> jsonValues = new HashMap<>();
-        
+
         if (message.substring(0, 3).equals("Id:")) {
             jsonValues.put("id", message.substring(3));
             jsonValues.put("reply", "Request succesful.");

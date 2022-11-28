@@ -92,7 +92,6 @@ public class StudyCourse implements Serializable {
 
 	public StudyCourse(long id, String code, String name, String description) {
 		this.id = id;
-		// this.guarant = guarant;
 		this.code = code;
 		this.name = name;
 		this.description = description;

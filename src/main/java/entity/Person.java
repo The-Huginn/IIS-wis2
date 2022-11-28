@@ -59,7 +59,6 @@ public abstract class Person implements Serializable {
 	@XmlElement
 	String username;
 
-	// Default constructor, needed
 	public Person() {};
 
 	public Person(long id, String name, String surname, String username) {
