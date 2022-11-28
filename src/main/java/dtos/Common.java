@@ -62,6 +62,21 @@ public interface Common {
     }
 
     @XmlRootElement
+    public class CourseDateDTOEval {
+
+        @XmlElement
+        CourseDate courseDate;
+
+        @XmlElement
+        double eval;
+
+        public CourseDateDTOEval(CourseDate courseDate, double eval) {
+            this.courseDate = courseDate;
+            this.eval = eval;
+        }
+    }
+
+    @XmlRootElement
     public class StudentDTO {
 
         @XmlElement

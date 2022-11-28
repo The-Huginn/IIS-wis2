@@ -1,11 +1,13 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 
+import dtos.Common.CourseDateDTOEval;
 import entity.CourseDate;
 import entity.DateEvaluation;
 import entity.Student;
@@ -41,7 +43,8 @@ public class StudentServiceBean extends PersonServiceBean implements IStudentSer
         Student student = isValidStudent(studentUsername);
         if (student == null)
             return null;
-        TypedQuery<StudyCourse> queryCourses = em.createNamedQuery("Student.studyCoursesWithRegistration", StudyCourse.class)
+        TypedQuery<StudyCourse> queryCourses = em
+                .createNamedQuery("Student.studyCoursesWithRegistration", StudyCourse.class)
                 .setParameter("username", student.getUsername());
         return queryCourses.getResultList();
     }
@@ -111,5 +114,38 @@ public class StudentServiceBean extends PersonServiceBean implements IStudentSer
         }
 
         return null;
+    }
+
+    @Override
+    public List<DateEvaluation> getStudentEvaluations(String studentUsername, long course_uid) {
+        Student student = isValidStudent(studentUsername);
+        if (student == null)
+            return null;
+        TypedQuery<DateEvaluation> queryCourses = em
+                .createNamedQuery("Student.dateEvaluationsInCourse", DateEvaluation.class)
+                .setParameter("username", student.getUsername())
+                .setParameter("course_uid", course_uid);
+        return queryCourses.getResultList();
+    }
+
+    @Override
+    public List<CourseDateDTOEval> getStudentCourseDates(String studentUsername, long course_uid) {
+        Student student = isValidStudent(studentUsername);
+        if (student == null)
+            return null;
+        TypedQuery<DateEvaluation> queryCourses = em
+                .createNamedQuery("Student.dateEvaluationsInCourse", DateEvaluation.class)
+                .setParameter("username", student.getUsername())
+                .setParameter("course_uid", course_uid);
+        List<CourseDateDTOEval> returnList = new ArrayList<>();
+        List<DateEvaluation> evals = queryCourses.getResultList();
+        for (DateEvaluation eval : evals) {
+            TypedQuery<CourseDate> queryCourse = em
+                    .createNamedQuery("DateEvaluation.getCourseDate", CourseDate.class)
+                    .setParameter("eval_uid", eval.getId());
+            CourseDateDTOEval tmp = new CourseDateDTOEval(queryCourse.getSingleResult(), eval.getEvaluation());
+            returnList.add(tmp);
+        }
+        return returnList;
     }
 }

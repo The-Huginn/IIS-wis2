@@ -29,7 +29,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 @Entity
 @NamedQueries({
-	@NamedQuery(name = "CourseDate.inCourse", query = "select new entity.CourseDate(l.id, l.description) from CourseDate l join l.course d where d.id = :id")
+	@NamedQuery(name = "CourseDate.inCourse", query = "select new entity.CourseDate(l.id, l.description, l.date, l.time) from CourseDate l join l.course d where d.id = :id")
 })
 @XmlRootElement(name = "course date")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -76,9 +76,11 @@ public class CourseDate implements Serializable{
         evaluations = new ArrayList<DateEvaluation>();
     }
 
-	public CourseDate(long id, String description) {
+	public CourseDate(long id, String description, String date, String time) {
 		this.id = id;
 		this.description = description;
+		this.date = date;
+		this.time = time;
 	}
 	
 	public String getDescription() {

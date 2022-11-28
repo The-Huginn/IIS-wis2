@@ -20,7 +20,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 import dtos.Common.CourseDateDTO;
+import dtos.Common.CourseDateDTOEval;
 import dtos.Common.StudyCourseDTO;
+import entity.DateEvaluation;
 import entity.Student;
 import entity.StudyCourse;
 import helper.IResponseBuilder;
@@ -61,6 +63,24 @@ public class RestStudentService {
     @ApiOperation(value = "Finds all courses that Student attends")
     public List<StudyCourse> getMyCourses() {
         return studentService.getStudentCourses(ctx.getUserPrincipal().getName());
+    }
+
+	@Path("/course/myEvaluations/{course_uid}")
+    @GET
+    @ApiOperation(value = "Finds all student's date evaluations in study course")
+    public List<DateEvaluation> getMyEvaluations(
+		@ApiParam(required = true, example = "10") @PathParam("course_uid") long course_uid
+	) {
+        return studentService.getStudentEvaluations(ctx.getUserPrincipal().getName(), course_uid);
+    }
+
+	@Path("/course/myCourseDates/{course_uid}")
+    @GET
+    @ApiOperation(value = "Finds all student's course dates in study course")
+    public List<CourseDateDTOEval> getMyCourseDates(
+		@ApiParam(required = true, example = "10") @PathParam("course_uid") long course_uid
+	) {
+        return studentService.getStudentCourseDates(ctx.getUserPrincipal().getName(), course_uid);
     }
 
 	@Path("/course/myRegistrations")
