@@ -55,11 +55,23 @@ public class CourseDate implements Serializable{
     List<DateEvaluation> evaluations;
 
 	@NotNull(message = "description cannot be null [CourseData]")
-	@Pattern(regexp = "^[a-zA-Z0-9-+:!?.@#$%^&*()/<>{} ]+$", message = "room must contain only valid chars [a-zA-Z0-9-+:!?.@#$%^&*()/<>{}] [CourseData]")
+	@Pattern(regexp = "^[a-zA-Z0-9-+:!?.@#$%^&*()/<>{} ]+$", message = "description must contain only valid chars [a-zA-Z0-9-+:!?.@#$%^&*()/<>{}] [CourseDate]")
 	@ApiModelProperty(example = "This is description")
 	@XmlElement
 	String description;
 	
+	@NotNull(message = "date cannot be null [CourseData]")
+	@Pattern(regexp = "^[0-9][0-9]?.[0-9][0-9]?.[0-9]{4}$", message = "date must contain only valid chars [a-zA-Z0-9-+:!?.@#$%^&*()/<>{}] [CourseDate]")
+	@ApiModelProperty(example = "1.1.2023")
+	@XmlElement
+	String date;	
+	
+	@NotNull(message = "time cannot be null [CourseData]")
+	@Pattern(regexp = "^[0-9][0-9]?:[0-9][0-9]$", message = "time must contain only valid chars [a-zA-Z0-9-+:!?.@#$%^&*()/<>{}] [CourseDate]")
+	@ApiModelProperty(example = "9:00")
+	@XmlElement
+	String time;
+
 	public CourseDate() {
         evaluations = new ArrayList<DateEvaluation>();
     }
@@ -70,11 +82,27 @@ public class CourseDate implements Serializable{
 	}
 	
 	public String getDescription() {
-		return description;
+		return this.description;
 	}
 	
 	public void setDescription(String newDescription) {
-		description = newDescription;
+		this.description = newDescription;
+	}
+
+	public String getDate() {
+		return this.date;
+	}
+
+	public void setDate(String newDate) {
+		this.date = newDate;
+	}
+
+	public String getTime() {
+		return this.time;
+	}
+
+	public void setTime(String newTime) {
+		this.time = newTime;
 	}
 
 	public void setRoom(Room room) {

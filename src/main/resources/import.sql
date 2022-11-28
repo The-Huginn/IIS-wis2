@@ -17,6 +17,6 @@ INSERT INTO StudyCourse (code, name, description, guarant_id) VALUES ('IMP', 'Mi
 
 INSERT INTO Teaches (course_id, lector_id) VALUES ('1', '2');
 
-INSERT INTO CourseDate (description, course_id, room_id) VALUES ('Cviko 1', '1', '1');
-INSERT INTO CourseDate (description, course_id, room_id) VALUES ('Cviko 1', '2', '2');
-INSERT INTO CourseDate (description, course_id, room_id) VALUES ('Cviko 2', '2', '2');
+INSERT INTO CourseDate (description, date, time, course_id, room_id) VALUES ('Cviko 1', '1.1.2023', '23:59', '1', '1');
+INSERT INTO CourseDate (description, date, time, course_id, room_id) VALUES ('Cviko 1', '2.1.2023', '00:00', '2', '2');
+INSERT INTO CourseDate (description, date, time, course_id, room_id) VALUES ('Cviko 2', '1.2.2023', '08:30', '2', '2');

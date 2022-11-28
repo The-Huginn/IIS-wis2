@@ -138,21 +138,44 @@ public class GuarantServiceBean extends PersonServiceBean implements IGuarantSer
     }
 
     @Override
-    public String createCourseDate(String lectorUsername, long course_uid, long room_uid, String description) {
+    public String createCourseDate(String lectorUsername, long course_uid, long room_uid, String description,
+            String date, String time) {
         Lector lector = isValidGuarant(lectorUsername, course_uid);
         if (lector == null)
             return null;
         try {
-            CourseDate date = new CourseDate();
+            CourseDate newDate = new CourseDate();
             StudyCourse course = em.find(StudyCourse.class, course_uid);
             Room room = em.find(Room.class, room_uid);
-            date.setCourse(course);
-            date.setRoom(room);
-            date.setDescription(description);
-            em.persist(date);
+            newDate.setCourse(course);
+            newDate.setRoom(room);
+            newDate.setDescription(description);
+            newDate.setDate(date);
+            newDate.setTime(time);
+            em.persist(newDate);
         } catch (Exception e) {
             e.printStackTrace();
-            return ("Adding lector failed bacause of: "
+            return ("Creating CourseDate failed bacause of: "
+                    + Optional.ofNullable(e.getMessage()).orElse("Unable to perist object"));
+        }
+        return null;
+    }
+
+    @Override
+    public String updateCourseDate(String lectorUsername, long courseDate_uid, String description, String date,
+            String time) {
+        Lector lector = isValidLector(lectorUsername);
+        if (lector == null)
+            return null;
+        try {
+            CourseDate courseDate = em.find(CourseDate.class, courseDate_uid);
+            courseDate.setDescription(description);
+            courseDate.setDate(date);
+            courseDate.setTime(time);
+            em.persist(courseDate);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ("Updating CourseDate failed bacause of: "
                     + Optional.ofNullable(e.getMessage()).orElse("Unable to perist object"));
         }
         return null;
