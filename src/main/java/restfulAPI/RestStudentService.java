@@ -63,6 +63,13 @@ public class RestStudentService {
         return studentService.getStudentCourses(ctx.getUserPrincipal().getName());
     }
 
+	@Path("/course/myRegistrations")
+    @GET
+    @ApiOperation(value = "Finds all courses that Student has pending registration for")
+    public List<StudyCourse> getMyCoursesWithRegistration() {
+        return studentService.getStudentCoursesWithRegistration(ctx.getUserPrincipal().getName());
+    }
+
     @Path("/course/{course_uid}")
     @GET
     @ApiOperation(value = "Finds course with specified uid")

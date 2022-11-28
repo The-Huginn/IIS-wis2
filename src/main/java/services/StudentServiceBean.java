@@ -37,6 +37,16 @@ public class StudentServiceBean extends PersonServiceBean implements IStudentSer
     }
 
     @Override
+    public List<StudyCourse> getStudentCoursesWithRegistration(String studentUsername) {
+        Student student = isValidStudent(studentUsername);
+        if (student == null)
+            return null;
+        TypedQuery<StudyCourse> queryCourses = em.createNamedQuery("Student.studyCoursesWithRegistration", StudyCourse.class)
+                .setParameter("username", student.getUsername());
+        return queryCourses.getResultList();
+    }
+
+    @Override
     public String createDateEvaluation(String studentUsername, long courseDate_uid) {
         Student student = isValidStudent(studentUsername);
         if (student == null)
