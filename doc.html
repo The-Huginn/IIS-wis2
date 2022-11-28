@@ -31,8 +31,7 @@
 		popis �innosti v t�mu
 	</dd>
 	<dt>Application URL</dt>
-	<dd><a href="http://www.stud.fit.vutbr.cz/~xautor01/IIS">http://www.stud.fit.vutbr.cz/~xautor01/IIS</a></dd>
-	<dd>(pokud m� aplikace v�ce vstupn�ch str�nek, napi�te obdobn� dal�� URL)</dd>
+	<dd><a href="http://145.239.85.0">http://145.239.85.0</a></dd>
 </dl>
 
 <h2>System users for testing</h2>
@@ -50,7 +49,7 @@
 
 <p>P�ilo�te odkaz na komentovan� video demostruj�c� pou�it� informa�n�ho syst�mu. Zam��te se na p��pady u�it� definovan� zad�n�m (nap�. registrace u�ivatele, spr�va u�ivatel� a �innosti jednotliv�ch rol�). Video nahrajte nap��klad na VUT Google Drive, kde ho bude mo�n� p��mo spustit z odkazu.</p> 
 
-<h2>Implementation</h2>
+<h2>Backend - Implementation</h2>
 <p>Used Java webserver - Wildfly 23.0.2</p>
 <p>For versions of other used technologies, i.e. resteasy, hibernate etc. please refer to pom.xml file</p>
 <p>import.sql script for populating DB on deployment of artifact can be found under src/main/resources</p>
@@ -62,6 +61,15 @@
 <p>security - contains logic for managing users and their roles. However creating users should be done primarily from admin/* endpoint and not security/*</p>
 <p>services - contains abstraction layer for servicing entities</p>
 
+<h2>Frontend - Implementation</h2>
+<p>Used React framework version 18.2 in combination with TypeScript and SASS</p>
+<p>Styles are based on slightly modified Bootstrap framework version 5.2</p>
+<p>Authorization handled by custom implementation, module React Router takes care of routing</p>
+<p><b>Project structure</b></p>
+<p>/classes/Api.tsx - API middleware to allow simple communication with backend</p>
+<p>/enums/, /interfaces/ - folders containg TypeScript typings</p>
+<p>/pages/ - individual pages to render grouped by user`s role</p>
+<p>/components/ - components used in pages handling all sorts of tasks</p>
 
 <h3>Database</h3>
 
@@ -72,15 +80,16 @@
 
 <h2>Installation</h2>
 
-Prerequisities:
+<span>Prerequisities:</span>
 <ul>
-	<li><b>podman</b> installed on the system</li>
+	<li><b>podman, node.js and npm</b> installed on the system</li>
 	<li>optionally <b>docker</b> can be used but root priviliges needed for running and update <b>run.sh</b> to use docker with sudo</li>
 </ul>
 
-Short description (Linux): 
+<span>Short description (Linux):</span> 
 <ul>
 <li>Use attached <b>run.sh</b> script</li>
+<li>The frontend is built in folder a /build/, you need to setup a web server to correctly point to this directory OR open a new terminal and run the command <b>npm start</b> in order to setup a development server reachable at <b>localhost:3000</b></li>
 <li>Open <b>run.sh</b> script and update ENV variable <i>DB_HOST</i> to corresponding local IP address of the system (not loopback)</li>
 <li><i>Optionally you can change other ENV variables or update Dockerfile to your needs e.g. to run webserver image in detached mode, same as DB, add <b>-d</b> flag</i></li>
 <li>Run <b>run.sh</b> script</li>

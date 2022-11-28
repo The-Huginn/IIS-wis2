@@ -3,6 +3,10 @@
 # Creates PostgreSQL database and runs in detached mode
 podman rm -f postgresql
 
+# Install all node.js dependencies and build the frontend
+# npm install
+# npm run build
+
 podman run -d \
 -p 5432:5432 \
 --name postgresql \
