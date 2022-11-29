@@ -65,6 +65,32 @@ export default class API
             return res.text()
         })
     }
+    
+    public changeUserinfo(data: { username: string, surname: string, name: string })
+    {
+        let url = ""
+
+        if (this.role === LoginType.STUDENT)
+        {
+            url = "/student/update"
+        }
+        else if (this.role === LoginType.LECTOR)
+        {
+            url = "/lector/update"
+        }
+
+        if (!url)
+        {
+            return
+        }
+
+        return this.sendRequest(url, "PUT", data)
+    }
+
+    public getNames()
+    {
+        return this.sendRequest<{ name: string, surname: string }>("/public/userinfo/names", "GET")
+    }
 
     //////////////////////////////////////// ADMIN ROOM
     public getAllRooms()
