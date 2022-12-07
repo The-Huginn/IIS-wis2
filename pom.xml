@@ -51,7 +51,7 @@
         <!-- other plugin versions -->
         <version.compiler.plugin>3.1</version.compiler.plugin>
         <version.surefire.plugin>2.16</version.surefire.plugin>
-        <version.war.plugin>2.5</version.war.plugin>
+        <version.war.plugin>3.3.2</version.war.plugin>
 
         <!-- maven-compiler-plugin -->
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -200,33 +200,30 @@
             <artifactId>jaxb-api</artifactId>
             <version>2.2.11</version>
         </dependency>
-        <!-- <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-core</artifactId>
-            <version>2.2.11</version>
-        </dependency> -->
+
+        <!-- https://mvnrepository.com/artifact/io.swagger/swagger-annotations -->
         <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-impl</artifactId>
-            <version>2.2.11</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.activation</groupId>
-            <artifactId>activation</artifactId>
-            <version>1.1.1</version>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>1.6.8</version>
         </dependency>
 
+
         <!-- Dependency for swagger -->
-        <!-- <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-jaxrs</artifactId>
-            <version>1.5.22</version>
-        </dependency> -->
         <dependency>
             <groupId>com.github.phillip-kruger</groupId>
             <artifactId>apiee-core</artifactId>
-            <version>1.0.1</version>
+            <version>2.0.0-oa3</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+
 
     </dependencies>
 
@@ -254,12 +251,12 @@
     </build>
 
     <profiles>
-        <profile>
+        <!-- <profile> -->
             <!-- The default profile skips all tests, though you can tune it to run 
                 just unit tests based on a custom pattern -->
             <!-- Seperate profiles are provided for running all tests, including Arquillian 
                 tests that execute in the specified container -->
-            <id>default</id>
+            <!-- <id>default</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
@@ -274,40 +271,9 @@
                     </plugin>
                 </plugins>
             </build>
-        </profile>
+        </profile> -->
 
-        <profile>
-
-            <!-- An optional Arquillian testing profile that executes tests
-                in your WildFly instance -->
-            <!-- This profile will start a new WildFly instance, and execute the
-                test, shutting it down when done -->
-            <!-- Run with: mvn clean test -Parq-wildfly-managed -->
-            <id>arq-wildfly-managed</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.wildfly</groupId>
-                    <artifactId>wildfly-arquillian-container-managed</artifactId>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-
-        <profile>
-            <!-- An optional Arquillian testing profile that executes tests
-                in a remote WildFly instance -->
-            <!-- Run with: mvn clean test -Parq-wildfly-remote -->
-            <id>arq-wildfly-remote</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.wildfly</groupId>
-                    <artifactId>wildfly-arquillian-container-remote</artifactId>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-
-        <profile>
+        <!-- <profile> -->
             <!-- When built in OpenShift the 'openshift' profile will be used when 
                 invoking mvn. -->
             <!-- Use this profile for any OpenShift specific customization your app 
@@ -315,7 +281,7 @@
             <!-- By default that is to put the resulting archive into the 'deployments' 
                 folder. -->
             <!-- http://maven.apache.org/guides/mini/guide-building-for-different-environments.html -->
-            <id>openshift</id>
+            <!-- <id>openshift</id>
             <build>
                 <plugins>
                     <plugin>
@@ -328,7 +294,7 @@
                     </plugin>
                 </plugins>
             </build>
-        </profile>
+        </profile> -->
 
     </profiles>
 </project>

@@ -13,8 +13,12 @@ public class JaxRSActivator extends Application {
     public Set<Class<?>> getClasses() {
         Set<Class<?>> resources = new HashSet<>();
 
-        resources.add(AdminService.class);
-        resources.add(RestService.class);
+        resources.add(RestAdminService.class);
+        resources.add(RestGuarantService.class);
+        resources.add(RestLectorService.class);
+        resources.add(RestPublicService.class);
+        resources.add(RestStudentService.class);
+        resources.add(RestAdminSecurityRealmService.class);
 
         resources.add(com.github.phillipkruger.apiee.ApieeService.class);
 

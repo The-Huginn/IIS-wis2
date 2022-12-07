@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0067)https://www.fit.vutbr.cz/study/courses/IIS/private/projekt/doc.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    
+    <title>IIS Project</title>
+    <style type="text/css">
+    	table { border-collapse: collapse; }
+    	td, th { border: 1px solid black; padding: 0.3em 0.5em; text-align: left; }
+    	dt { font-weight: bold; margin-top: 0.5em; }
+    </style>
+</head>
+<body>
+
+<!-- Zkontrolujte pros�m nastaven� k�dov�n� v hlavi�ce dokumentu 
+     podle pou�it�ho editoru -->
+
+<h1>WIS 2</h1> <!-- Nahradte n�zvem sv�ho zad�n� -->
+
+<dl>
+	<dt>Authors</dt>
+	<dd>Samuel Hríbik <!-- Nahra�te skute�n�m jm�nem a e-mailem autora a popisem �innosti -->
+	    <a href="mailto:xhribi00@stud.fit.vutbr.cz">xhribi00@stud.fit.vutbr.cz</a> -
+		data access layer, db schema, endpoints
+	</dd>
+	<dd>Rastislav Budinský <!-- Nahra�te skute�n�m jm�nem a e-mailem autora a popisem �innosti -->
+	    <a href="mailto:xbudin05@stud.fit.vutbr.cz">xbudin05@stud.fit.vutbr.cz</a> - 
+		webserver configuration, authentication & authorization, docker images for backend & DB, implemented backend logic
+	</dd>
+  <dd>Michal Slovák <!-- Nahra�te skute�n�m jm�nem a e-mailem autora a popisem �innosti -->
+	    <a href="mailto:xslova22@stud.fit.vutbr.cz">xslova22@stud.fit.vutbr.cz</a> - 
+		frontend, GUI
+	</dd>
+	<dt>Application URL</dt>
+	<dd><a href="http://145.239.85.0">http://145.239.85.0</a></dd>
+</dl>
+
+<h2>System users for testing</h2>
+<table>
+<tbody><tr><th>Login</th><th>Password</th><th>Role</th></tr>
+<tr><td>admin</td><td>admin</td><td>Administrator</td></tr>
+<tr><td>xdrevo00</td><td>xdrevo00</td><td>Guarant, Lector</td></tr>
+<tr><td>xmrkva00</td><td>xmrvka00</td><td>Guarant, Lector</td></tr>
+<tr><td>xbucht00</td><td>xbucht00</td><td>Student</td></tr>
+<tr><td>xrybar00</td><td>xrybar00</td><td>Student</td></tr>
+</tbody></table>
+
+
+<h3>Video</h3>
+<p>Video se nachází na portálu YouTube: <a href="https://youtu.be/ooEOAhjkLew">Video demonstrace</a></p>
+
+
+<h2>Backend - Implementation</h2>
+<p>Used Java webserver - Wildfly 23.0.2</p>
+<p>For versions of other used technologies, i.e. resteasy, hibernate etc. please refer to pom.xml file</p>
+<p>import.sql script for populating DB on deployment of artifact can be found under src/main/resources</p>
+<p>Configuration file used for webserver is standalone.xml</p>
+<p>Currently we are using PostgreSQL DB and corresponding JDBC driver</p>
+<p><b>Important packages</b></p>
+<p>/entity - contains all persistable entities</p>
+<p>/restfulAPI - contains all REST endpoints of the backend. Most of them require role based authorization</p>
+<p>/security - contains logic for managing users and their roles. However creating users should be done primarily from admin/* endpoint and not security/*</p>
+<p>/services - contains abstraction layer for servicing entities</p>
+
+<h2>Frontend - Implementation</h2>
+<p>Used React framework version 18.2 in combination with TypeScript and SASS</p>
+<p>Styles are based on slightly modified Bootstrap framework version 5.2</p>
+<p>Authorization handled by custom implementation, module React Router takes care of routing</p>
+<p><b>Project structure</b></p>
+<p>/classes/Api.tsx - API middleware to allow simple communication with backend</p>
+<p>/enums/, /interfaces/ - folders containg TypeScript typings</p>
+<p>/pages/ - individual pages to render grouped by user roles</p>
+<p>/components/ - components used in pages handling all sorts of tasks</p>
+
+<h3>Database</h3>
+
+<p>Database tables are generated automatically by hibernate. Please note after shutdown of PostgreSQL DB image the data is not persist.</p>
+
+<p><b>Database schema</b></p>
+<img src="db_schema.png">
+
+<h2>Installation</h2>
+
+<span>Prerequisities:</span>
+<ul>
+	<li><b>podman, node.js and npm</b> installed on the system</li>
+	<li>optionally <b>docker</b> can be used but root priviliges needed for running and update <b>run.sh</b> to use docker with sudo</li>
+</ul>
+
+<span>Short description (Linux):</span> 
+<ul>
+<li>Use attached <b>run.sh</b> script</li>
+<li>The frontend is built in folder a /build/, you need to setup a web server to correctly point to this directory OR open a new terminal and run the command <b>npm start</b> in order to setup a development server reachable at <b>localhost:3000</b></li>
+<li>Open <b>run.sh</b> script and update ENV variable <i>DB_HOST</i> to corresponding local IP address of the system (not loopback)</li>
+<li><i>Optionally you can change other ENV variables or update Dockerfile to your needs e.g. to run webserver image in detached mode, same as DB, add <b>-d</b> flag</i></li>
+<li>Run <b>run.sh</b> script</li>
+<li>To kill the running container please open new terminal and execute following: <i>podman rm -f wis2</i></li>
+</ul>
+
+<h2>Point distribution</h2>
+
+<table>
+	<tbody><tr><th>Login</th><th>Name</th><th>Points</th></tr>
+	<tr><td>xhribi00</td><td>Samuel Hríbik</td><td>28%</td></tr>
+	<tr><td>xbudin05</td><td>Rastislav Budinský</td><td>39%</td></tr>
+	<tr><td>xslova22</td><td>Michal Slovák</td><td>33%</td></tr>
+	</tbody>
+</table>
+
+<h2>Known Issues</h2>
+
+
+</body></html>

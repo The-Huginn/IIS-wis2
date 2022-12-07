@@ -13,21 +13,28 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.faces.bean.ApplicationScoped;
 
+import services.interfaces.IAdminSecurityRealm;
+import services.interfaces.ISecurityRealm;
+
 @Stateless
 @ApplicationScoped
+@RolesAllowed({"admin", "security"})
 public class SecurityRealmBean implements IAdminSecurityRealm, ISecurityRealm {
 
 	private final String USERS_FILE = "/application-users.properties";
 	private final String ROLES_FILE = "/application-roles.properties";
 	private final String APPLICATION_REALM = ":ApplicationRealm:";
 	private final String PATH = System.getProperty("jboss.server.config.dir");
+	private final List<String> existingRoles = Arrays.asList("admin", "security", "student", "lector");
 
 	private String encode(final String username, final String password) throws NoSuchAlgorithmException {
 
@@ -52,8 +59,12 @@ public class SecurityRealmBean implements IAdminSecurityRealm, ISecurityRealm {
 		return allRoles;
 	}
 
-	@RolesAllowed("admin")
 	public String addRoles(final String username, final List<String> roles) {
+		
+		if (roles.stream().filter(line -> !existingRoles.contains(line)).count() > 0)
+			return "Some of the roles are not allowed";
+
+
 		String previousUser = null;
 		String newFile = "";
 		String serializedRoles = roles.stream()
@@ -98,7 +109,6 @@ public class SecurityRealmBean implements IAdminSecurityRealm, ISecurityRealm {
 		return null;
 	}
 
-	@RolesAllowed("admin")
 	public String removeRoles(final String username, final List<String> toRemove) {
 		String previousUser = null;
 		String newFile = "";
@@ -172,7 +182,6 @@ public class SecurityRealmBean implements IAdminSecurityRealm, ISecurityRealm {
 		return null;
 	}
 
-	@RolesAllowed("admin")
 	public String removeUser(final String username) {
 
 		String reply = removeUserFromFile(username, PATH + USERS_FILE);
@@ -183,7 +192,6 @@ public class SecurityRealmBean implements IAdminSecurityRealm, ISecurityRealm {
 		return removeUserFromFile(username, PATH + ROLES_FILE);
 	}
 
-	@RolesAllowed("admin")
 	public String addUser(final String username, final String password) {
 		String passwordDecoded = Base64Decode(password);
 
@@ -209,9 +217,9 @@ public class SecurityRealmBean implements IAdminSecurityRealm, ISecurityRealm {
 		return null;
 	}
 
+	@PermitAll
 	public String updatePassword(final String username, final String oldPassword, final String newPassword) {
 		String oldPasswordDecoded = Base64Decode(oldPassword);
-		String newPasswordDecoded = Base64Decode(newPassword);
 		String newFile = "";
 		
 		try (BufferedReader reader = new BufferedReader(new FileReader(PATH + USERS_FILE))) {
@@ -244,6 +252,31 @@ public class SecurityRealmBean implements IAdminSecurityRealm, ISecurityRealm {
 			return e.getMessage();
 		}
 
-		return addUser(username, newPasswordDecoded);
+		return addUser(username, newPassword);
+	}
+
+	public List<String> getUsers() {
+		try (Stream<String> stream = Files.lines(Paths.get(PATH + USERS_FILE))) {
+			return stream.filter(line -> line.contains("="))
+						.map(line -> line.trim().substring(0, line.indexOf("=")))
+						.collect(Collectors.toList());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	@PermitAll
+	public List<String> getRoles(final String username) {
+		try (Stream<String> stream = Files.lines(Paths.get(PATH + ROLES_FILE))) {
+			return stream.filter(line -> line.trim().startsWith(username + "="))
+						.map(line -> line.trim().substring(line.indexOf("=") + 1))
+						.flatMap(Pattern.compile(",")::splitAsStream)
+						.collect(Collectors.toList());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
